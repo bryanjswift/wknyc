@@ -11,26 +11,24 @@ trait FileAsset extends Asset {
 	val url:String
 }
 
-class ImageAsset(
+sealed case class ImageAsset(
 	val dateCreated:Date, val lastModified:Date, val modifiedBy:User,
 	val title:String, val largeThumbnail:String, val mediumThumbnail:String,
 	val smallThumbnail:String, val tinyThumbnail:String
 ) extends Asset
 
-class CopyAsset(
+sealed case class CopyAsset(
 	val dateCreated:Date, val lastModified:Date, val modifiedBy:User,
 	val title:String, val body:String
 ) extends Asset
 
-class DownloadableAsset(
+sealed case class DownloadAsset(
 	val dateCreated:Date, val lastModified:Date, val modifiedBy:User,
 	val title:String, val url:String, val path:String
 ) extends FileAsset
 
-class DownloadAsset(
+/*
+sealed case class AudioAsset(
 	dateCreated:Date, lastModified:Date, modifiedBy:User, title:String, url:String, path:String
 ) extends DownloadableAsset(dateCreated, lastModified, modifiedBy, title, url, path)
-
-class AudioAsset(
-	dateCreated:Date, lastModified:Date, modifiedBy:User, title:String, url:String, path:String
-) extends DownloadableAsset(dateCreated, lastModified, modifiedBy, title, url, path)
+*/
