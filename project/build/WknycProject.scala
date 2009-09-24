@@ -10,7 +10,7 @@ class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) {
 	// Lucene
 	val luceneCore = "org.apache.lucene" % "lucene-core" % "2.4.1"
 	// Jersey
-	val jersey = "com.sun.jersey" % "jersey-server" % "1.1.2-ea"
+	val jersey = "com.sun.jersey" % "jersey-core" % "1.1.2-ea"
 
 	// Dependencies for testing
 	val junit = "junit" % "junit" % "4.5" % "test->default"
