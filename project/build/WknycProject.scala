@@ -14,7 +14,7 @@ class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) {
 
 	// Dependencies for testing
 	val junit = "junit" % "junit" % "4.5" % "test->default"
-	val specs = "org.scala-tools.testing" % "specs" % "1.6.1-SNAPSHOT" % "test->default"
+	val specs = "org.scala-tools.testing" % "specs" % "1.6.0" % "test->default"
 
 	// override looking for jars in ./lib
 	override def dependencyPath = "src" / "main" / "lib"
