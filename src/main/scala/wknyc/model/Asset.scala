@@ -2,33 +2,25 @@ package wknyc.model
 
 import java.util.Date
 
+/** Trait representing the basic fields of a site asset */
 trait Asset extends Content {
 	val title:String
 }
-
-trait FileAsset extends Asset {
+/** Trait representing the basic fields of a site asset which is treated as a file */
+trait FileAsset {
 	val path:String
 	val url:String
 }
-
-sealed case class ImageAsset(
-	val dateCreated:Date, val lastModified:Date, val modifiedBy:User,
-	val title:String, val largeThumbnail:String, val mediumThumbnail:String,
-	val smallThumbnail:String, val tinyThumbnail:String
-) extends Asset
-
-sealed case class CopyAsset(
-	val dateCreated:Date, val lastModified:Date, val modifiedBy:User,
-	val title:String, val body:String
-) extends Asset
-
-sealed case class DownloadAsset(
-	val dateCreated:Date, val lastModified:Date, val modifiedBy:User,
-	val title:String, val url:String, val path:String
-) extends FileAsset
-
-/*
-sealed case class AudioAsset(
-	dateCreated:Date, lastModified:Date, modifiedBy:User, title:String, url:String, path:String
-) extends DownloadableAsset(dateCreated, lastModified, modifiedBy, title, url, path)
-*/
+/** Trait representing the basic fields of a site asset which is an image */
+trait ImageAsset extends FileAsset {
+	val alt:String
+	val width:Int
+	val height:Int
+}
+// Image related asset classes
+class ImageSet(val large:ImageAsset, val medium:ImageAsset, val small:ImageAsset, val tiny:ImageAsset)
+sealed case class Images(protected val contentInfo:ContentInfo, val title:String, val images:ImageSet) extends Asset
+// Copy related asset classes
+sealed case class Copy(protected val contentInfo:ContentInfo, val title:String, val body:String) extends Asset
+// Download related asset classes (video, audio, archive, document)
+sealed case class Downloadable(protected val contentInfo:ContentInfo, val title:String, val url:String, val path:String) extends Asset with FileAsset

@@ -2,19 +2,17 @@ package wknyc.model
 
 import java.util.Date
 
+/** Contain access to all the fields necessary to be a user of the system */
 trait User extends Content {
-	val dateCreated:Date
-	val lastModified:Date
-	val modifiedBy:User
 	val email:String
 	val password:String
 	val firstName:String
 	val lastName:String
 	val socialNetworks:List[SocialNetwork]
 }
-
-sealed case class Employee(
-	val dateCreated:Date, val lastModified:Date, val modifiedBy:User,
+/** Represent an Employee as a User */
+class Employee(
+	protected val contentInfo:ContentInfo,
 	val email:String, val password:String, val firstName:String,
 	val lastName:String, val socialNetworks:List[SocialNetwork],
 	val department:String, val title:String
