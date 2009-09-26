@@ -3,16 +3,16 @@ package wknyc.model
 import java.util.Date
 
 /** Trait representing the basic fields of a site asset */
-trait Asset extends Content {
+sealed trait Asset extends Content {
 	val title:String
 }
 /** Trait representing the basic fields of a site asset which is treated as a file */
-trait FileAsset {
+sealed trait FileAsset {
 	val path:String
 	val url:String
 }
 /** Trait representing the basic fields of a site asset which is an image */
-trait ImageAsset extends FileAsset {
+sealed trait ImageAsset extends FileAsset {
 	val alt:String
 	val width:Int
 	val height:Int

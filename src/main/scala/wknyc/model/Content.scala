@@ -8,7 +8,8 @@ class ContentInfo(val dateCreated:Date, val lastModified:Date, val modifiedBy:Us
 }
 // Companion object for ContentInfo, nothing interesting to say
 object ContentInfo {
-	def apply(user:User) = {
+	def apply(user:User) = create(user)
+	def create(user:User) = {
 		val now = new Date
 		new ContentInfo(now, now, user)
 	}
