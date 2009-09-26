@@ -8,7 +8,7 @@ class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) {
 	val commonsCollections = "commons-collections" % "commons-collections" % "3.2.1"
 	val commonsLang = "commons-lang" % "commons-lang" % "2.4"
 	// Lucene
-	val luceneCore = "org.apache.lucene" % "lucene-core" % "2.4.1"
+	val luceneCore = "org.apache.lucene" % "lucene-core" % "2.9.0"
 	// Jersey
 	val jersey = "com.sun.jersey" % "jersey-core" % "1.1.2-ea"
 
