@@ -16,7 +16,14 @@ sealed trait ImageAsset extends FileAsset {
 	val alt:String
 	val width:Int
 	val height:Int
+	val size:ImageSize
 }
+/** Size of image trait and related classes */
+sealed trait ImageSize
+case class LargeThumbnail() extends ImageSize
+case class MediumThumbnail() extends ImageSize
+case class SmallThumbnail() extends ImageSize
+case class TinyThumbnail() extends ImageSize
 // Image related asset classes
 class ImageSet(val large:ImageAsset, val medium:ImageAsset, val small:ImageAsset, val tiny:ImageAsset)
 sealed case class Images(protected val contentInfo:ContentInfo, val title:String, val images:ImageSet) extends Asset
