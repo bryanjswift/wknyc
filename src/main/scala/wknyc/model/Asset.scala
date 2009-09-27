@@ -33,3 +33,5 @@ case class ImageAsset(val contentInfo:ContentInfo, val title:String, val images:
 case class CopyAsset(val contentInfo:ContentInfo, val title:String, val body:String) extends Asset
 // Download related asset classes (video, audio, archive, document)
 case class DownloadableAsset(val contentInfo:ContentInfo, val title:String, val url:String, val path:String) extends Asset with FileInfo
+// Press (link to press) asset
+case class PressAsset(val contentInfo:ContentInfo, val title:String, val author:String, val source:String, val sourceName:String) extends Asset
