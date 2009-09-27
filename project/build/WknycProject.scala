@@ -6,11 +6,8 @@ class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) {
 	// Jackrabbit
 	val jcr = "javax.jcr" % "jcr" % "1.0"
 	val jackrabbit = "org.apache.jackrabbit" % "jackrabbit-core" % "1.6.0"
-	// dependencies for compiling
-	val commonsCollections = "commons-collections" % "commons-collections" % "3.2.1"
-	val commonsLang = "commons-lang" % "commons-lang" % "2.4"
-	// Lucene
-	val luceneCore = "org.apache.lucene" % "lucene-core" % "2.9.0"
+	val slf4j = "org.slf4j" % "slf4j-log4j12" % "1.5.3"
+	// Lucene -- pulled in by jackrabbit dependency
 	// Jersey
 	val jersey = "com.sun.jersey" % "jersey-server" % "1.1.2-ea"
 
