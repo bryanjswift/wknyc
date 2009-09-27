@@ -3,6 +3,9 @@ import sbt._
 class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) {
 	// repository locations (for Jersey)
 	val javaNet = "Java.net Repository for Maven" at "http://download.java.net/maven/2/"
+	// Jackrabbit
+	val jcr = "javax.jcr" % "jcr" % "1.0"
+	val jackrabbit = "org.apache.jackrabbit" % "jackrabbit-core" % "1.6.0"
 	// dependencies for compiling
 	val commonsCollections = "commons-collections" % "commons-collections" % "3.2.1"
 	val commonsLang = "commons-lang" % "commons-lang" % "2.4"
