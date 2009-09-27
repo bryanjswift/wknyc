@@ -4,11 +4,11 @@ import java.util.Date
 
 /** Contain access to all the fields necessary to be a user of the system */
 trait User {
-	val email:String
-	val password:String
-	val firstName:String
-	val lastName:String
-	val socialNetworks:List[SocialNetwork]
+	def email:String
+	def password:String
+	def firstName:String
+	def lastName:String
+	def socialNetworks:List[SocialNetwork]
 }
 /** Represent an Employee as a User */
 class Employee(
