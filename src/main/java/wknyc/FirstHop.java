@@ -2,7 +2,6 @@ package wknyc;
 
 import javax.jcr.Repository;
 import javax.jcr.Session;
-import org.apache.jackrabbit.core.TransientRepository;
 
 /**
  * First hope example. Logs in to a content repository and prints a status message
@@ -14,8 +13,10 @@ public class FirstHop {
 	 * @param args command line arguments (ignored)
 	 * @throws Exception if an error occurs
 	 */
+	@SuppressWarnings("unchecked")
 	public static void main (String[] args) throws Exception {
-		Repository repository = new TransientRepository();
+		Class<Repository> repositoryClass = Class.forName(Config.Repository());
+		Repository repository = repositoryClass.getConstructor().newInstance();
 		Session session = repository.login();
 		try {
 			String user = session.getUserID();
