@@ -17,7 +17,7 @@ object ContentInfo {
 /** Trait to be mixed into objects to allow direct access to data stored in ContentInfo
 	* without having to extend ContentInfo */
 trait Content {
-	protected def contentInfo:ContentInfo
+	def contentInfo:ContentInfo
 	lazy val dateCreated:Date = contentInfo.dateCreated
 	lazy val lastModified:Date = contentInfo.lastModified
 	lazy val modifiedBy:User = contentInfo.modifiedBy

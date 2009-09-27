@@ -6,28 +6,30 @@ import java.util.Date
 sealed trait Asset extends Content {
 	val title:String
 }
-/** Trait representing the basic fields of a site asset which is treated as a file */
-sealed trait FileAsset {
-	val path:String
-	val url:String
+/** Trait and class representing a file path on the server */
+trait FileInfo {
+	def path:String
+	def url:String
 }
-/** Trait representing the basic fields of a site asset which is an image */
-sealed trait ImageAsset extends FileAsset {
-	val alt:String
-	val width:Int
-	val height:Int
-	val size:ImageSize
-}
-/** Size of image trait and related classes */
+class File(val path:String, val url:String) extends FileInfo
+/** Size of image trait and related objects */
 sealed trait ImageSize
-case class LargeThumbnail() extends ImageSize
-case class MediumThumbnail() extends ImageSize
-case class SmallThumbnail() extends ImageSize
-case class TinyThumbnail() extends ImageSize
-// Image related asset classes
-class ImageSet(val large:ImageAsset, val medium:ImageAsset, val small:ImageAsset, val tiny:ImageAsset)
-sealed case class Images(protected val contentInfo:ContentInfo, val title:String, val images:ImageSet) extends Asset
+case object LargeThumbnail extends ImageSize
+case object MediumThumbnail extends ImageSize
+case object SmallThumbnail extends ImageSize
+case object TinyThumbnail extends ImageSize
+/** Trait and class representing an image file on the server */
+sealed trait ImageInfo {
+	def alt:String
+	def width:Int
+	def height:Int
+	def size:ImageSize
+}
+class Image(path:String, url:String, val alt:String, val width:Int, val height:Int, val size:ImageSize) extends File(path,url) with ImageInfo
+/** ImageAsset and supporting classes */
+class ImageSet(val large:ImageInfo, val medium:ImageInfo, val small:ImageInfo, val tiny:ImageInfo)
+class ImageAsset(val contentInfo:ContentInfo, val title:String, val images:ImageSet) extends Asset
 // Copy related asset classes
-sealed case class Copy(protected val contentInfo:ContentInfo, val title:String, val body:String) extends Asset
+class CopyAsset(val contentInfo:ContentInfo, val title:String, val body:String) extends Asset
 // Download related asset classes (video, audio, archive, document)
-sealed case class Downloadable(protected val contentInfo:ContentInfo, val title:String, val url:String, val path:String) extends Asset with FileAsset
+class DownloadableAsset(val contentInfo:ContentInfo, val title:String, url:String, path:String) extends File(path, url) with Asset

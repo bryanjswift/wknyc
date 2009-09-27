@@ -12,7 +12,7 @@ sealed trait User extends Content {
 }
 /** Represent an Employee as a User */
 class Employee(
-	protected val contentInfo:ContentInfo,
+	val contentInfo:ContentInfo,
 	val email:String, val password:String, val firstName:String,
 	val lastName:String, val socialNetworks:List[SocialNetwork],
 	val department:String, val title:String
