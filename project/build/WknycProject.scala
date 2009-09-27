@@ -18,6 +18,19 @@ class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) {
 	val jetty6 = "org.mortbay.jetty" % "jetty" % "6.1.14" % "test->default"
 	val jsp = "org.mortbay.jetty" % "jsp-2.1" % "6.1.14" % "test->default"
 
+	lazy val cleanWebapp = task {
+		val toClean = webappPath / "WEB-INF" / "classes" ** "*" +++ webappPath / "WEB-INF" / "lib" * "*.jar"
+		try {
+			toClean.getFiles.foreach(_.delete)
+			None
+		} catch {
+			case e:Exception => 
+				Some(e.getMessage)
+		}
+	}
+
+	override def cleanAction = super.cleanAction dependsOn(cleanWebapp)
+
 	// tell sbt to find files normally under src/main/webapp under the webapp directory
 	override def webappPath = "webapp"
 	// override looking for jars in ./lib
