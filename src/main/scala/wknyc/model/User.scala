@@ -3,7 +3,7 @@ package wknyc.model
 import java.util.Date
 
 /** Contain access to all the fields necessary to be a user of the system */
-sealed trait User extends Content {
+trait User {
 	val email:String
 	val password:String
 	val firstName:String
@@ -16,4 +16,4 @@ class Employee(
 	val email:String, val password:String, val firstName:String,
 	val lastName:String, val socialNetworks:List[SocialNetwork],
 	val department:String, val title:String
-) extends User
+) extends User with Content
