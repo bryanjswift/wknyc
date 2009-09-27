@@ -27,7 +27,12 @@ sealed trait ImageInfo {
 }
 class Image(path:String, url:String, val alt:String, val width:Int, val height:Int, val size:ImageSize) extends File(path,url) with ImageInfo
 /** ImageAsset and supporting classes */
-class ImageSet(val large:ImageInfo, val medium:ImageInfo, val small:ImageInfo, val tiny:ImageInfo)
+class ImageSet(private val images:Map[ImageSize,ImageInfo]) {
+	def this(info:ImageInfo) = this(Map(info.size -> info))
+	def this(images:ImageInfo*) = this(images.foldLeft(Map[ImageSize,ImageInfo]())((map,image) => map + (image.size -> image)))
+	def apply(info:ImageInfo) = new ImageSet(images + (info.size -> info))
+	def apply(size:ImageSize) = if (images contains size) { Some(images(size)) } else { None }
+}
 case class ImageAsset(val contentInfo:ContentInfo, val title:String, val images:ImageSet) extends Asset
 // Copy related asset classes
 case class CopyAsset(val contentInfo:ContentInfo, val title:String, val body:String) extends Asset
