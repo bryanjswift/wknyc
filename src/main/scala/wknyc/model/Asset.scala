@@ -28,8 +28,8 @@ sealed trait ImageInfo {
 class Image(path:String, url:String, val alt:String, val width:Int, val height:Int, val size:ImageSize) extends File(path,url) with ImageInfo
 /** ImageAsset and supporting classes */
 class ImageSet(val large:ImageInfo, val medium:ImageInfo, val small:ImageInfo, val tiny:ImageInfo)
-class ImageAsset(val contentInfo:ContentInfo, val title:String, val images:ImageSet) extends Asset
+case class ImageAsset(val contentInfo:ContentInfo, val title:String, val images:ImageSet) extends Asset
 // Copy related asset classes
-class CopyAsset(val contentInfo:ContentInfo, val title:String, val body:String) extends Asset
+case class CopyAsset(val contentInfo:ContentInfo, val title:String, val body:String) extends Asset
 // Download related asset classes (video, audio, archive, document)
-class DownloadableAsset(val contentInfo:ContentInfo, val title:String, url:String, path:String) extends File(path, url) with Asset
+case class DownloadableAsset(val contentInfo:ContentInfo, val title:String, val url:String, val path:String) extends Asset with FileInfo
