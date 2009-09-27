@@ -1,5 +1,4 @@
 import sbt._
-import Process._
 
 class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) {
 	// repository locations (for Jersey)
