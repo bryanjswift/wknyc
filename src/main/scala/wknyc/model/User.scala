@@ -20,9 +20,7 @@ class PersonalInfo(val firstName:String, val lastName:String, val socialNetworks
 class WkCredentials(val email:String, val password:String, val department:String, val title:String)
 /** Represent an Employee as a User */
 class Employee(
-	val contentInfo:ContentInfo,
-	val credentials:WkCredentials,
-	val personalInfo:PersonalInfo
+	val contentInfo:ContentInfo, val credentials:WkCredentials, val personalInfo:PersonalInfo
 ) extends User with Person with Content {
 	lazy val department = credentials.department
 	lazy val title = credentials.title
