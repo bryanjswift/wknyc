@@ -11,6 +11,8 @@ class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) {
 	// Lucene -- pulled in by jackrabbit dependency
 	// Jersey
 	val jersey = "com.sun.jersey" % "jersey-server" % "1.1.2-ea"
+	// Clojure
+	val clojure = "org.clojure" % "clojure" % "1.0.0"
 
 	// Specs
 	val specs = "org.scala-tools.testing" % "specs" % "1.6.0" % "test->default"
