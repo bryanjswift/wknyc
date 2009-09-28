@@ -15,7 +15,7 @@ public class FirstHop {
 	 */
 	@SuppressWarnings("unchecked")
 	public static void main (String[] args) throws Exception {
-		Class<Repository> repositoryClass = Class.forName(Config.Repository());
+		Class<Repository> repositoryClass = (Class<Repository>) Class.forName(Config.Repository());
 		Repository repository = repositoryClass.getConstructor().newInstance();
 		Session session = repository.login();
 		try {
