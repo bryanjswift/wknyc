@@ -23,7 +23,7 @@ trait Content {
 	lazy val modifiedBy:User = contentInfo.modifiedBy
 }
 /** Trait to be mixed into objects which must maintain a specific orderering */
-trait OrderedContent[T <: OrderedContent[T]] {
-	val position:Int
-	val siblings:List[T]
+trait OrderedContent[T <: OrderedContent[T]] extends Content {
+	def position:Int
+	def siblings:List[T]
 }

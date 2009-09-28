@@ -1,6 +1,7 @@
 package wknyc.model
 
 import java.util.Date
+import scala.xml.NodeSeq
 
 /** Trait representing the basic fields of a site asset */
 sealed trait Asset extends Content {
@@ -35,8 +36,10 @@ class ImageSet(private val images:Map[ImageSize,ImageInfo]) {
 }
 case class ImageAsset(val contentInfo:ContentInfo, val title:String, val images:ImageSet) extends Asset
 // Copy related asset classes
-case class CopyAsset(val contentInfo:ContentInfo, val title:String, val body:String) extends Asset
+case class CopyAsset(val contentInfo:ContentInfo, val title:String, val body:NodeSeq) extends Asset
 // Download related asset classes (video, audio, archive, document)
 case class DownloadableAsset(val contentInfo:ContentInfo, val title:String, val url:String, val path:String) extends Asset with FileInfo
 // Press (link to press) asset
 case class PressAsset(val contentInfo:ContentInfo, val title:String, val author:String, val source:String, val sourceName:String) extends Asset
+// Award (Info about awards) asset
+case class AwardAsset(val contentInfo:ContentInfo, val title:String, val source:String, val description:CopyAsset, val image:ImageAsset) extends Asset
