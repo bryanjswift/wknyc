@@ -1,5 +1,7 @@
 package wknyc
 
+import org.apache.jackrabbit.core.TransientRepository
+
 object Config {
-	val Repository = "org.apache.jackrabbit.core.TransientRepository"
+	lazy val Repository = new TransientRepository()
 }

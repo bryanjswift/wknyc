@@ -15,9 +15,7 @@ public class FirstHop {
 	 */
 	@SuppressWarnings("unchecked")
 	public static void main (String[] args) throws Exception {
-		//Class<Repository> repositoryClass = (Class<Repository>) Class.forName(Config.Repository());
-		Class<Repository> repositoryClass = (Class<Repository>) Class.forName("org.apache.jackrabbit.core.TransientRepository");
-		Repository repository = repositoryClass.getConstructor().newInstance();
+		Repository repository = Config.Repository();
 		Session session = repository.login();
 		try {
 			String user = session.getUserID();
