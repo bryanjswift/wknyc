@@ -9,17 +9,19 @@ object UserDao {
 		try {
 			val root = session.getRootNode
 			val exists = root.hasNode(employee.username)
-			val eNode = if (exists) { root.getNode(employee.username) } else { root.addNode(employee.username) }
-			eNode.addMixin("mix:referenceable")
-			eNode.addMixin("mix:versionable")
-			eNode.setProperty("username",employee.username)
-			eNode.setProperty("password",employee.password)
-			eNode.setProperty("department",employee.department)
-			eNode.setProperty("title",employee.title)
-			eNode.setProperty("firstName",employee.firstName)
-			eNode.setProperty("lastName",employee.lastName)
+			val n = if (exists) { root.getNode(employee.username) } else { root.addNode(employee.username) }
+			if (exists) { n.checkout }
+			n.addMixin("mix:referenceable")
+			n.addMixin("mix:versionable")
+			n.setProperty("username",employee.username)
+			n.setProperty("password",employee.password)
+			n.setProperty("department",employee.department)
+			n.setProperty("title",employee.title)
+			n.setProperty("firstName",employee.firstName)
+			n.setProperty("lastName",employee.lastName)
 			session.save
-			Some(eNode.getUUID)
+			n.checkin
+			Some(n.getUUID)
 		} catch {
 			case e:Exception =>
 				None
