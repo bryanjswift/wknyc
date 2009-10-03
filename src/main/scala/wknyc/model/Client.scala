@@ -1,5 +1,6 @@
 package wknyc.model
 
+/** Represent the Case Study concept which is the primary display unit */
 class CaseStudy(
 	val assets:List[Asset],
 	val headline:String,
@@ -10,7 +11,7 @@ class CaseStudy(
 	val related:List[CaseStudy],
 	val tags:List[String]
 )
-
+/** Represent a collection of CaseStudy objects */
 class Client(
 	val name:String,
 	val caseStudies:List[CaseStudy]
