@@ -11,6 +11,7 @@ object UserDao {
 			val exists = root.hasNode(employee.username)
 			val eNode = if (exists) { root.getNode(employee.username) } else { root.addNode(employee.username) }
 			eNode.addMixin("mix:referenceable")
+			eNode.addMixin("mix:versionable")
 			eNode.setProperty("username",employee.username)
 			eNode.setProperty("password",employee.password)
 			eNode.setProperty("department",employee.department)
