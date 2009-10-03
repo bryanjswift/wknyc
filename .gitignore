@@ -1,5 +1,7 @@
 .session
 derby.log
+nb-configuration.xml
+nbactions.xml
 project
 repository
 target
