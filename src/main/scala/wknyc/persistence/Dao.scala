@@ -3,7 +3,10 @@ package wknyc.persistence
 import javax.jcr.SimpleCredentials
 import wknyc.model.{ContentInfo,Employee,PersonalInfo,SocialNetwork,WkCredentials}
 
+// Maybe the Dao's are classes and are created with the User objects for the logged in user
 object UserDao {
+	// should return an employee object with uuid's added (if new)
+	// date created and date modified values should also be updated
 	def save(employee:Employee) = {
 		val session = Config.Repository.login(new SimpleCredentials("admin","".toCharArray),"security")
 		try {
@@ -37,12 +40,13 @@ object UserDao {
 		try {
 			val n = session.getNodeByUUID(uuid)
 			Employee(
-				ContentInfo(WkCredentials("","","","")),
+				ContentInfo(WkCredentials("","","","",None)),
 				WkCredentials(
 					n.getProperty("username").getString,
 					n.getProperty("password").getString,
 					n.getProperty("department").getString,
-					n.getProperty("title").getString
+					n.getProperty("title").getString,
+					None
 				),
 				PersonalInfo(
 					n.getProperty("firstName").getString,

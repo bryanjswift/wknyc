@@ -18,9 +18,8 @@ trait Person {
 	lazy val socialNetworks = personalInfo.socialNetworks
 }
 case class PersonalInfo(firstName:String, lastName:String, socialNetworks:List[SocialNetwork])
-case class WkCredentials(email:String, passw:String, department:String, title:String) extends User {
+case class WkCredentials(email:String, passw:String, department:String, title:String, uuid:Option[String]) extends User {
 	def credentials = this
-	val uuid = None
 }
 /** Represent an Employee as a User */
 class Employee(
