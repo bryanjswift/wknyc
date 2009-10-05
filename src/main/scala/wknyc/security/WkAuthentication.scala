@@ -1,20 +1,21 @@
 package wknyc.security
 
-import javax.jcr.{Credentials,RepositoryException,Session}
+import javax.jcr.{Credentials,RepositoryException,Session,SimpleCredentials}
 import org.apache.jackrabbit.core.security.authentication.Authentication
 import wknyc.model.WkCredentials
 
-class WkAuthentication(val session:Session) extends Authentication {
-	def canHandle(credentials:Credentials):Boolean = credentials.isInstanceOf[WkCredentials]
+class WkAuthentication(val systemSession:Session) extends Authentication {
+	def canHandle(credentials:Credentials):Boolean =
+		credentials.isInstanceOf[WkCredentials] || credentials.isInstanceOf[SimpleCredentials]
 
 	@throws(classOf[RepositoryException])
 	def authenticate(credentials:Credentials):Boolean = {
 		/*
-		if (!canHandle(credentials)) {
-			false;
+		if (canHandle(credentials)) {
+			systemSession.getNodeByUUID(null)
+			true
 		} else {
-			session.getNodeByUUID(null);
-			true;
+			false
 		}
 		*/
 		true

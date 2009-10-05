@@ -37,7 +37,7 @@
 				security manager:
 				class: FQN of class implementing the JackrabbitSecurityManager interface
 		-->
-		<SecurityManager class="org.apache.jackrabbit.core.security.simple.SimpleSecurityManager" workspaceName="security">
+		<SecurityManager class="wknyc.security.WkSecurityManager" workspaceName="security">
 			<!--
 					workspace access:
 					class: FQN of class implementing the WorkspaceAccessManager interface

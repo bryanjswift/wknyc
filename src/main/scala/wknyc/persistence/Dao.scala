@@ -10,7 +10,6 @@ object UserDao {
 	def save(employee:Employee) = {
 		val session = Config.Repository.login(WkCredentials("admin","","","",None),"security")
 		try {
-Console.println(session.getUserID)
 			val root = session.getRootNode
 			val exists = root.hasNode(employee.username)
 			val n = if (exists) { root.getNode(employee.username) } else { root.addNode(employee.username) }
@@ -29,15 +28,15 @@ Console.println(session.getUserID)
 			session.save
 			n.checkin
 			Some(n.getUUID)
-//		} catch {
-//			case e:Exception =>
-//				None
+		} catch {
+			case e:Exception =>
+				None
 		} finally {
 			session.logout
 		}
 	}
 	def get(uuid:String) = {
-		val session = Config.Repository.login(WkCredentials("","","","",None),"security")
+		val session = Config.Repository.login(WkCredentials("admin","","","",None),"security")
 		try {
 			val n = session.getNodeByUUID(uuid)
 			Employee(
