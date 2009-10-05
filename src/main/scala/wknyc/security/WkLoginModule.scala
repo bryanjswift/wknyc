@@ -7,6 +7,7 @@ import javax.security.auth.callback.CallbackHandler
 import javax.security.auth.login.LoginException
 import org.apache.jackrabbit.core.security.authentication.{AbstractLoginModule,Authentication}
 import org.slf4j.{Logger,LoggerFactory}
+import wknyc.model.WkCredentials
 
 class WkLoginModule extends AbstractLoginModule {
 	private val log = LoggerFactory.getLogger(classOf[WkLoginModule]);
@@ -18,16 +19,29 @@ class WkLoginModule extends AbstractLoginModule {
 		this.session = session;
 		log.debug("WkLoginModule.doInit finished.");
 	}
+
 	@throws(classOf[LoginException])
 	@throws(classOf[RepositoryException])
 	protected def impersonate(principal:Principal, credentials:Credentials):Boolean = {
 		// Don't allow impersonation
 		return false;
 	}
+
 	@throws(classOf[RepositoryException])
 	protected def getAuthentication(principal:Principal, credentials:Credentials):Authentication =
-		throw new UnsupportedOperationException("Not supported yet.");
+		return new WkAuthentication(session)
+
 	protected def getPrincipal(credentials:Credentials):Principal =
-		throw new UnsupportedOperationException("Not supported yet.");
+		principalProvider.getPrincipal(getUserID(credentials));
+
+	override protected def getUserID(credentials:Credentials):String =
+		if (credentials.isInstanceOf[WkCredentials]) {
+Console.println("is WkCredentials")
+			credentials.asInstanceOf[WkCredentials].username
+		} else {
+Console.println("using anonymous")
+			// anonymousId defined in AbstractLoginModule
+			anonymousId
+		}
 }
 
