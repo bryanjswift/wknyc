@@ -8,7 +8,7 @@ object UserDao {
 	// should return an employee object with uuid's added (if new)
 	// date created and date modified values should also be updated
 	def save(employee:Employee) = {
-		val session = Config.Repository.login(WkCredentials("admin","","","",None),"security")
+		val session = Config.Repository.login(WkCredentials("admin@wk.com","","","",None),"security")
 		try {
 			val root = session.getRootNode
 			val exists = root.hasNode(employee.username)
