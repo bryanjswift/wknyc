@@ -1,4 +1,7 @@
+.classpath
+.project
 .session
+.settings
 derby.log
 nb-configuration.xml
 nbactions.xml
