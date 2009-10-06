@@ -9,31 +9,30 @@ import wknyc.model.{ContentInfo,Employee,PersonalInfo,SocialNetwork,User,WkCrede
 	*/
 class UserDao(private val session:Session, private val loggedInUser:User) {
 	/** Save an object which is at least of type User
-		* @param user to be saved delegates to saveUser or saveEmployee depending on type
+		* @param user to be saved delegates to saveCredentials or saveEmployee depending on type
 		* @returns T with uuid populated and lastModified/modifiedBy fields updated (if applicable)
 		*/
 	def save[T >: User](user:T):T =
 		user match {
 			case employee:Employee => saveEmployee(employee)
-			case u:User => saveUser(u)
+			case credentials:WkCredentials => saveCredentials(credentials)
 		}
-	/** Save a general User object to the repository
-		* @param user to be saved
-		* @returns User with uuid populated
+	/** Save a WkCredentials object to the repository
+		* @param credentials to be saved
+		* @returns WkCredentials with uuid populated
 		*/
-	private def saveUser(user:User) = {
-		val n = getNode(user.username)
-		writeProperties(n,user)
+	private def saveCredentials(credentials:WkCredentials) = {
+		val n = getNode(credentials.username)
+		writeProperties(n,credentials)
 		session.save
 		n.checkin
-		new User {
-			val credentials:WkCredentials = null // I don't like this
-			override val username = user.username
-			override val password = user.password
-			override val department = user.department
-			override val title = user.title
-			val uuid = Some(n.getUUID)
-		}
+		WkCredentials(
+			credentials.username,
+			credentials.password,
+			credentials.department,
+			credentials.title,
+			Some(n.getUUID)
+		)
 	}
 	/** Save an Employee to the repository
 		* @param employee to be saved
