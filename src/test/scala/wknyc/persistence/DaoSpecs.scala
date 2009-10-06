@@ -12,7 +12,13 @@ object UserDaoSpecs extends Specification {
 		)
 	"UserDao" should {
 		"save an Employee" >> {
-			UserDao.save(emp) must beSome[String]
+			val session = Config.Repository.login(WkCredentials("admin@wk.com","","","",None),"security")
+			try {
+				val dao = new UserDao(session,root)
+				dao.save(emp) must beSome[String]
+			} finally {
+				session.logout
+			}
 		}
 	}
 }

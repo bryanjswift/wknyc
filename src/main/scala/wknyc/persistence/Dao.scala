@@ -1,14 +1,16 @@
 package wknyc.persistence
 
-import javax.jcr.SimpleCredentials
-import wknyc.model.{ContentInfo,Employee,PersonalInfo,SocialNetwork,WkCredentials}
+import javax.jcr.Session
+import wknyc.model.{ContentInfo,Employee,PersonalInfo,SocialNetwork,User,WkCredentials}
 
-// Maybe the Dao's are classes and are created with the User objects for the logged in user
-object UserDao {
+/** UserDao is created to save and retrieve User type objects from the repository
+	* @param session is used to access the repository but is not modified (logged out)
+	* @param loggedInUser is used to set lastModifiedUser of content being saved
+	*/
+class UserDao(private val session:Session, private val loggedInUser:User) {
 	// should return an employee object with uuid's added (if new)
 	// date created and date modified values should also be updated
 	def save(employee:Employee) = {
-		val session = Config.Repository.login(WkCredentials("admin@wk.com","","","",None),"security")
 		try {
 			val root = session.getRootNode
 			val exists = root.hasNode(employee.username)
@@ -31,12 +33,11 @@ object UserDao {
 		} catch {
 			case e:Exception =>
 				None
-		} finally {
-			session.logout
 		}
 	}
+	private def saveUser(user:User) = {
+	}
 	def get(uuid:String) = {
-		val session = Config.Repository.login(WkCredentials("admin","","","",None),"security")
 		try {
 			val n = session.getNodeByUUID(uuid)
 			Employee(
@@ -54,8 +55,6 @@ object UserDao {
 					List[SocialNetwork]()
 				)
 			)
-		} finally {
-			session.logout
 		}
 	}
 }
