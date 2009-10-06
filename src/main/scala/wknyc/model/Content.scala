@@ -1,16 +1,16 @@
 package wknyc.model
 
-import java.util.Date
+import java.util.Calendar
 
 /** Class to hold universal content information */
-class ContentInfo(val dateCreated:Date, val lastModified:Date, val modifiedBy:User) {
-	def modify(user:User) = new ContentInfo(dateCreated, new Date, user)
+class ContentInfo(val dateCreated:Calendar, val lastModified:Calendar, val modifiedBy:User) {
+	def modify(user:User) = new ContentInfo(dateCreated, Calendar.getInstance, user)
 }
 // Companion object for ContentInfo, nothing interesting to say
 object ContentInfo {
 	def apply(user:User) = create(user)
 	def create(user:User) = {
-		val now = new Date
+		val now = Calendar.getInstance
 		new ContentInfo(now, now, user)
 	}
 }
@@ -18,8 +18,8 @@ object ContentInfo {
 	* without having to extend ContentInfo */
 trait Content {
 	def contentInfo:ContentInfo
-	lazy val dateCreated:Date = contentInfo.dateCreated
-	lazy val lastModified:Date = contentInfo.lastModified
+	lazy val dateCreated:Calendar = contentInfo.dateCreated
+	lazy val lastModified:Calendar = contentInfo.lastModified
 	lazy val modifiedBy:User = contentInfo.modifiedBy
 }
 /** Trait to be mixed into objects which must maintain a specific orderering */
