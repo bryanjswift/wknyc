@@ -7,8 +7,10 @@ import javax.jcr.Credentials
 trait User extends Credentials {
 	def credentials:WkCredentials
 	val uuid:Option[String]
-	val password:String = credentials.passw
-	val username:String = credentials.email
+	val username:String = credentials.username
+	val password:String = credentials.password
+	val department:String = credentials.department
+	val title:String = credentials.title
 }
 /** Represents interface to personal information for a user */
 trait Person {
@@ -18,7 +20,13 @@ trait Person {
 	lazy val socialNetworks = personalInfo.socialNetworks
 }
 case class PersonalInfo(firstName:String, lastName:String, socialNetworks:List[SocialNetwork])
-case class WkCredentials(email:String, passw:String, department:String, title:String, uuid:Option[String]) extends User {
+case class WkCredentials(
+	override val username:String,
+	override val password:String,
+	override val department:String,
+	override val title:String,
+	uuid:Option[String]
+) extends User {
 	def credentials = this
 }
 /** Represent an Employee as a User */
@@ -26,8 +34,6 @@ class Employee(
 	val contentInfo:ContentInfo, val credentials:WkCredentials, val personalInfo:PersonalInfo, val id:String
 ) extends User with Person with Content {
 	lazy val uuid = if (id.length > 0) Some(id) else None
-	lazy val department = credentials.department
-	lazy val title = credentials.title
 }
 object Employee {
 	def apply(ci:ContentInfo,credentials:WkCredentials,pi:PersonalInfo) = new Employee(ci,credentials,pi,"")
