@@ -25,7 +25,7 @@ class WkLoginModule extends AbstractLoginModule {
 
 	@throws(classOf[LoginException])
 	@throws(classOf[RepositoryException])
-	// Don't allow impersonation
+	// Don't allow impersonation -- what is this for anyway?
 	protected def impersonate(principal:Principal, credentials:Credentials):Boolean = false
 
 	@throws(classOf[RepositoryException])
