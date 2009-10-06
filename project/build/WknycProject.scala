@@ -32,6 +32,18 @@ class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) {
 				Some(e.getMessage)
 		}
 	}
+
+	// Define task to clean up repository from filesystem
+	lazy val cleanRepository = task {
+		val repositoryPath = "." / "repository"
+		try {
+			repositoryPath.getFiles.foreach(_.delete)
+			None
+		} catch {
+			case e:Exception =>
+				Some(e.getMessage)
+		}
+	}
 	// override clean action to depend on cleanWebapp
 	override def cleanAction = super.cleanAction dependsOn(cleanWebapp)
 	// tell sbt to find files normally under src/main/webapp under the webapp directory
