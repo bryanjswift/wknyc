@@ -1,0 +1,17 @@
+<wk = 'http://wk.com'>
+
+[wk:content]
+mixin
+-dateCreated (date) mandatory
+-lastModified (date)
+-modifiedBy (reference) mandatory
+
+[wk:credentials] > nt:base, mix:referenceable, mix:versionable
+-username='' primary mandatory
+-password='' mandatory
+-department=''
+-title=''
+
+[wk:employee] > wk:credentials, wk:content
+-firstName=''
+-lastName=''
