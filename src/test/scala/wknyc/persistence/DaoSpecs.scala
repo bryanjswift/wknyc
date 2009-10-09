@@ -7,7 +7,7 @@ object UserDaoSpecs extends Specification {
 	var root:User = WkCredentials("root@wk.com","root","","",None)
 	"UserDao" should {
 		"save an Employee" >> {
-			val session = Config.Repository.login(WkCredentials("admin@wk.com","","","",None),"security")
+			val session = Config.Repository.login(Config.Admin,"security")
 			try {
 				var dao = new UserDao(session,root)
 				root = dao.save(root)
