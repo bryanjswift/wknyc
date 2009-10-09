@@ -1,0 +1,7 @@
+<wk = 'http://wk.com'>
+
+[wk:content]
+mixin
+-dateCreated (date) mandatory
+-lastModified (date)
+-modifiedBy (reference) mandatory
