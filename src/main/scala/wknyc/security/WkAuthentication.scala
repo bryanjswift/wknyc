@@ -24,7 +24,7 @@ class WkAuthentication(private val systemSession:Session) extends Authentication
 							// user doesn't exist yet
 							false
 					}
-				case None => creds == Config.Admin
+				case None => creds.eq(Config.Admin)
 			}
 		} else {
 			false
