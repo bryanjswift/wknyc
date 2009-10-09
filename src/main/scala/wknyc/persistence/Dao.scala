@@ -99,44 +99,44 @@ class UserDao(private val session:Session, private val loggedInUser:User) {
 		* @param uuid of data to be fetched
 		* @returns Employee built from data in uuid's node
 		*/
-	def getById(uuid:String) = {
+	def getById(uuid:String):User = {
 		val n = session.getNodeByUUID(uuid)
-		Employee(
-			new ContentInfo(
-				n.getProperty("dateCreated").getDate,
-				n.getProperty("lastModified").getDate,
-				getUser(n.getProperty("modifiedBy").getNode.getUUID)
-			),
-			WkCredentials(
-				n.getProperty("username").getString,
-				n.getProperty("password").getString,
-				n.getProperty("department").getString,
-				n.getProperty("title").getString,
-				Some(uuid)
-			),
-			PersonalInfo(
-				n.getProperty("firstName").getString,
-				n.getProperty("lastName").getString,
-				List[SocialNetwork]()
-			),
-			uuid
-		)
-	}
-	/** Fetch a simple user from a given UUID so we don't fetch the whole user graph when retrieving Employee's modifiedBy
-		* @param uuid of data to fetch
-		* @returns User built from uuid's node
-		*/
-	private def getUser(uuid:String) = {
-		val n = session.getNodeByUUID(uuid)
-		new User {
-			val credentials:WkCredentials = null // I don't like this
-			override val username = n.getProperty("username").getString
-			override val password = n.getProperty("password").getString
-			override val department = n.getProperty("department").getString
-			override val title = n.getProperty("title").getString
-			val uuid = Some(n.getUUID)
+		n.getPrimaryNodeType.getName match {
+			case Employee.NodeType => getEmployee(n)
+			case User.NodeType => getCredentials(n)
 		}
 	}
+	/** Fetch employee from a given Node
+		* @param node to build from
+		* @returns Employee built from node
+		*/
+	private def getEmployee(node:Node) =
+		Employee(
+			new ContentInfo(
+				node.getProperty("dateCreated").getDate,
+				node.getProperty("lastModified").getDate,
+				getCredentials(node.getProperty("modifiedBy").getNode)
+			),
+			getCredentials(node),
+			PersonalInfo(
+				node.getProperty("firstName").getString,
+				node.getProperty("lastName").getString,
+				List[SocialNetwork]()
+			),
+			node.getUUID
+		)
+	/** Fetch credentials from a given Node so we don't fetch the whole user graph when retrieving Employee's modifiedBy
+		* @param node to build from
+		* @returns User built from uuid's node
+		*/
+	private def getCredentials(node:Node) =
+		WkCredentials(
+			node.getProperty("username").getString,
+			node.getProperty("password").getString,
+			node.getProperty("department").getString,
+			node.getProperty("title").getString,
+			Some(node.getUUID)
+		)
 	// Convert a NodeIterator to an actual Iterator with generics
 	implicit def nodeiterator2iterator(nodeIterator:NodeIterator):Iterator[Node] = new Iterator[Node] {
 		def hasNext = nodeIterator.hasNext
