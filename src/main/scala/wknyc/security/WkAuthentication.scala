@@ -1,6 +1,6 @@
 package wknyc.security
 
-import javax.jcr.{Credentials,RepositoryException,Session,SimpleCredentials}
+import javax.jcr.{Credentials,Node,RepositoryException,Session,SimpleCredentials}
 import org.apache.jackrabbit.core.security.authentication.Authentication
 import wknyc.model.WkCredentials
 
@@ -12,20 +12,33 @@ class WkAuthentication(private val systemSession:Session) extends Authentication
 	def authenticate(credentials:Credentials):Boolean = {
 		if (canHandle(credentials)) {
 			val creds = credentials.asInstanceOf[WkCredentials]
-			try {
-				val credsNode = systemSession.getNodeByUUID(creds.uuid.get)
-				val password = credsNode.getProperty("password")
-				password == creds.password
-				true
-			} catch {
-				case e:Exception =>
-					// user doesn't exist yet
-					true
+			creds.uuid match {
+				case Some(uuid) =>
+					try {
+						val credsNode = systemSession.getNodeByUUID(uuid)
+						val password = credsNode.getProperty("password").getString
+						val username = credsNode.getProperty("username").getString
+						username == creds.username && password == creds.password
+					} catch {
+						case e:Exception =>
+							// user doesn't exist yet
+							false
+					}
+				case None => creds == Config.Admin
 			}
 		} else {
 			false
 		}
 	}
-
 }
 
+object WkAuthentication {
+	def nodeToCreds(n:Node) =
+		WkCredentials(
+			n.getProperty("username").getString,
+			n.getProperty("password").getString,
+			n.getProperty("department").getString,
+			n.getProperty("title").getString,
+			Some(n.getUUID)
+		)
+}
