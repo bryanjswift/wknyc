@@ -8,14 +8,15 @@ import wknyc.model.{ContentInfo,Employee,PersonalInfo,SocialNetwork,User,WkCrede
 	* @param loggedInUser is used to set lastModifiedUser of content being saved
 	*/
 class UserDao(private val session:Session, private val loggedInUser:User) {
+	private lazy val root = session.getRootNode
 	/** Save an object which is at least of type User
 		* @param user to be saved delegates to saveCredentials or saveEmployee depending on type
 		* @returns T with uuid populated and lastModified/modifiedBy fields updated (if applicable)
 		*/
-	def save[T >: User](user:T):T =
+	def save[T <: User](user:T):T =
 		user match {
-			case employee:Employee => saveEmployee(employee)
-			case credentials:WkCredentials => saveCredentials(credentials)
+			case employee:Employee => saveEmployee(employee).asInstanceOf[T]
+			case credentials:WkCredentials => saveCredentials(credentials).asInstanceOf[T]
 		}
 	/** Save a WkCredentials object to the repository
 		* @param credentials to be saved
@@ -57,7 +58,7 @@ class UserDao(private val session:Session, private val loggedInUser:User) {
 		* @param nt - type of node to retrieve
 		* @returns Node with given name (as path)
 		*/
-	private def getNode(name:String,nt:String):Node = getNode(session.getRootNode,name,nt)
+	private def getNode(name:String,nt:String):Node = getNode(root,name,nt)
 	/** Create/retrieve a referenceable and versionable node from the given parent node
 		* @param parent node to search from
 		* @param name of the node to retrieve
@@ -95,17 +96,23 @@ class UserDao(private val session:Session, private val loggedInUser:User) {
 		n.setProperty("lastModified",ci.lastModified)
 		n.setProperty("modifiedBy", session.getNodeByUUID(loggedInUser.uuid.get))
 	}
-	/** Fetch an Employee based on a given UUID
-		* @param uuid of data to be fetched
-		* @returns Employee built from data in uuid's node
+	/** Fetch an Employee or User based on a given UUID or username
+		* @param s - username or UUID by which a node will be fetched
+		* @returns Employee or User built from node retrieved
 		*/
-	def getById(uuid:String):User = {
-		val n = session.getNodeByUUID(uuid)
-		n.getPrimaryNodeType.getName match {
-			case Employee.NodeType => getEmployee(n)
-			case User.NodeType => getCredentials(n)
+	def get(s:String) = {
+		val node = if (root.hasNode(s)) {
+			root.getNode(s)
+		} else {
+			session.getNodeByUUID(s)
 		}
+		getByNode(node)
 	}
+	private def getByNode(node:Node) =
+		node.getPrimaryNodeType.getName match {
+			case Employee.NodeType => getEmployee(node)
+			case User.NodeType => getCredentials(node)
+		}
 	/** Fetch employee from a given Node
 		* @param node to build from
 		* @returns Employee built from node
