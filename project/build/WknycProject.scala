@@ -35,9 +35,13 @@ class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) {
 
 	// Define task to clean up repository from filesystem
 	lazy val cleanRepository = task {
+		def deleteDirectory(path:java.io.File):Boolean = {
+			path.listFiles.foreach(f => if (f.isDirectory) deleteDirectory(f) else f.delete)
+			path.delete
+		}
 		val repositoryPath = "." / "repository"
 		try {
-			repositoryPath.getFiles.foreach(_.delete)
+			repositoryPath.getFiles.foreach(deleteDirectory)
 			None
 		} catch {
 			case e:Exception =>
