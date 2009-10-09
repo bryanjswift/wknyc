@@ -31,6 +31,8 @@ case class WkCredentials(
 	uuid:Option[String]
 ) extends User {
 	def credentials = this
+	// TODO: Delete this method in Scala 2.8.0
+	def cp(uuid:String) = WkCredentials(username,password,department,title,Some(uuid))
 }
 /** Represent an Employee as a User */
 class Employee(

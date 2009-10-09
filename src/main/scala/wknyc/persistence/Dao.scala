@@ -46,7 +46,8 @@ class UserDao(private val session:Session, private val loggedInUser:User) {
 		n.checkin
 		Employee(
 			ci,
-			employee.credentials,
+			// TODO: In Scala 2.8.0 change this to use copy(uuid = Some(n.getUUID))
+			employee.credentials.cp(n.getUUID),
 			employee.personalInfo,
 			n.getUUID
 		)
