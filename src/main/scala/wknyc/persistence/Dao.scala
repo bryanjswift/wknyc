@@ -1,6 +1,6 @@
 package wknyc.persistence
 
-import javax.jcr.{Node,Session}
+import javax.jcr.{Node,NodeIterator,Session}
 import wknyc.model.{ContentInfo,Employee,PersonalInfo,SocialNetwork,User,WkCredentials}
 
 /** UserDao is created to save and retrieve User type objects from the repository
@@ -135,5 +135,10 @@ class UserDao(private val session:Session, private val loggedInUser:User) {
 			override val title = n.getProperty("title").getString
 			val uuid = Some(n.getUUID)
 		}
+	}
+	// Convert a NodeIterator to an actual Iterator with generics
+	implicit def nodeiterator2iterator(nodeIterator:NodeIterator):Iterator[Node] = new Iterator[Node] {
+		def hasNext = nodeIterator.hasNext
+		def next = nodeIterator.nextNode
 	}
 }
