@@ -39,6 +39,17 @@ class Employee(
 	val contentInfo:ContentInfo, val credentials:WkCredentials, val personalInfo:PersonalInfo, val id:String
 ) extends User with Person with Content {
 	lazy val uuid = if (id.length > 0) Some(id) else None
+	private def canEqual(a:Any) = a.isInstanceOf[Employee]
+	def equals(e:Employee) =
+		this.contentInfo == e.contentInfo && this.credentials == e.credentials && this.personalInfo == e.personalInfo && this.id == e.id
+	override def equals(q:Any) =
+		q match {
+			case that:Employee =>
+				canEqual(q) && equals(that)
+			case _ => false
+		}
+	override def hashCode =
+		41 * (41 * (41 * (41 + contentInfo.hashCode) + credentials.hashCode) + personalInfo.hashCode) + id.hashCode
 }
 object Employee {
 	def apply(ci:ContentInfo,credentials:WkCredentials,pi:PersonalInfo) = new Employee(ci,credentials,pi,"")
