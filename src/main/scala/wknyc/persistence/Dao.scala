@@ -22,7 +22,7 @@ class UserDao(private val session:Session, private val loggedInUser:User) {
 		* @returns WkCredentials with uuid populated
 		*/
 	private def saveCredentials(credentials:WkCredentials) = {
-		val n = getNode(credentials.username)
+		val n = getNode(credentials.username,User.NodeType)
 		writeProperties(n,credentials)
 		session.save
 		n.checkin
@@ -40,7 +40,7 @@ class UserDao(private val session:Session, private val loggedInUser:User) {
 		*/
 	private def saveEmployee(employee:Employee) = {
 		val ci = employee.contentInfo.modify(loggedInUser) // do it first so saved data and object have same values
-		val n = getNode(employee.username)
+		val n = getNode(employee.username,Employee.NodeType)
 		writeProperties(n,employee,ci)
 		session.save
 		n.checkin
@@ -53,24 +53,23 @@ class UserDao(private val session:Session, private val loggedInUser:User) {
 	}
 	/** Create/retrieve a referenceable and versionable node from the root of the session's workspace
 		* @param name of the node to retrieve
+		* @param nt - type of node to retrieve
 		* @returns Node with given name (as path)
 		*/
-	private def getNode(name:String):Node = getNode(session.getRootNode,name)
+	private def getNode(name:String,nt:String):Node = getNode(session.getRootNode,name,nt)
 	/** Create/retrieve a referenceable and versionable node from the given parent node
 		* @param parent node to search from
 		* @param name of the node to retrieve
+		* @param nt - type of node to retrieve
 		* @returns Node with given name (as path)
 		*/
-	private def getNode(parent:Node,name:String):Node =
+	private def getNode(parent:Node,name:String,nt:String):Node =
 		if (parent.hasNode(name)) {
 			val node = parent.getNode(name)
 			node.checkout
 			node
 		} else {
-			val node = parent.addNode(name)
-			node.addMixin("mix:referenceable")
-			node.addMixin("mix:versionable")
-			node
+			parent.addNode(name, nt)
 		}
 	/** Write general user properties to provided node
 		* @param n - node to write data to
@@ -99,7 +98,7 @@ class UserDao(private val session:Session, private val loggedInUser:User) {
 		* @param uuid of data to be fetched
 		* @returns Employee built from data in uuid's node
 		*/
-	def get(uuid:String) = {
+	def getById(uuid:String) = {
 		val n = session.getNodeByUUID(uuid)
 		Employee(
 			new ContentInfo(
