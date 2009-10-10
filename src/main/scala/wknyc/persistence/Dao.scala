@@ -96,7 +96,7 @@ class UserDao(private val session:Session, private val loggedInUser:User) {
 		n.setProperty("lastModified",ci.lastModified)
 		n.setProperty("modifiedBy", session.getNodeByUUID(loggedInUser.uuid.get))
 		// remove all SocialNetworks then re-add them
-		// TODO: Do this more efficiently
+		// Warning: This could be more efficient if it becomes a bottleneck
 		n.getNodes.foreach(sn => sn.remove)
 		employee.personalInfo.socialNetworks.foreach(sn => {
 			val node = n.addNode(SocialNetwork.NodeName, SocialNetwork.NodeType)
