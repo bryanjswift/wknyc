@@ -35,11 +35,26 @@ class ImageSet(private val images:Map[ImageSize,ImageInfo]) {
 	def apply(size:ImageSize) = if (images contains size) { Some(images(size)) } else { None }
 }
 case class ImageAsset(val contentInfo:ContentInfo, val title:String, val images:ImageSet) extends Asset
+object ImageAsset {
+	val NodeType = "wk:imageAsset"
+}
 // Copy related asset classes
 case class CopyAsset(val contentInfo:ContentInfo, val title:String, val body:NodeSeq) extends Asset
+object CopyAsset {
+	val NodeType = "wk:copyAsset"
+}
 // Download related asset classes (video, audio, archive, document)
 case class DownloadableAsset(val contentInfo:ContentInfo, val title:String, val url:String, val path:String) extends Asset with FileInfo
+object DownloadableAsset {
+	val NodeType = "wk:downloadAsset"
+}
 // Press (link to press) asset
 case class PressAsset(val contentInfo:ContentInfo, val title:String, val author:String, val source:String, val sourceName:String) extends Asset
+object PressAsset {
+	val NodeType = "wk:pressAsset"
+}
 // Award (Info about awards) asset
 case class AwardAsset(val contentInfo:ContentInfo, val title:String, val source:String, val description:CopyAsset, val image:ImageAsset) extends Asset
+object AwardAsset {
+	val NodeType = "wk:awardAsset"
+}
