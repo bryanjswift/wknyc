@@ -6,6 +6,7 @@ import wknyc.model.{ContentInfo,Employee,PersonalInfo,SocialNetwork,User,WkCrede
 object UserDaoSpecs extends Specification {
 	"UserDao" should {
 		shareVariables()
+		setSequential()
 		val session = Config.Repository.login(Config.Admin,"security")
 		var root = WkCredentials("root@wk.com","root","","",None)
 		doAfterSpec { session.logout }
@@ -26,7 +27,7 @@ object UserDaoSpecs extends Specification {
 			var emp = Employee(
 					ContentInfo(root),
 					WkCredentials("bryan.swift1@wk.com","bs","Digital","Software Engineer",None),
-					PersonalInfo("Bryan","Swift",List[SocialNetwork]())
+					PersonalInfo("Bryan","Swift",SocialNetwork("Twitter","http://twitter.com/bryanjswift") :: Nil)
 				)
 			emp = dao.save(emp)
 			emp.uuid must beSome[String]
@@ -38,7 +39,7 @@ object UserDaoSpecs extends Specification {
 			var emp = Employee(
 					ContentInfo(root),
 					WkCredentials("bryan.swift2@wk.com","bs","Digital","Software Engineer",None),
-					PersonalInfo("Bryan","Swift",List[SocialNetwork]())
+					PersonalInfo("Bryan","Swift",SocialNetwork("Twitter","http://twitter.com/bryanjswift") :: Nil)
 				)
 			emp = dao.save(emp)
 			emp.uuid must beSome[String]

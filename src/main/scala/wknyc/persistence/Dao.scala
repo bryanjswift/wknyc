@@ -95,6 +95,14 @@ class UserDao(private val session:Session, private val loggedInUser:User) {
 		n.setProperty("dateCreated",ci.dateCreated)
 		n.setProperty("lastModified",ci.lastModified)
 		n.setProperty("modifiedBy", session.getNodeByUUID(loggedInUser.uuid.get))
+		// remove all SocialNetworks then re-add them
+		// TODO: Do this more efficiently
+		n.getNodes.foreach(sn => sn.remove)
+		employee.personalInfo.socialNetworks.foreach(sn => {
+			val node = n.addNode(SocialNetwork.NodeName, SocialNetwork.NodeType)
+			node.setProperty("name", sn.name)
+			node.setProperty("url", sn.url)
+		})
 	}
 	/** Fetch an Employee or User based on a given UUID or username
 		* @param s - username or UUID by which a node will be fetched
@@ -128,7 +136,7 @@ class UserDao(private val session:Session, private val loggedInUser:User) {
 			PersonalInfo(
 				node.getProperty("firstName").getString,
 				node.getProperty("lastName").getString,
-				List[SocialNetwork]()
+				node.getNodes.map(n => SocialNetwork(n.getProperty("name").getString,n.getProperty("url").getString)).toList
 			),
 			node.getUUID
 		)
