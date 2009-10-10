@@ -31,7 +31,18 @@ object UserDaoSpecs extends Specification {
 			emp = dao.save(emp)
 			emp.uuid must beSome[String]
 			val retrieved = dao.get(emp.uuid.get)
-			println(emp.toString + " : " + retrieved.toString)
+			emp must_== retrieved
+		}
+		"get an Employee by username" >> {
+			val dao = new UserDao(session,root)
+			var emp = Employee(
+					ContentInfo(root),
+					WkCredentials("bryan.swift2@wk.com","bs","Digital","Software Engineer",None),
+					PersonalInfo("Bryan","Swift",List[SocialNetwork]())
+				)
+			emp = dao.save(emp)
+			emp.uuid must beSome[String]
+			val retrieved = dao.get(emp.username)
 			emp must_== retrieved
 		}
 	}
