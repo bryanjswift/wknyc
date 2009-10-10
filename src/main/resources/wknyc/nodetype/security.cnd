@@ -15,3 +15,6 @@ mixin
 [wk:employee] > wk:credentials, wk:content
 -firstName=''
 -lastName=''
+
+[wk:socialNetwork]
+-url='' primary mandatory
