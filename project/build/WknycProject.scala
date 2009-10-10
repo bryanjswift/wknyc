@@ -49,7 +49,7 @@ class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) {
 		}
 	}
 	// override clean action to depend on cleanWebapp
-	override def cleanAction = super.cleanAction dependsOn(cleanWebapp)
+	override def cleanAction = super.cleanAction dependsOn(cleanRepository) dependsOn(cleanWebapp)
 	// tell sbt to find files normally under src/main/webapp under the webapp directory
 	override def webappPath = "webapp"
 	// override looking for jars in ./lib
