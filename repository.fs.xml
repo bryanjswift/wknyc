@@ -26,7 +26,8 @@
 			virtual file system where the repository stores global state
 			(e.g. registered namespaces, custom node types, etc.)
 	-->
-	<FileSystem class="org.apache.jackrabbit.core.fs.mem.MemoryFileSystem">
+	<FileSystem class="org.apache.jackrabbit.core.fs.local.LocalFileSystem">
+		<param name="path" value="${rep.home}/repository"/>
 	</FileSystem>
 	<!--
 			security configuration
@@ -76,21 +77,22 @@
 				virtual file system of the workspace:
 				class: FQN of class implementing the FileSystem interface
 		-->
-		<FileSystem class="org.apache.jackrabbit.core.fs.mem.MemoryFileSystem">
+		<FileSystem class="org.apache.jackrabbit.core.fs.local.LocalFileSystem">
+			<param name="path" value="${wsp.home}"/>
 		</FileSystem>
 		<!--
 				persistence manager of the workspace:
 				class: FQN of class implementing the PersistenceManager interface
 		-->
-		<PersistenceManager class="org.apache.jackrabbit.core.persistence.mem.InMemPersistenceManager">
-			<param name="persistent" value="false"/>
+		<PersistenceManager class="org.apache.jackrabbit.core.persistence.bundle.DerbyPersistenceManager">
+			<param name="url" value="jdbc:derby:${wsp.home}/db;create=true"/>
+			<param name="schemaObjectPrefix" value="${wsp.name}_"/>
 		</PersistenceManager>
 		<!--
 				Search index and the file system it uses.
 				class: FQN of class implementing the QueryHandler interface
 		-->
 		<SearchIndex class="org.apache.jackrabbit.core.query.lucene.SearchIndex">
-			<param name="directoryManagerClass" value="org.apache.jackrabbit.core.query.lucene.directory.RAMDirectoryManager" />
 			<param name="path" value="${wsp.home}/index"/>
 			<param name="extractorPoolSize" value="2"/>
 			<param name="supportHighlighting" value="true"/>
@@ -104,7 +106,8 @@
 				Configures the filesystem to use for versioning for the respective
 				persistence manager
 		-->
-		<FileSystem class="org.apache.jackrabbit.core.fs.mem.MemoryFileSystem">
+		<FileSystem class="org.apache.jackrabbit.core.fs.local.LocalFileSystem">
+			<param name="path" value="${rep.home}/version"/>
 		</FileSystem>
 		<!--
 				Configures the persistence manager to be used for persisting version state.
@@ -112,8 +115,9 @@
 				a 'normal' persistence manager, but this could change in future
 				implementations.
 		-->
-		<PersistenceManager class="org.apache.jackrabbit.core.persistence.mem.InMemPersistenceManager">
-			<param name="persistent" value="false"/>
+		<PersistenceManager class="org.apache.jackrabbit.core.persistence.bundle.DerbyPersistenceManager">
+			<param name="url" value="jdbc:derby:${rep.home}/version/db;create=true"/>
+			<param name="schemaObjectPrefix" value="version_"/>
 		</PersistenceManager>
 	</Versioning>
 	<!--
@@ -121,7 +125,6 @@
 			(/jcr:system tree, contains mainly versions)
 	-->
 	<SearchIndex class="org.apache.jackrabbit.core.query.lucene.SearchIndex">
-		<param name="directoryManagerClass" value="org.apache.jackrabbit.core.query.lucene.directory.RAMDirectoryManager" />
 		<param name="path" value="${rep.home}/repository/index"/>
 		<param name="extractorPoolSize" value="2"/>
 		<param name="supportHighlighting" value="true"/>
