@@ -13,14 +13,14 @@ object UserDaoSpecs extends Specification {
 		"save an Employee" >> {
 			var dao = new UserDao(session,root)
 			root = dao.save(root)
-			root.uuid must beSome[String]
+			root.uuid must beSome[String] // Test credential saving
 			dao = new UserDao(session,root)
 			val emp = Employee(
 					ContentInfo(root),
 					WkCredentials("bryan.swift@wk.com","bs","Digital","Software Engineer",None),
 					PersonalInfo("Bryan","Swift",List[SocialNetwork]())
 				)
-			dao.save(emp).uuid must beSome[String]
+			dao.save(emp).uuid must beSome[String] // Test employee saving
 		}
 		"get an Employee by uuid" >> {
 			val dao = new UserDao(session,root)
