@@ -5,3 +5,39 @@ mixin
 -dateCreated (date) mandatory
 -lastModified (date)
 -modifiedBy (reference) mandatory
+
+[wk:asset] > wk:content, mix:referenceable, mix:versionable
+mixin
+-title (string) mandatory
+
+[wk:fileAsset]
+mixin
+-path (string) mandatory
+-url (string) mandatory
+
+[wk:image] > nt:base, wk:fileAsset
+-alt (string)
+-height (long)
+-width (long)
+-size (string)
+
+[wk:imageAsset] > wk:asset
++Large(wk:image)=wk:image
++Medium(wk:image)=wk:image
++Small(wk:image)=wk:image
++Tiny(wk:image)=wk:image
+
+[wk:copyAsset] > wk:asset
+-body (string)
+
+[wk:downloadAsset] > wk:asset, wk:fileAsset
+
+[wk:pressAsset] > wk:asset
+-author (string) mandatory
+-source (string) mandatory
+-sourceName (string) mandatory
+
+[wk:awardAsset] > wk:asset
+-source (string) mandatory
+-description (reference)
+-image (reference)
