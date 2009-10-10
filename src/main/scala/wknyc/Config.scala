@@ -12,23 +12,28 @@ object Config {
 	lazy val ContentWorkspace = "default"
 	lazy val Admin = WkCredentials("admin@wk.com","","","",None)
 	lazy val ClassLoader = getClass.getClassLoader
-	private def getNodeManager(session:Session) = session.getWorkspace().getNodeTypeManager().asInstanceOf[NodeTypeManagerImpl]
-	private def registerNodeTypes(filename:String,workspace:String):Unit = {
+	private def registerNodeTypes(filename:String,session:Session):Unit = {
 		val definitions = ClassLoader.getResourceAsStream("wknyc/nodetype/" + filename)
-		val session = Repository.login(Admin,workspace)
-		val manager = getNodeManager(session)
+		val manager = session.getWorkspace().getNodeTypeManager().asInstanceOf[NodeTypeManagerImpl]
 		manager.registerNodeTypes(definitions,JackrabbitNodeTypeManager.TEXT_X_JCR_CND,true)
-		session.logout
 	}
-	def registerSecurityNodeTypes = registerNodeTypes("security.cnd",CredentialsWorkspace)
-	def registerDefaultNodeTypes = registerNodeTypes("default.cnd",ContentWorkspace)
+	def registerSecurityNodeTypes(session:Session):Unit = registerNodeTypes("security.cnd",session)
+	def registerDefaultNodeTypes(session:Session):Unit = registerNodeTypes("default.cnd",session)
 }
 
 class WkRepository extends TransientRepository {
+	var registered = Map[String,Boolean]()
 	override def login(credentials:Credentials,workspaceName:String) = {
 		val session = super.login(credentials,workspaceName)
-		Config.registerSecurityNodeTypes
-		Config.registerDefaultNodeTypes
+		val workspace = session.getWorkspace.getName
+		if (!registered.getOrElse(workspace,false)) {
+			registered += (workspace -> true)
+			workspace match {
+				case Config.CredentialsWorkspace => Config.registerSecurityNodeTypes(session)
+				case Config.ContentWorkspace => Config.registerDefaultNodeTypes(session)
+				case _ => ()
+			}
+		}
 		session
 	}
 }
