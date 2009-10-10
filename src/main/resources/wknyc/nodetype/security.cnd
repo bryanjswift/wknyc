@@ -15,6 +15,9 @@ mixin
 [wk:employee] > wk:credentials, wk:content
 -firstName=''
 -lastName=''
++SocialNetwork(wk:socialNetwork)=wk:socialNetwork
+multiple copy
 
-[wk:socialNetwork]
--url='' primary mandatory
+[wk:socialNetwork] > nt:base
+-name='' primary mandatory
+-url='' mandatory
