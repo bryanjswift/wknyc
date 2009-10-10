@@ -7,8 +7,7 @@ import wknyc.model.{ContentInfo,Employee,PersonalInfo,SocialNetwork,User,WkCrede
 	* @param session is used to access the repository but is not modified (logged out)
 	* @param loggedInUser is used to set lastModifiedUser of content being saved
 	*/
-class UserDao(private val session:Session, private val loggedInUser:User) {
-	private lazy val root = session.getRootNode
+class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUser) {
 	/** Save an object which is at least of type User
 		* @param user to be saved delegates to saveCredentials or saveEmployee depending on type
 		* @returns T with uuid populated and lastModified/modifiedBy fields updated (if applicable)
@@ -53,26 +52,6 @@ class UserDao(private val session:Session, private val loggedInUser:User) {
 			n.getUUID
 		)
 	}
-	/** Create/retrieve a referenceable and versionable node from the root of the session's workspace
-		* @param name of the node to retrieve
-		* @param nt - type of node to retrieve
-		* @returns Node with given name (as path)
-		*/
-	private def getNode(name:String,nt:String):Node = getNode(root,name,nt)
-	/** Create/retrieve a referenceable and versionable node from the given parent node
-		* @param parent node to search from
-		* @param name of the node to retrieve
-		* @param nt - type of node to retrieve
-		* @returns Node with given name (as path)
-		*/
-	private def getNode(parent:Node,name:String,nt:String):Node =
-		if (parent.hasNode(name)) {
-			val node = parent.getNode(name)
-			node.checkout
-			node
-		} else {
-			parent.addNode(name, nt)
-		}
 	/** Write general user properties to provided node
 		* @param n - node to write data to
 		* @param user whose data should be written
@@ -152,9 +131,4 @@ class UserDao(private val session:Session, private val loggedInUser:User) {
 			node.getProperty("title").getString,
 			Some(node.getUUID)
 		)
-	// Convert a NodeIterator to an actual Iterator with generics
-	implicit def nodeiterator2iterator(nodeIterator:NodeIterator):Iterator[Node] = new Iterator[Node] {
-		def hasNext = nodeIterator.hasNext
-		def next = nodeIterator.nextNode
-	}
 }
