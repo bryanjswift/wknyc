@@ -17,6 +17,7 @@ class SocialNetwork(val name:String, val url:String) {
 }
 
 object SocialNetwork {
+	val NodeName = "SocialNetwork"
 	val NodeType = "wk:socialNetwork"
 	def apply(name:String,url:String) = new SocialNetwork(name,url)
 }
