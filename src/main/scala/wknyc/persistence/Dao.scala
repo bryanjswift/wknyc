@@ -5,6 +5,18 @@ import wknyc.model.User
 
 class Dao(private val session:Session, private val loggedInUser:User) {
 	protected lazy val root = session.getRootNode
+	def save[T](toSave:T):T
+	/** Create/retrieve an unstructured node from the root of the session's workspace
+		* @param name of the node to retrieve
+		* @returns Node with the given name
+		*/
+	protected def getNode(name:String):Node = getNode(root,name,Dao.DefaultNodeType)
+	/** Create/retrieve an unstructured node from the root of the session's workspace
+		* @param parent node to search from
+		* @param name of the node to retrieve
+		* @returns Node with the given name
+		*/
+	protected def getNode(parent:Node,name:String):Node = getNode(parent,name,Dao.DefaultNodeType)
 	/** Create/retrieve a referenceable and versionable node from the root of the session's workspace
 		* @param name of the node to retrieve
 		* @param nt - type of node to retrieve
@@ -30,4 +42,8 @@ class Dao(private val session:Session, private val loggedInUser:User) {
 		def hasNext = nodeIterator.hasNext
 		def next = nodeIterator.nextNode
 	}
+}
+
+object Dao {
+	val DefaultNodeType = "nt:unstructured"
 }
