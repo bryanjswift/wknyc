@@ -7,10 +7,17 @@ import scala.xml.NodeSeq
 sealed trait Asset extends Content {
 	val title:String
 }
+object Asset {
+	val Title = "title"
+}
 /** Trait and class representing a file path on the server */
 trait FileInfo {
 	def path:String
 	def url:String
+}
+object FileInfo {
+	val Path = "path"
+	val Url = "url"
 }
 class File(val path:String, val url:String) extends FileInfo
 /** Size of image trait and related objects */
@@ -20,7 +27,7 @@ case object MediumThumbnail extends ImageSize { val name = "Medium" }
 case object SmallThumbnail extends ImageSize { val name = "Small" }
 case object TinyThumbnail extends ImageSize { val name = "Tiny" }
 /** Trait and class representing an image file on the server */
-sealed trait ImageInfo {
+sealed trait ImageInfo extends FileInfo {
 	def alt:String
 	def width:Int
 	def height:Int
@@ -29,6 +36,9 @@ sealed trait ImageInfo {
 class Image(path:String, url:String, val alt:String, val width:Int, val height:Int, val size:ImageSize) extends File(path,url) with ImageInfo
 object Image {
 	val NodeType = "wk:image"
+	val Alt = "alt"
+	val Width = "width"
+	val Height = "height"
 }
 /** ImageAsset supporting 'set' */
 class ImageSet(private val images:Map[ImageSize,ImageInfo]) {
