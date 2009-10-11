@@ -21,23 +21,23 @@ mixin
 -width (long)
 -size (string)
 
-[wk:imageAsset] > wk:asset
+[wk:imageAsset] > nt:base, wk:asset
 +Large(wk:image)=wk:image
 +Medium(wk:image)=wk:image
 +Small(wk:image)=wk:image
 +Tiny(wk:image)=wk:image
 
-[wk:copyAsset] > wk:asset
+[wk:copyAsset] > nt:base, wk:asset
 -body (string)
 
-[wk:downloadAsset] > wk:asset, wk:fileAsset
+[wk:downloadAsset] > nt:base, wk:asset, wk:fileAsset
 
-[wk:pressAsset] > wk:asset
+[wk:pressAsset] > nt:base, wk:asset
 -author (string) mandatory
 -source (string) mandatory
 -sourceName (string) mandatory
 
-[wk:awardAsset] > wk:asset
+[wk:awardAsset] > nt:base, wk:asset
 -source (string) mandatory
 -description (reference)
 -image (reference)
