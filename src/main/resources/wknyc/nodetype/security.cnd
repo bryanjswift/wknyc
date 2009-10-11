@@ -7,17 +7,17 @@ mixin
 -modifiedBy (reference) mandatory
 
 [wk:credentials] > nt:base, mix:referenceable, mix:versionable
--username='' (string) primary mandatory
--password='' (string) mandatory
--department='' (string)
--title='' (string)
+-username='' primary mandatory
+-password='' mandatory
+-department=''
+-title=''
 
 [wk:employee] > wk:credentials, wk:content
--firstName='' (string)
--lastName='' (string)
+-firstName=''
+-lastName=''
 +SocialNetwork(wk:socialNetwork)=wk:socialNetwork
 multiple copy
 
 [wk:socialNetwork] > nt:base
--name='' (string) primary mandatory
--url='' (string) mandatory
+-name='' primary mandatory
+-url='' mandatory
