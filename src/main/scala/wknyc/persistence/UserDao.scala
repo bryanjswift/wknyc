@@ -1,13 +1,14 @@
 package wknyc.persistence
 
 import javax.jcr.{Node,NodeIterator,Session}
-import wknyc.model.{ContentInfo,Employee,PersonalInfo,SocialNetwork,User,WkCredentials}
+import wknyc.model.{Content,ContentInfo,Employee,PersonalInfo,SocialNetwork,User,WkCredentials}
 
 /** UserDao is created to save and retrieve User type objects from the repository
 	* @param session is used to access the repository but is not modified (logged out)
 	* @param loggedInUser is used to set lastModifiedUser of content being saved
 	*/
 class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUser) {
+	require(session.getWorkspace.getName == Config.CredentialsWorkspace,"Can only save/get Users from CredentialsWorkspace")
 	/** Save an object which is at least of type User
 		* @param user to be saved delegates to saveCredentials or saveEmployee depending on type
 		* @returns T with uuid populated and lastModified/modifiedBy fields updated (if applicable)
@@ -57,10 +58,10 @@ class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUs
 		* @param user whose data should be written
 		*/
 	private def writeProperties(n:Node,user:User):Unit = {
-		n.setProperty("username",user.username)
-		n.setProperty("password",user.password)
-		n.setProperty("department",user.department)
-		n.setProperty("title",user.title)
+		n.setProperty(User.Username,user.username)
+		n.setProperty(User.Password,user.password)
+		n.setProperty(User.Department,user.department)
+		n.setProperty(User.Title,user.title)
 	}
 	/** Write employee information to provided node
 		* @param n - node to write data to
@@ -69,18 +70,18 @@ class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUs
 		*/
 	private def writeProperties(n:Node,employee:Employee,ci:ContentInfo):Unit = {
 		writeProperties(n,employee)
-		n.setProperty("firstName",employee.firstName)
-		n.setProperty("lastName",employee.lastName)
-		n.setProperty("dateCreated",ci.dateCreated)
-		n.setProperty("lastModified",ci.lastModified)
-		n.setProperty("modifiedBy", session.getNodeByUUID(loggedInUser.uuid.get))
+		n.setProperty(Employee.FirstName,employee.firstName)
+		n.setProperty(Employee.LastName,employee.lastName)
+		n.setProperty(Content.DateCreated,ci.dateCreated)
+		n.setProperty(Content.LastModified,ci.lastModified)
+		n.setProperty(Content.ModifiedBy, session.getNodeByUUID(loggedInUser.uuid.get))
 		// remove all SocialNetworks then re-add them
 		// Warning: This could be more efficient if it becomes a bottleneck
 		n.getNodes.foreach(sn => sn.remove)
 		employee.personalInfo.socialNetworks.foreach(sn => {
 			val node = n.addNode(SocialNetwork.NodeName, SocialNetwork.NodeType)
-			node.setProperty("name", sn.name)
-			node.setProperty("url", sn.url)
+			node.setProperty(SocialNetwork.Name, sn.name)
+			node.setProperty(SocialNetwork.Url, sn.url)
 		})
 	}
 	/** Fetch an Employee or User based on a given UUID or username
@@ -107,15 +108,17 @@ class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUs
 	private def getEmployee(node:Node) =
 		Employee(
 			new ContentInfo(
-				node.getProperty("dateCreated").getDate,
-				node.getProperty("lastModified").getDate,
-				getCredentials(node.getProperty("modifiedBy").getNode)
+				node.getProperty(Content.DateCreated).getDate,
+				node.getProperty(Content.LastModified).getDate,
+				getCredentials(node.getProperty(Content.ModifiedBy).getNode)
 			),
 			getCredentials(node),
 			PersonalInfo(
-				node.getProperty("firstName").getString,
-				node.getProperty("lastName").getString,
-				node.getNodes.map(n => SocialNetwork(n.getProperty("name").getString,n.getProperty("url").getString)).toList
+				node.getProperty(Employee.FirstName).getString,
+				node.getProperty(Employee.LastName).getString,
+				node.getNodes.map(
+					n => SocialNetwork(n.getProperty(SocialNetwork.Name).getString,n.getProperty(SocialNetwork.Url).getString)
+				).toList
 			),
 			node.getUUID
 		)
@@ -125,10 +128,10 @@ class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUs
 		*/
 	private def getCredentials(node:Node) =
 		WkCredentials(
-			node.getProperty("username").getString,
-			node.getProperty("password").getString,
-			node.getProperty("department").getString,
-			node.getProperty("title").getString,
+			node.getProperty(User.Username).getString,
+			node.getProperty(User.Password).getString,
+			node.getProperty(User.Department).getString,
+			node.getProperty(User.Title).getString,
 			Some(node.getUUID)
 		)
 }
