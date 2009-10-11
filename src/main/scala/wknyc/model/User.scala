@@ -14,6 +14,10 @@ trait User extends Credentials {
 }
 object User {
 	val NodeType = "wk:credentials"
+	val Username = "username"
+	val Password = "password"
+	val Department = "department"
+	val Title = "title"
 }
 /** Represents interface to personal information for a user */
 trait Person {
@@ -55,4 +59,6 @@ object Employee {
 	def apply(ci:ContentInfo,credentials:WkCredentials,pi:PersonalInfo) = new Employee(ci,credentials,pi,"")
 	def apply(ci:ContentInfo,credentials:WkCredentials,pi:PersonalInfo,id:String) = new Employee(ci,credentials,pi,id)
 	val NodeType = "wk:employee"
+	val FirstName = "firstName"
+	val LastName = "lastName"
 }

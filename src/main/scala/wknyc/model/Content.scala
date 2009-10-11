@@ -33,6 +33,12 @@ trait Content {
 	lazy val lastModified:Calendar = contentInfo.lastModified
 	lazy val modifiedBy:User = contentInfo.modifiedBy
 }
+object Content {
+	val NodeType = "wk:content"
+	val DateCreated = "dateCreated"
+	val LastModified = "lastModified"
+	val ModifiedBy = "modifiedBy"
+}
 /** Trait to be mixed into objects which must maintain a specific orderering */
 trait OrderedContent[T <: OrderedContent[T]] extends Content {
 	def position:Int
