@@ -40,12 +40,11 @@ case class WkCredentials(
 }
 /** Represent an Employee as a User */
 class Employee(
-	val contentInfo:ContentInfo, val credentials:WkCredentials, val personalInfo:PersonalInfo, val id:String
+	val contentInfo:ContentInfo, val credentials:WkCredentials, val personalInfo:PersonalInfo
 ) extends User with Person with Content {
-	lazy val uuid = if (id.length > 0) Some(id) else None
 	private def canEqual(a:Any) = a.isInstanceOf[Employee]
 	def equals(e:Employee) =
-		this.contentInfo == e.contentInfo && this.credentials == e.credentials && this.personalInfo == e.personalInfo && this.id == e.id
+		contentInfo == e.contentInfo && credentials == e.credentials && personalInfo == e.personalInfo
 	override def equals(q:Any) =
 		q match {
 			case that:Employee =>
@@ -53,11 +52,10 @@ class Employee(
 			case _ => false
 		}
 	override def hashCode =
-		41 * (41 * (41 * (41 + contentInfo.hashCode) + credentials.hashCode) + personalInfo.hashCode) + id.hashCode
+		41 * (41 * (41 + contentInfo.hashCode) + credentials.hashCode) + personalInfo.hashCode
 }
 object Employee {
-	def apply(ci:ContentInfo,credentials:WkCredentials,pi:PersonalInfo) = new Employee(ci,credentials,pi,"")
-	def apply(ci:ContentInfo,credentials:WkCredentials,pi:PersonalInfo,id:String) = new Employee(ci,credentials,pi,id)
+	def apply(ci:ContentInfo,credentials:WkCredentials,pi:PersonalInfo) = new Employee(ci,credentials,pi)
 	val NodeType = "wk:employee"
 	val FirstName = "firstName"
 	val LastName = "lastName"

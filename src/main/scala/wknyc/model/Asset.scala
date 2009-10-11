@@ -39,36 +39,36 @@ class ImageSet(private val images:Map[ImageSize,ImageInfo]) {
 	def foreach(fcn:(ImageInfo) => Unit) = images.values.foreach(fcn)
 }
 // Image related asset classes
-case class ImageAsset(val contentInfo:ContentInfo, val title:String, val images:ImageSet, val uuid:Some[String]) extends Asset {
-	def cp(uuid:String) = ImageAsset(contentInfo, title, images, Some(uuid))
+case class ImageAsset(val contentInfo:ContentInfo, val title:String, val images:ImageSet) extends Asset {
+	def cp(uuid:String) = ImageAsset(contentInfo.cp(uuid), title, images)
 }
 object ImageAsset {
 	val NodeType = "wk:imageAsset"
 }
 // Copy related asset classes
-case class CopyAsset(val contentInfo:ContentInfo, val title:String, val body:NodeSeq, val uuid:Some[String]) extends Asset {
-	def cp(uuid:String) = CopyAsset(contentInfo, title, body, Some(uuid))
+case class CopyAsset(val contentInfo:ContentInfo, val title:String, val body:NodeSeq) extends Asset {
+	def cp(uuid:String) = CopyAsset(contentInfo.cp(uuid), title, body)
 }
 object CopyAsset {
 	val NodeType = "wk:copyAsset"
 }
 // Download related asset classes (video, audio, archive, document)
-case class DownloadableAsset(val contentInfo:ContentInfo, val title:String, val url:String, val path:String, val uuid:Some[String]) extends Asset with FileInfo {
-	def cp(uuid:String) = DownloadableAsset(contentInfo, title, url, path, Some(uuid))
+case class DownloadableAsset(val contentInfo:ContentInfo, val title:String, val url:String, val path:String) extends Asset with FileInfo {
+	def cp(uuid:String) = DownloadableAsset(contentInfo.cp(uuid), title, url, path)
 }
 object DownloadableAsset {
 	val NodeType = "wk:downloadAsset"
 }
 // Press (link to press) asset
-case class PressAsset(val contentInfo:ContentInfo, val title:String, val author:String, val source:String, val sourceName:String, val uuid:Some[String]) extends Asset {
-	def cp(uuid:String) = PressAsset(contentInfo, title, author, source, sourceName, Some(uuid))
+case class PressAsset(val contentInfo:ContentInfo, val title:String, val author:String, val source:String, val sourceName:String) extends Asset {
+	def cp(uuid:String) = PressAsset(contentInfo.cp(uuid), title, author, source, sourceName)
 }
 object PressAsset {
 	val NodeType = "wk:pressAsset"
 }
 // Award (Info about awards) asset
-case class AwardAsset(val contentInfo:ContentInfo, val title:String, val source:String, val description:CopyAsset, val image:ImageAsset, val uuid:Some[String]) extends Asset {
-	def cp(uuid:String) = AwardAsset(contentInfo, title, source, description, image, Some(uuid))
+case class AwardAsset(val contentInfo:ContentInfo, val title:String, val source:String, val description:CopyAsset, val image:ImageAsset) extends Asset {
+	def cp(uuid:String) = AwardAsset(contentInfo.cp(uuid), title, source, description, image)
 }
 object AwardAsset {
 	val NodeType = "wk:awardAsset"

@@ -46,11 +46,10 @@ class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUs
 		session.save
 		n.checkin
 		Employee(
-			ci,
+			ci.cp(n.getUUID),
 			// TODO: In Scala 2.8.0 change this to use copy(uuid = Some(n.getUUID))
 			employee.credentials.cp(n.getUUID),
-			employee.personalInfo,
-			n.getUUID
+			employee.personalInfo
 		)
 	}
 	/** Write general user properties to provided node
@@ -110,7 +109,8 @@ class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUs
 			new ContentInfo(
 				node.getProperty(Content.DateCreated).getDate,
 				node.getProperty(Content.LastModified).getDate,
-				getCredentials(node.getProperty(Content.ModifiedBy).getNode)
+				getCredentials(node.getProperty(Content.ModifiedBy).getNode),
+				Some(node.getUUID)
 			),
 			getCredentials(node),
 			PersonalInfo(
@@ -119,8 +119,7 @@ class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUs
 				node.getNodes.map(
 					n => SocialNetwork(n.getProperty(SocialNetwork.Name).getString,n.getProperty(SocialNetwork.Url).getString)
 				).toList
-			),
-			node.getUUID
+			)
 		)
 	/** Fetch credentials from a given Node so we don't fetch the whole user graph when retrieving Employee's modifiedBy
 		* @param node to build from

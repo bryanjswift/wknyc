@@ -3,11 +3,12 @@ package wknyc.model
 import java.util.Calendar
 
 /** Class to hold universal content information */
-class ContentInfo(val dateCreated:Calendar, val lastModified:Calendar, val modifiedBy:User) {
-	def modify(user:User) = new ContentInfo(dateCreated, Calendar.getInstance, user)
+class ContentInfo(val dateCreated:Calendar, val lastModified:Calendar, val modifiedBy:User, val uuid:Option[String]) {
+	def modify(user:User) = new ContentInfo(dateCreated, Calendar.getInstance, user, uuid)
+	def cp(uuid:String) = new ContentInfo(dateCreated, lastModified, modifiedBy, Some(uuid))
 	private def canEqual(a:Any) = a.isInstanceOf[ContentInfo]
 	def equals(ci:ContentInfo) = 
-		this.dateCreated == ci.dateCreated && this.lastModified == ci.lastModified && this.modifiedBy == ci.modifiedBy
+		dateCreated == ci.dateCreated && lastModified == ci.lastModified && modifiedBy == ci.modifiedBy && uuid == ci.uuid
 	override def equals(q:Any) =
 		q match {
 			case that:ContentInfo =>
@@ -15,14 +16,14 @@ class ContentInfo(val dateCreated:Calendar, val lastModified:Calendar, val modif
 			case _ => false
 		}
 	override def hashCode =
-		41 * (41 * (41 + dateCreated.hashCode) + lastModified.hashCode) + modifiedBy.hashCode
+		41 * (41 * (41 * (41 + dateCreated.hashCode) + lastModified.hashCode) + modifiedBy.hashCode) + uuid.hashCode
 }
 // Companion object for ContentInfo, nothing interesting to say
 object ContentInfo {
 	def apply(user:User) = create(user)
 	def create(user:User) = {
 		val now = Calendar.getInstance
-		new ContentInfo(now, now, user)
+		new ContentInfo(now, now, user, None)
 	}
 }
 /** Trait to be mixed into objects to allow direct access to data stored in ContentInfo
@@ -32,6 +33,7 @@ trait Content {
 	lazy val dateCreated:Calendar = contentInfo.dateCreated
 	lazy val lastModified:Calendar = contentInfo.lastModified
 	lazy val modifiedBy:User = contentInfo.modifiedBy
+	lazy val uuid:Option[String] = contentInfo.uuid
 }
 object Content {
 	val NodeType = "wk:content"
