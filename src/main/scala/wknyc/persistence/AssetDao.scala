@@ -23,6 +23,7 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 		*/
 	private def saveImageAsset(image:ImageAsset) = {
 		val node = getNode(ImageRoot,image.title,ImageAsset.NodeType)
+		writeProperties(node,image)
 		session.save
 		node.checkin
 		image.cp(node.getUUID)
@@ -32,7 +33,15 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 		* @param image asset holding data to write
 		*/
 	private def writeProperties(node:Node,image:ImageAsset) = {
-		image.images.foreach(info => getNode(node,info.size.name,Image.NodeType))
+		image.images.foreach(info => {
+			val n = getNode(node,info.size.name,Image.NodeType)
+			n.setProperty(FileInfo.Path, info.path)
+			n.setProperty(FileInfo.Url, info.url)
+			n.setProperty(Image.Alt, info.alt)
+			n.setProperty(Image.Height, info.height)
+			n.setProperty(Image.Width, info.width)
+		})
+		node.setProperty(Asset.Title,image.title)
 		node.setProperty(Content.DateCreated,image.contentInfo.dateCreated)
 		node.setProperty(Content.LastModified,image.contentInfo.lastModified)
 		node.setProperty(Content.ModifiedBy, session.getNodeByUUID(loggedInUser.uuid.get))
