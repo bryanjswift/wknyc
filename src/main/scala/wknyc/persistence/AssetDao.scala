@@ -1,14 +1,14 @@
 package wknyc.persistence
 
 import javax.jcr.{Node,Session}
-import wknyc.model.{Asset,Content,Image,ImageAsset,User}
+import wknyc.model.{Asset,Content,FileInfo,Image,ImageAsset,User}
 
 class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUser) {
 	require(session.getWorkspace.getName == Config.ContentWorkspace,"Can only save/get Assets from ContentWorkspace")
 	// Make the root for Asset saving a node called Assets
-	override protected lazy val root = getNode('Assets.toString)
+	override protected lazy val root = getNode(super.root,"Assets")
 	// Make the root for ImageAsset saving a node called ImageAssets
-	private lazy val ImageRoot = getNode('ImageAssets.toString)
+	private lazy val ImageRoot = getNode("ImageAssets")
 	/** Save the provided asset in it's appropriate location
 		* @param asset to be saved
 		* @returns a copy of the asset with it's uuid updated
