@@ -3,7 +3,7 @@ package wknyc
 import javax.jcr.{Credentials,Session}
 import javax.jcr.nodetype.NodeType
 import org.apache.jackrabbit.api.JackrabbitNodeTypeManager
-import org.apache.jackrabbit.core.TransientRepository
+import org.apache.jackrabbit.core.{SessionImpl,TransientRepository}
 import org.apache.jackrabbit.core.nodetype.NodeTypeManagerImpl
 import wknyc.model.WkCredentials
 
@@ -28,13 +28,21 @@ object Config {
 
 class WkRepository extends TransientRepository {
 	private var registered = Map[String,Boolean]()
+	private var sessions = Set[Session]()
 	override def login(credentials:Credentials,workspaceName:String) = {
 		val session = super.login(credentials,workspaceName)
+		sessions = sessions + session
 		val workspace = session.getWorkspace.getName
 		if (!registered.getOrElse(workspace,false)) {
 			registered += (workspace -> true)
 			Config.registerNodeTypes(session)
 		}
 		session
+	}
+	override def loggedOut(session:SessionImpl) = {
+		sessions = sessions - session
+		if (sessions.isEmpty) {
+			registered = Map[String,Boolean]()
+		}
 	}
 }
