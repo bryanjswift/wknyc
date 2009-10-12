@@ -4,7 +4,7 @@ import javax.jcr.{Node,NodeIterator,Session}
 import wknyc.model.User
 
 class Dao(private val session:Session, private val loggedInUser:User) {
-	protected lazy val root = session.getRootNode
+	protected def root = session.getRootNode
 	/** Create/retrieve an unstructured node from the root of the session's workspace
 		* @param name of the node to retrieve
 		* @returns Node with the given name

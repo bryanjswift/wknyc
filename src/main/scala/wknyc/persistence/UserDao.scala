@@ -9,6 +9,8 @@ import wknyc.model.{Content,ContentInfo,Employee,PersonalInfo,SocialNetwork,User
 	*/
 class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUser) {
 	require(session.getWorkspace.getName == Config.CredentialsWorkspace,"Can only save/get Users from CredentialsWorkspace")
+	// Only retrieve root once
+	override protected lazy val root = super.root
 	/** Save an object which is at least of type User
 		* @param user to be saved delegates to saveCredentials or saveEmployee depending on type
 		* @returns T with uuid populated and lastModified/modifiedBy fields updated (if applicable)
