@@ -4,7 +4,7 @@
 mixin
 -dateCreated (date) mandatory
 -lastModified (date)
--modifiedBy (reference) mandatory
+-modifiedBy (string) mandatory
 
 [wk:asset] > wk:content, mix:referenceable, mix:versionable
 mixin
