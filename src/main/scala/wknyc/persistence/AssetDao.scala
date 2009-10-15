@@ -5,6 +5,7 @@ import wknyc.model.{Asset,Content,FileInfo,Image,ImageAsset,User}
 
 class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUser) {
 	require(session.getWorkspace.getName == Config.ContentWorkspace,"Can only save/get Assets from ContentWorkspace")
+	private def security = Config.Repository.login(Config.Admin, Config.CredentialsWorkspace)
 	// Make the root for Asset saving a node called Assets
 	override protected lazy val root = getNode(super.root,"Assets")
 	// Make the root for ImageAsset saving a node called ImageAssets
@@ -44,6 +45,6 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 		node.setProperty(Asset.Title,image.title)
 		node.setProperty(Content.DateCreated,image.contentInfo.dateCreated)
 		node.setProperty(Content.LastModified,image.contentInfo.lastModified)
-		node.setProperty(Content.ModifiedBy, session.getNodeByUUID(loggedInUser.uuid.get))
+		node.setProperty(Content.ModifiedBy, loggedInUser.uuid.get)
 	}
 }
