@@ -73,7 +73,7 @@ object CopyAsset {
 	val Body = "body"
 }
 // Download related asset classes (video, audio, archive, document)
-case class DownloadableAsset(val contentInfo:ContentInfo, val title:String, val url:String, val path:String) extends Asset with FileInfo {
+case class DownloadableAsset(val contentInfo:ContentInfo, val title:String, val path:String, val url:String) extends Asset with FileInfo {
 	def cp(uuid:String) = DownloadableAsset(contentInfo.cp(uuid), title, url, path)
 }
 object DownloadableAsset {
