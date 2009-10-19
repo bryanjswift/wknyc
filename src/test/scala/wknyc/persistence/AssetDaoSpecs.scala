@@ -1,7 +1,7 @@
 package wknyc.persistence
 
 import org.specs.Specification
-import wknyc.model.{ContentInfo,CopyAsset,DownloadableAsset,Image,ImageAsset,ImageSet,TinyThumbnail,WkCredentials}
+import wknyc.model.{ContentInfo,CopyAsset,DownloadableAsset,Image,ImageAsset,ImageSet,PressAsset,TinyThumbnail,WkCredentials}
 
 object AssetDaoSpecs extends Specification {
 	"AssetDao" should {
@@ -74,6 +74,30 @@ object AssetDaoSpecs extends Specification {
 					"Test Download",
 					"/path/to/download",
 					"http://example.com/path"
+				))
+			asset.uuid must beSome[String]
+			val retrieved = dao.get(asset.uuid.get)
+			asset must_== retrieved
+		}
+		"save a PressAsset" >> {
+			val dao = new AssetDao(session,root)
+			val asset = PressAsset(
+					ContentInfo(root),
+					"Test Press",
+					"Rick Castle",
+					"http://example.com",
+					"Example Name"
+				)
+			dao.save(asset).uuid must beSome[String]
+		}
+		"get a saved PressAsset" >> {
+			val dao = new AssetDao(session,root)
+			val asset = dao.save(PressAsset(
+					ContentInfo(root),
+					"Test Press",
+					"Rick Castle",
+					"http://example.com",
+					"Example Name"
 				))
 			asset.uuid must beSome[String]
 			val retrieved = dao.get(asset.uuid.get)

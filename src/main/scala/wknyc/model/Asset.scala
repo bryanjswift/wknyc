@@ -86,6 +86,9 @@ case class PressAsset(val contentInfo:ContentInfo, val title:String, val author:
 }
 object PressAsset {
 	val NodeType = "wk:pressAsset"
+	val Author = "author"
+	val Source = "source"
+	val SourceName = "sourceName"
 }
 // Award (Info about awards) asset
 case class AwardAsset(val contentInfo:ContentInfo, val title:String, val source:String, val description:CopyAsset, val image:ImageAsset) extends Asset {
@@ -93,4 +96,7 @@ case class AwardAsset(val contentInfo:ContentInfo, val title:String, val source:
 }
 object AwardAsset {
 	val NodeType = "wk:awardAsset"
+	val Source = "source"
+	val Description = "description"
+	val Image = "image"
 }
