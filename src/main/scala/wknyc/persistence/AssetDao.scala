@@ -21,45 +21,28 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 		* @param asset to be saved
 		* @returns a copy of the asset with it's uuid updated
 		*/
-	def save[T <: Asset](asset:T):T =
-		asset match {
-			case copy:CopyAsset => saveCopyAsset(copy).asInstanceOf[T]
-			case download:DownloadableAsset => saveDownloadableAsset(download).asInstanceOf[T]
-			case image:ImageAsset => saveImageAsset(image).asInstanceOf[T]
+	def save[T <: Asset](asset:T):T = {
+		val (root,nt) = asset match {
+			case copy:CopyAsset => (CopyRoot,CopyAsset.NodeType)
+			case download:DownloadableAsset => (DownloadableRoot,DownloadableAsset.NodeType)
+			case image:ImageAsset => (ImageRoot,ImageAsset.NodeType)
 		}
-	/** Save a CopyAsset
-		* @param copy asset to save
-		* @returns a copy of the CopyAsset with the uuid updated (if new)
-		*/
-	private def saveCopyAsset(copy:CopyAsset) = {
-		val node = getNode(CopyRoot,copy.title,CopyAsset.NodeType)
-		writeProperties(node,copy)
+		val node = getNode(root,asset.title,nt)
+		writeProperties(node,asset)
 		session.save
 		node.checkin
-		copy.cp(node.getUUID)
+		asset.cp(node.getUUID).asInstanceOf[T]
 	}
-	/** Save a DownloadableAsset
-		* @param download asset to save
-		* @returns a copy of the DownloadableAsset with the uuid updated (if new)
+	/** Write the properties of an Asset to the provided node based on it's type
+		* @param node to write into
+		* @asset to be written
 		*/
-	private def saveDownloadableAsset(download:DownloadableAsset) = {
-		val node = getNode(DownloadableRoot,download.title,DownloadableAsset.NodeType)
-		writeProperties(node,download)
-		session.save
-		node.checkin
-		download.cp(node.getUUID)
-	}
-	/** Save an ImageAsset
-		* @param image asset to save
-		* @returns a copy of the ImageAsset with the uuid updated (if new)
-		*/
-	private def saveImageAsset(image:ImageAsset) = {
-		val node = getNode(ImageRoot,image.title,ImageAsset.NodeType)
-		writeProperties(node,image)
-		session.save
-		node.checkin
-		image.cp(node.getUUID)
-	}
+	private def writeProperties[T <: Asset](node:Node,asset:T):Unit =
+		asset match {
+			case copy:CopyAsset => writeProperties(node,copy)
+			case download:DownloadableAsset => writeProperties(node,download)
+			case image:ImageAsset => writeProperties(node,image)
+		}
 	/** Write general Asset properties to a node
 		* @param node to write into
 		* @param asset to be written

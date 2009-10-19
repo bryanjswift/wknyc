@@ -6,6 +6,7 @@ import scala.xml.NodeSeq
 /** Trait representing the basic fields of a site asset */
 sealed trait Asset extends Content {
 	val title:String
+	def cp(uuid:String):Asset
 }
 object Asset {
 	val Title = "title"
