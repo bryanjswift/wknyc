@@ -22,6 +22,15 @@ object FileInfo {
 class File(val path:String, val url:String) extends FileInfo
 /** Size of image trait and related objects */
 sealed trait ImageSize { def name:String }
+object ImageSize {
+	def apply(name:String) =
+		name match {
+			case LargeThumbnail.name => LargeThumbnail
+			case MediumThumbnail.name => MediumThumbnail
+			case SmallThumbnail.name => SmallThumbnail
+			case TinyThumbnail.name => TinyThumbnail
+		}
+}
 case object LargeThumbnail extends ImageSize { val name = "Large" }
 case object MediumThumbnail extends ImageSize { val name = "Medium" }
 case object SmallThumbnail extends ImageSize { val name = "Small" }
@@ -61,6 +70,7 @@ case class CopyAsset(val contentInfo:ContentInfo, val title:String, val body:Nod
 }
 object CopyAsset {
 	val NodeType = "wk:copyAsset"
+	val Body = "body"
 }
 // Download related asset classes (video, audio, archive, document)
 case class DownloadableAsset(val contentInfo:ContentInfo, val title:String, val url:String, val path:String) extends Asset with FileInfo {

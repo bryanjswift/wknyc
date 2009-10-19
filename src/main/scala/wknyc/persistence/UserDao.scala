@@ -127,7 +127,7 @@ class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUs
 		* @param node to build from
 		* @returns User built from uuid's node
 		*/
-	private def getCredentials(node:Node) =
+	private[persistence] def getCredentials(node:Node) =
 		WkCredentials(
 			node.getProperty(User.Username).getString,
 			node.getProperty(User.Password).getString,

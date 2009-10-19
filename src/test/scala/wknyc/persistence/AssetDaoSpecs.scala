@@ -1,7 +1,7 @@
 package wknyc.persistence
 
 import org.specs.Specification
-import wknyc.model.{ContentInfo,Image,ImageAsset,ImageSet,TinyThumbnail,WkCredentials}
+import wknyc.model.{ContentInfo,CopyAsset,Image,ImageAsset,ImageSet,TinyThumbnail,WkCredentials}
 
 object AssetDaoSpecs extends Specification {
 	"AssetDao" should {
@@ -25,6 +25,37 @@ object AssetDaoSpecs extends Specification {
 					new ImageSet(new Image("/path/to/what","http://example.com/path","alt",15,20,TinyThumbnail))
 				)
 			dao.save(asset).uuid must beSome[String]
+		}
+		"get an ImageAsset" >> {
+			val dao = new AssetDao(session,root)
+			val asset = dao.save(ImageAsset(
+					ContentInfo(root),
+					"Test Image",
+					new ImageSet(new Image("/path/to/what","http://example.com/path","alt",15,20,TinyThumbnail))
+				))
+			asset.uuid must beSome[String]
+			val retrieved = dao.get(asset.uuid.get)
+			asset must_== retrieved
+		}
+		"save a CopyAsset" >> {
+			val dao = new AssetDao(session,root)
+			val asset = CopyAsset(
+					ContentInfo(root),
+					"Test Copy",
+					<p>This is just a test copy block</p>
+				)
+			dao.save(asset).uuid must beSome[String]
+		}
+		"get a saved CopyAsset" >> {
+			val dao = new AssetDao(session,root)
+			val asset = dao.save(CopyAsset(
+					ContentInfo(root),
+					"Test Copy",
+					<p>This is just a test copy block</p>
+				))
+			asset.uuid must beSome[String]
+			val retrieved = dao.get(asset.uuid.get)
+			asset must_== retrieved
 		}
 	}
 }
