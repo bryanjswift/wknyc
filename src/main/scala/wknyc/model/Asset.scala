@@ -11,7 +11,7 @@ object Asset {
 	val Title = "title"
 }
 /** Trait and class representing a file path on the server */
-trait FileInfo {
+sealed trait FileInfo {
 	def path:String
 	def url:String
 }
@@ -42,7 +42,7 @@ sealed trait ImageInfo extends FileInfo {
 	def height:Int
 	def size:ImageSize
 }
-class Image(path:String, url:String, val alt:String, val width:Int, val height:Int, val size:ImageSize) extends File(path,url) with ImageInfo
+case class Image(override val path:String, override val url:String, alt:String, width:Int, height:Int, size:ImageSize) extends File(path,url) with ImageInfo
 object Image {
 	val NodeType = "wk:image"
 	val Alt = "alt"
@@ -50,7 +50,7 @@ object Image {
 	val Height = "height"
 }
 /** ImageAsset supporting 'set' */
-class ImageSet(private val images:Map[ImageSize,ImageInfo]) {
+case class ImageSet(private val images:Map[ImageSize,ImageInfo]) {
 	def this(info:ImageInfo) = this(Map(info.size -> info))
 	def this(images:ImageInfo*) = this(images.foldLeft(Map[ImageSize,ImageInfo]())((map,image) => map + (image.size -> image)))
 	def apply(info:ImageInfo) = new ImageSet(images + (info.size -> info))

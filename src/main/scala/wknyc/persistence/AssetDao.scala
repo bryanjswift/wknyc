@@ -98,7 +98,7 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 	private def getImageAsset(node:Node) = {
 		import wknyc.model.{ImageInfo,ImageSet,ImageSize}
 		val images = node.getNodes.foldLeft(Map[ImageSize,ImageInfo]())((map,node) =>
-			map + (ImageSize(node.getName) -> new Image(
+			map + (ImageSize(node.getName) -> Image(
 					node.getProperty(FileInfo.Path).getString,
 					node.getProperty(FileInfo.Url).getString,
 					node.getProperty(Image.Alt).getString,
@@ -111,7 +111,7 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 		ImageAsset(
 			getContentInfo(node),
 			node.getProperty(Asset.Title).getString,
-			new ImageSet(images)
+			ImageSet(images)
 		)
 	}
 }
