@@ -13,6 +13,8 @@ class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) {
 	val jersey = "com.sun.jersey" % "jersey-server" % "1.1.2-ea"
 	// Clojure
 	val clojure = "org.clojure" % "clojure" % "1.0.0"
+	// Joda Time
+	val jodaTime = "joda-time" % "joda-time" % "1.6"
 
 	// Specs
 	val specs = "org.scala-tools.testing" % "specs" % "1.6.0" % "test->default"
