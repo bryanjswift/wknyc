@@ -6,36 +6,39 @@
 	<artifactId>wknyc</artifactId>
 	<packaging>war</packaging>
 	<version>1.0</version>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.jackrabbit</groupId>
 			<artifactId>jackrabbit-core</artifactId>
 			<version>1.6.0</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.5.3</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.jcr</groupId>
 			<artifactId>jcr</artifactId>
 			<version>1.0</version>
-			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>1.6</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-server</artifactId>
 			<version>1.1.2-ea</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.scala-lang</groupId>
 			<artifactId>scala-library</artifactId>
 			<version>2.7.6</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.scala-tools.testing</groupId>
@@ -69,7 +72,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.2</version>
 				<configuration>
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
@@ -82,6 +84,12 @@
 					<downloadJavadocs>true</downloadJavadocs>
 				</configuration>
 			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<warSourceDirectory>webapp</warSourceDirectory>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<repositories>
@@ -91,8 +99,4 @@
 			<url>http://download.java.net/maven/2</url>
 		</repository>
 	</repositories>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
 </project>
-
