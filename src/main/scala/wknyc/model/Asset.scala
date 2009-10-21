@@ -20,7 +20,10 @@ object FileInfo {
 	val Path = "path"
 	val Url = "url"
 }
-class File(val path:String, val url:String) extends FileInfo
+trait File extends FileInfo {
+	def path:String
+	def url:String
+}
 /** Size of image trait and related objects */
 sealed trait ImageSize { def name:String }
 object ImageSize {
@@ -43,7 +46,7 @@ sealed trait ImageInfo extends FileInfo {
 	def height:Int
 	def size:ImageSize
 }
-case class Image(override val path:String, override val url:String, alt:String, width:Int, height:Int, size:ImageSize) extends File(path,url) with ImageInfo
+case class Image(path:String, url:String, alt:String, width:Int, height:Int, size:ImageSize) extends File with ImageInfo
 object Image {
 	val NodeType = "wk:image"
 	val Alt = "alt"
@@ -52,21 +55,23 @@ object Image {
 }
 /** ImageAsset supporting 'set' */
 case class ImageSet(private val images:Map[ImageSize,ImageInfo]) {
-	def this(info:ImageInfo) = this(Map(info.size -> info))
-	def this(images:ImageInfo*) = this(images.foldLeft(Map[ImageSize,ImageInfo]())((map,image) => map + (image.size -> image)))
 	def apply(info:ImageInfo) = new ImageSet(images + (info.size -> info))
 	def apply(size:ImageSize) = if (images contains size) { Some(images(size)) } else { None }
 	def foreach(fcn:(ImageInfo) => Unit) = images.values.foreach(fcn)
 }
+object ImageSet {
+	def apply(info:ImageInfo):ImageSet = ImageSet(Map(info.size -> info))
+	def apply(images:ImageInfo*):ImageSet = ImageSet(images.foldLeft(Map[ImageSize,ImageInfo]())((map,image) => map + (image.size -> image)))
+}
 // Image related asset classes
-case class ImageAsset(val contentInfo:ContentInfo, val title:String, val images:ImageSet) extends Asset {
+case class ImageAsset(contentInfo:ContentInfo, title:String, images:ImageSet) extends Asset {
 	def cp(uuid:String) = ImageAsset(contentInfo.cp(uuid), title, images)
 }
 object ImageAsset {
 	val NodeType = "wk:imageAsset"
 }
 // Copy related asset classes
-case class CopyAsset(val contentInfo:ContentInfo, val title:String, val body:NodeSeq) extends Asset {
+case class CopyAsset(contentInfo:ContentInfo, title:String, body:NodeSeq) extends Asset {
 	def cp(uuid:String) = CopyAsset(contentInfo.cp(uuid), title, body)
 }
 object CopyAsset {
@@ -74,14 +79,14 @@ object CopyAsset {
 	val Body = "body"
 }
 // Download related asset classes (video, audio, archive, document)
-case class DownloadableAsset(val contentInfo:ContentInfo, val title:String, val path:String, val url:String) extends Asset with FileInfo {
+case class DownloadableAsset(contentInfo:ContentInfo, title:String, path:String, url:String) extends Asset with FileInfo {
 	def cp(uuid:String) = DownloadableAsset(contentInfo.cp(uuid), title, url, path)
 }
 object DownloadableAsset {
 	val NodeType = "wk:downloadAsset"
 }
 // Press (link to press) asset
-case class PressAsset(val contentInfo:ContentInfo, val title:String, val author:String, val source:String, val sourceName:String) extends Asset {
+case class PressAsset(contentInfo:ContentInfo, title:String, author:String, source:String, sourceName:String) extends Asset {
 	def cp(uuid:String) = PressAsset(contentInfo.cp(uuid), title, author, source, sourceName)
 }
 object PressAsset {
@@ -91,7 +96,7 @@ object PressAsset {
 	val SourceName = "sourceName"
 }
 // Award (Info about awards) asset
-case class AwardAsset(val contentInfo:ContentInfo, val title:String, val source:String, val description:CopyAsset, val image:ImageAsset) extends Asset {
+case class AwardAsset(contentInfo:ContentInfo, title:String, source:String, description:CopyAsset, image:ImageAsset) extends Asset {
 	def cp(uuid:String) = AwardAsset(contentInfo.cp(uuid), title, source, description, image)
 }
 object AwardAsset {

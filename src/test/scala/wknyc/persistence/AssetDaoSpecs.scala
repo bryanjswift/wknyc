@@ -22,7 +22,7 @@ object AssetDaoSpecs extends Specification {
 			val asset = ImageAsset(
 					ContentInfo(root),
 					"Test Image",
-					new ImageSet(new Image("/path/to/what","http://example.com/path","alt",15,20,TinyThumbnail))
+					ImageSet(new Image("/path/to/what","http://example.com/path","alt",15,20,TinyThumbnail))
 				)
 			dao.save(asset).uuid must beSome[String]
 		}
@@ -31,7 +31,7 @@ object AssetDaoSpecs extends Specification {
 			val asset = dao.save(ImageAsset(
 					ContentInfo(root),
 					"Test Image",
-					new ImageSet(new Image("/path/to/what","http://example.com/path","alt",15,20,TinyThumbnail))
+					ImageSet(new Image("/path/to/what","http://example.com/path","alt",15,20,TinyThumbnail))
 				))
 			asset.uuid must beSome[String]
 			val retrieved = dao.get(asset.uuid.get)
