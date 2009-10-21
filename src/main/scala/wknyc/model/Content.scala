@@ -1,10 +1,10 @@
 package wknyc.model
 
-import org.joda.time.DateTime
+import java.util.Calendar
 
 /** Class to hold universal content information */
-class ContentInfo(val dateCreated:DateTime, val lastModified:DateTime, val modifiedBy:User, val uuid:Option[String]) {
-	def modify(user:User) = new ContentInfo(dateCreated, new DateTime, user, uuid)
+class ContentInfo(val dateCreated:Calendar, val lastModified:Calendar, val modifiedBy:User, val uuid:Option[String]) {
+	def modify(user:User) = new ContentInfo(dateCreated, Calendar.getInstance, user, uuid)
 	def cp(uuid:String) = new ContentInfo(dateCreated, lastModified, modifiedBy, Some(uuid))
 	private def canEqual(a:Any) = a.isInstanceOf[ContentInfo]
 	def equals(ci:ContentInfo) = 
@@ -22,7 +22,7 @@ class ContentInfo(val dateCreated:DateTime, val lastModified:DateTime, val modif
 object ContentInfo {
 	def apply(user:User) = create(user)
 	def create(user:User) = {
-		val now = new DateTime
+		val now = Calendar.getInstance
 		new ContentInfo(now, now, user, None)
 	}
 }
@@ -30,8 +30,8 @@ object ContentInfo {
 	* without having to extend ContentInfo */
 trait Content {
 	def contentInfo:ContentInfo
-	lazy val dateCreated:DateTime = contentInfo.dateCreated
-	lazy val lastModified:DateTime = contentInfo.lastModified
+	lazy val dateCreated:Calendar = contentInfo.dateCreated
+	lazy val lastModified:Calendar = contentInfo.lastModified
 	lazy val modifiedBy:User = contentInfo.modifiedBy
 	lazy val uuid:Option[String] = contentInfo.uuid
 }

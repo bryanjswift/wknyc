@@ -74,8 +74,8 @@ class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUs
 		writeProperties(n,employee)
 		n.setProperty(Employee.FirstName,employee.firstName)
 		n.setProperty(Employee.LastName,employee.lastName)
-		n.setProperty(Content.DateCreated,ci.dateCreated.toGregorianCalendar)
-		n.setProperty(Content.LastModified,ci.lastModified.toGregorianCalendar)
+		n.setProperty(Content.DateCreated,ci.dateCreated)
+		n.setProperty(Content.LastModified,ci.lastModified)
 		n.setProperty(Content.ModifiedBy, loggedInUser.uuid.get)
 		// remove all SocialNetworks then re-add them
 		// Warning: This could be more efficient if it becomes a bottleneck
@@ -110,8 +110,8 @@ class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUs
 	private def getEmployee(node:Node) =
 		Employee(
 			new ContentInfo(
-				new DateTime(node.getProperty(Content.DateCreated).getDate),
-				new DateTime(node.getProperty(Content.LastModified).getDate),
+				node.getProperty(Content.DateCreated).getDate,
+				node.getProperty(Content.LastModified).getDate,
 				getCredentials(session.getNodeByUUID(node.getProperty(Content.ModifiedBy).getString)),
 				Some(node.getUUID)
 			),
