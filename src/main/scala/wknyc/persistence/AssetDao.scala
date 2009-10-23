@@ -3,7 +3,7 @@ package wknyc.persistence
 import javax.jcr.{Node,Session}
 import org.joda.time.DateTime
 import scala.xml.XML
-import wknyc.model.{Asset,AwardAsset,Content,ContentInfo,CopyAsset,DownloadableAsset,FileInfo,Image,ImageAsset,PressAsset,User}
+import wknyc.model.{Asset,AwardAsset,Content,ContentInfo,CopyAsset,DownloadableAsset,FileInfo,Image,ImageInfo,ImageAsset,PressAsset,User}
 
 class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUser) {
 	require(session.getWorkspace.getName == Config.ContentWorkspace,"Can only save/get Assets from ContentWorkspace")
@@ -58,6 +58,13 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 		node.setProperty(FileInfo.Path,file.path)
 		node.setProperty(FileInfo.Url,file.url)
 	}
+	private def writeImageProperties(parent:Node,info:ImageInfo) = {
+		val n = getUnversionedNode(parent,info.size.name,Image.NodeType)
+		writeFileInfoProperties(n, info)
+		n.setProperty(Image.Alt, info.alt)
+		n.setProperty(Image.Height, info.height)
+		n.setProperty(Image.Width, info.width)
+	}
 	/** Write general AwardAsset properties to a node
 		* @param node to write into
 		* @param award to be written
@@ -89,13 +96,7 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 		* @param image asset holding data to write
 		*/
 	private def writeProperties(node:Node,image:ImageAsset) = {
-		image.images.foreach(info => {
-			val n = getUnversionedNode(node,info.size.name,Image.NodeType)
-			writeFileInfoProperties(n, info)
-			n.setProperty(Image.Alt, info.alt)
-			n.setProperty(Image.Height, info.height)
-			n.setProperty(Image.Width, info.width)
-		})
+		image.images.foreach(info => writeImageProperties(node,info))
 		writeAssetProperties(node,image)
 	}
 	/** Write properties of a PressAsset to a node
