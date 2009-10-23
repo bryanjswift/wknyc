@@ -27,31 +27,18 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 		* @returns a copy of the asset with it's uuid updated
 		*/
 	def save[T <: Asset](asset:T):T = {
-		val (root,nt) = asset match {
-			case copy:CopyAsset => (CopyRoot,CopyAsset.NodeType)
-			case download:DownloadableAsset => (DownloadableRoot,DownloadableAsset.NodeType)
-			case image:ImageAsset => (ImageRoot,ImageAsset.NodeType)
-			case press:PressAsset => (PressRoot,PressAsset.NodeType)
-			case award:AwardAsset => (AwardRoot,AwardAsset.NodeType)
+		val node = asset match {
+			case copy:CopyAsset =>  writeProperties(getNode(CopyRoot,asset.title,CopyAsset.NodeType),copy)
+			case download:DownloadableAsset =>
+				writeProperties(getNode(DownloadableRoot,asset.title,DownloadableAsset.NodeType),download)
+			case image:ImageAsset => writeProperties(getNode(ImageRoot,asset.title,ImageAsset.NodeType),image)
+			case press:PressAsset => writeProperties(getNode(PressRoot,asset.title,PressAsset.NodeType),press)
+			case award:AwardAsset => writeProperties(getNode(AwardRoot,asset.title,AwardAsset.NodeType),award)
 		}
-		val node = getNode(root,asset.title,nt)
-		writeProperties(node,asset)
 		session.save
 		node.checkin
 		asset.cp(node.getUUID).asInstanceOf[T]
 	}
-	/** Write the properties of an Asset to the provided node based on it's type
-		* @param node to write into
-		* @asset to be written
-		*/
-	private def writeProperties[T <: Asset](node:Node,asset:T):Unit =
-		asset match {
-			case copy:CopyAsset => writeProperties(node,copy)
-			case download:DownloadableAsset => writeProperties(node,download)
-			case image:ImageAsset => writeProperties(node,image)
-			case press:PressAsset => writeProperties(node,press)
-			case award:AwardAsset => writeProperties(node,award)
-		}
 	/** Write general Asset properties to a node
 		* @param node to write into
 		* @param asset to be written
@@ -61,6 +48,7 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 		node.setProperty(Content.DateCreated,asset.contentInfo.dateCreated)
 		node.setProperty(Content.LastModified,asset.contentInfo.lastModified)
 		node.setProperty(Content.ModifiedBy, loggedInUser.uuid.get)
+		node
 	}
 	/** Write general FileInfo properties to a node
 		* @param node to write into
@@ -75,33 +63,32 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 		* @param award to be written
 		*/
 	private def writeProperties(node:Node,award:AwardAsset) = {
-		writeAssetProperties(node,award)
 		node.setProperty(AwardAsset.Description,session.getNodeByUUID(award.description.uuid.get))
 		node.setProperty(AwardAsset.Image,session.getNodeByUUID(award.image.uuid.get))
 		node.setProperty(AwardAsset.Source,award.source)
+		writeAssetProperties(node,award)
 	}
 	/** Write properties of a CopyAsset to a node
 		* @param node to write
 		* @param copy asset holding data
 		*/
 	private def writeProperties(node:Node,copy:CopyAsset) = {
-		writeAssetProperties(node,copy)
 		node.setProperty(CopyAsset.Body,copy.body.toString)
+		writeAssetProperties(node,copy)
 	}
 	/** Write properties of a DownloadableAsset to a node
 		* @param node to write
 		* @param download asset holding data
 		*/
 	private def writeProperties(node:Node,download:DownloadableAsset) = {
-		writeAssetProperties(node,download)
 		writeFileInfoProperties(node, download)
+		writeAssetProperties(node,download)
 	}
 	/** Write properties of an ImageAsset to a node
 		* @param node to write to
 		* @param image asset holding data to write
 		*/
 	private def writeProperties(node:Node,image:ImageAsset) = {
-		writeAssetProperties(node,image)
 		image.images.foreach(info => {
 			val n = getUnversionedNode(node,info.size.name,Image.NodeType)
 			writeFileInfoProperties(n, info)
@@ -109,16 +96,17 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 			n.setProperty(Image.Height, info.height)
 			n.setProperty(Image.Width, info.width)
 		})
+		writeAssetProperties(node,image)
 	}
 	/** Write properties of a PressAsset to a node
 		* @param node to write into
 		* @param press asset holding data
 		*/
 	private def writeProperties(node:Node,press:PressAsset) = {
-		writeAssetProperties(node,press)
 		node.setProperty(PressAsset.Author,press.author)
 		node.setProperty(PressAsset.Source,press.source)
 		node.setProperty(PressAsset.SourceName,press.sourceName)
+		writeAssetProperties(node,press)
 	}
 	/** Retrieve an Asset by uuid
 		* @param uuid of asset to retrieve
