@@ -1,7 +1,7 @@
 package wknyc.persistence
 
 import org.specs.Specification
-import wknyc.model.{ContentInfo,CopyAsset,DownloadableAsset,Image,ImageAsset,ImageSet,PressAsset,TinyThumbnail,WkCredentials}
+import wknyc.model.{AwardAsset,ContentInfo,CopyAsset,DownloadableAsset,Image,ImageAsset,ImageSet,PressAsset,TinyThumbnail,WkCredentials}
 
 object AssetDaoSpecs extends Specification {
 	"AssetDao" should {
@@ -98,6 +98,50 @@ object AssetDaoSpecs extends Specification {
 					"Rick Castle",
 					"http://example.com",
 					"Example Name"
+				))
+			asset.uuid must beSome[String]
+			val retrieved = dao.get(asset.uuid.get)
+			asset must_== retrieved
+		}
+		"save a AwardAsset" >> {
+			val dao = new AssetDao(session,root)
+			val image = dao.save(ImageAsset(
+					ContentInfo(root),
+					"Test Image",
+					ImageSet(new Image("/path/to/what","http://example.com/path","alt",15,20,TinyThumbnail))
+				))
+			val copy = dao.save(CopyAsset(
+					ContentInfo(root),
+					"Test Copy",
+					<p>This is just a test copy block</p>
+				))
+			val asset = AwardAsset(
+					ContentInfo(root),
+					"Test Award",
+					"Rick Castle",
+					copy,
+					image
+				)
+			dao.save(asset).uuid must beSome[String]
+		}
+		"get a saved AwardAsset" >> {
+			val dao = new AssetDao(session,root)
+			val image = dao.save(ImageAsset(
+					ContentInfo(root),
+					"Test Image",
+					ImageSet(new Image("/path/to/what","http://example.com/path","alt",15,20,TinyThumbnail))
+				))
+			val copy = dao.save(CopyAsset(
+					ContentInfo(root),
+					"Test Copy",
+					<p>This is just a test copy block</p>
+				))
+			val asset = dao.save(AwardAsset(
+					ContentInfo(root),
+					"Test Award",
+					"Rick Castle",
+					copy,
+					image
 				))
 			asset.uuid must beSome[String]
 			val retrieved = dao.get(asset.uuid.get)

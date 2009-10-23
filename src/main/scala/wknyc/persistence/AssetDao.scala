@@ -3,7 +3,7 @@ package wknyc.persistence
 import javax.jcr.{Node,Session}
 import org.joda.time.DateTime
 import scala.xml.XML
-import wknyc.model.{Asset,Content,ContentInfo,CopyAsset,DownloadableAsset,FileInfo,Image,ImageAsset,PressAsset,User}
+import wknyc.model.{Asset,AwardAsset,Content,ContentInfo,CopyAsset,DownloadableAsset,FileInfo,Image,ImageAsset,PressAsset,User}
 
 class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUser) {
 	require(session.getWorkspace.getName == Config.ContentWorkspace,"Can only save/get Assets from ContentWorkspace")
@@ -20,6 +20,8 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 	private lazy val DownloadableRoot = getUnversionedNode("DownloadableAssets")
 	// Get a root node for PressAsset objects
 	private lazy val PressRoot = getUnversionedNode("PressAssets")
+	// Get a root node for AwardAsset objects
+	private lazy val AwardRoot = getUnversionedNode("AwardAssets")
 	/** Save the provided asset in it's appropriate location
 		* @param asset to be saved
 		* @returns a copy of the asset with it's uuid updated
@@ -30,6 +32,7 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 			case download:DownloadableAsset => (DownloadableRoot,DownloadableAsset.NodeType)
 			case image:ImageAsset => (ImageRoot,ImageAsset.NodeType)
 			case press:PressAsset => (PressRoot,PressAsset.NodeType)
+			case award:AwardAsset => (AwardRoot,AwardAsset.NodeType)
 		}
 		val node = getNode(root,asset.title,nt)
 		writeProperties(node,asset)
@@ -47,6 +50,7 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 			case download:DownloadableAsset => writeProperties(node,download)
 			case image:ImageAsset => writeProperties(node,image)
 			case press:PressAsset => writeProperties(node,press)
+			case award:AwardAsset => writeProperties(node,award)
 		}
 	/** Write general Asset properties to a node
 		* @param node to write into
@@ -65,6 +69,16 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 	private def writeFileInfoProperties(node:Node,file:FileInfo) = {
 		node.setProperty(FileInfo.Path,file.path)
 		node.setProperty(FileInfo.Url,file.url)
+	}
+	/** Write general AwardAsset properties to a node
+		* @param node to write into
+		* @param award to be written
+		*/
+	private def writeProperties(node:Node,award:AwardAsset) = {
+		writeAssetProperties(node,award)
+		node.setProperty(AwardAsset.Description,session.getNodeByUUID(award.description.uuid.get))
+		node.setProperty(AwardAsset.Image,session.getNodeByUUID(award.image.uuid.get))
+		node.setProperty(AwardAsset.Source,award.source)
 	}
 	/** Write properties of a CopyAsset to a node
 		* @param node to write
@@ -106,9 +120,14 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 		node.setProperty(PressAsset.Source,press.source)
 		node.setProperty(PressAsset.SourceName,press.sourceName)
 	}
+	/** Retrieve an Asset by uuid
+		* @param uuid of asset to retrieve
+		* @returns Asset corresponding to uuid
+		*/
 	def get(uuid:String) = getByNode(session.getNodeByUUID(uuid))
 	private def getByNode(node:Node) =
 		node.getPrimaryNodeType.getName match {
+			case AwardAsset.NodeType => getAwardAsset(node)
 			case CopyAsset.NodeType => getCopyAsset(node)
 			case DownloadableAsset.NodeType => getDownloadableAsset(node)
 			case ImageAsset.NodeType => getImageAsset(node)
@@ -120,6 +139,14 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 			node.getProperty(Content.LastModified).getDate,
 			userDao.get(node.getProperty(Content.ModifiedBy).getString),
 			Some(node.getUUID)
+		)
+	private def getAwardAsset(node:Node) =
+		AwardAsset(
+			getContentInfo(node),
+			node.getProperty(Asset.Title).getString,
+			node.getProperty(AwardAsset.Source).getString,
+			getCopyAsset(node.getProperty(AwardAsset.Description).getNode),
+			getImageAsset(node.getProperty(AwardAsset.Image).getNode)
 		)
 	private def getCopyAsset(node:Node) =
 		CopyAsset(
