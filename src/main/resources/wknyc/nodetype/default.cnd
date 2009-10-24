@@ -8,7 +8,7 @@ mixin
 
 [wk:asset] > wk:content, mix:referenceable, mix:versionable
 mixin
--title (string) mandatory
+-title (string) primary mandatory
 
 [wk:fileAsset]
 mixin
@@ -41,3 +41,18 @@ mixin
 -source (string) mandatory
 -description (reference)
 -image (reference)
+
+[wk:caseStudy] > nt:base, wk:content
+-assets (reference) multiple
+-description (reference) mandatory
+-downloads (reference) multiple
+-headline (string) mandatory
+-name (string) primary mandatory
+-press (reference) multiple
+-related (reference) multiple
+-studyType (string) mandatory
+-tags (string) multiple
+
+[wk:client] > nt:base, wk:content
+-name (string) primary mandatory
+-caseStudies (reference) multiple
