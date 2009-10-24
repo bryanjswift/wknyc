@@ -33,10 +33,10 @@ class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedIn
 		CaseStudy(
 			getContentInfo(node),
 			assetDao.getCopyAsset(node.getProperty(CaseStudy.Description).getNode),
-			node.getProperty(CaseStudy.Downloads).getValues.map(v => assetDao.get(v.getString).asInstanceOf[DownloadableAsset]),
+			node.getProperty(CaseStudy.Downloads).getValues.map(v => assetDao.get[DownloadableAsset](v.getString)),
 			node.getProperty(CaseStudy.Headline).getString,
 			node.getProperty(CaseStudy.Name).getString,
-			node.getProperty(CaseStudy.Press).getValues.map(v => assetDao.get(v.getString).asInstanceOf[PressAsset]),
+			node.getProperty(CaseStudy.Press).getValues.map(v => assetDao.get[PressAsset](v.getString)),
 			node.getProperty(CaseStudy.Related).getValues.map(v => getCaseStudy(v.getString)),
 			node.getProperty(CaseStudy.StudyType).getString,
 			node.getProperty(CaseStudy.Tags).getValues.map(v => v.getString)
