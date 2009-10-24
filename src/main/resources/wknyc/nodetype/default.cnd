@@ -1,12 +1,12 @@
 <wk = 'http://wk.com'>
 
-[wk:content]
+[wk:content] > mix:referenceable, mix:versionable
 mixin
 -dateCreated (date) mandatory
 -lastModified (date)
 -modifiedBy (string) mandatory
 
-[wk:asset] > wk:content, mix:referenceable, mix:versionable
+[wk:asset] > wk:content
 mixin
 -title (string) primary mandatory
 

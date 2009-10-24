@@ -1,6 +1,6 @@
 <wk = 'http://wk.com'>
 
-[wk:content]
+[wk:content] > mix:referenceable, mix:versionable
 mixin
 -dateCreated (date) mandatory
 -lastModified (date)
