@@ -11,3 +11,4 @@ repository.xml
 target
 webapp/WEB-INF/classes
 webapp/WEB-INF/lib
+wknyc.*
