@@ -4,15 +4,13 @@ class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) {
 	// repository locations (for Jersey)
 	val javaNet = "Java.net Repository for Maven" at "http://download.java.net/maven/2/"
 
-	// Jackrabbit
+	// Jackrabbit and Dependencies
 	val jcr = "javax.jcr" % "jcr" % "1.0"
 	val jackrabbit = "org.apache.jackrabbit" % "jackrabbit-core" % "1.6.0"
 	val slf4j = "org.slf4j" % "slf4j-log4j12" % "1.5.3"
 	// Lucene -- pulled in by jackrabbit dependency
 	// Jersey
 	val jersey = "com.sun.jersey" % "jersey-server" % "1.1.2-ea"
-	// Clojure
-	val clojure = "org.clojure" % "clojure" % "1.0.0"
 	// Joda Time
 	val jodaTime = "joda-time" % "joda-time" % "1.6"
 
