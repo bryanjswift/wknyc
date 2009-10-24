@@ -31,7 +31,7 @@ class WkRepository extends TransientRepository {
 	private var sessions = Set[Session]()
 	override def login(credentials:Credentials,workspaceName:String) = {
 		val session = super.login(credentials,workspaceName)
-		sessions = sessions + session
+		sessions += session
 		val workspace = session.getWorkspace.getName
 		if (!registered.getOrElse(workspace,false)) {
 			registered += (workspace -> true)
@@ -40,9 +40,10 @@ class WkRepository extends TransientRepository {
 		session
 	}
 	override def loggedOut(session:SessionImpl) = {
-		sessions = sessions - session
+		sessions -= session
 		if (sessions.isEmpty) {
 			registered = Map[String,Boolean]()
 		}
+		super.loggedOut(session)
 	}
 }
