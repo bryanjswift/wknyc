@@ -39,5 +39,27 @@ object ClientDaoSpecs extends Specification {
 				)
 			dao.save(caseStudy).uuid must beSome[String]
 		}
+		"get a CaseStudy" >> {
+			val copy = assetDao.save(CopyAsset(
+					ContentInfo(root),
+					"Title",
+					<p>Just a test</p>
+				))
+			val caseStudy =
+				dao.save(CaseStudy(
+					ContentInfo(root),
+					copy,
+					List[DownloadableAsset](),
+					"Headline",
+					"name",
+					List[PressAsset](),
+					List[CaseStudy](),
+					"study type",
+					List[String]()
+				))
+			caseStudy.uuid must beSome[String]
+			val retrieved = dao.getCaseStudy(caseStudy.uuid.get)
+			caseStudy must_== retrieved
+		}
 	}
 }
