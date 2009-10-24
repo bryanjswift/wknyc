@@ -45,5 +45,29 @@ object ClientDaoSpecs extends Specification {
 			val retrieved = dao.getCaseStudy(caseStudy1.uuid.get)
 			caseStudy1 must_== retrieved
 		}
+		"save a Client" >> {
+			val caseStudy1 = dao.save(caseStudy)
+			caseStudy1.uuid must beSome[String]
+			val client =
+				dao.save(Client(
+					ContentInfo(root),
+					"Test Client",
+					List(caseStudy1)
+				))
+			client.uuid must beSome[String]
+		}
+		"get a Client" >> {
+			val caseStudy1 = dao.save(caseStudy)
+			caseStudy1.uuid must beSome[String]
+			val client =
+				dao.save(Client(
+					ContentInfo(root),
+					"Test Client",
+					List(caseStudy1)
+				))
+			client.uuid must beSome[String]
+			val retrieved = dao.getClient(client.uuid.get)
+			client must_== retrieved
+		}
 	}
 }

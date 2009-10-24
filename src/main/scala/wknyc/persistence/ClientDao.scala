@@ -1,7 +1,8 @@
 package wknyc.persistence
 
-import javax.jcr.{Node,PropertyType,Session}
-import wknyc.model.{CaseStudy,DownloadableAsset,PressAsset,User}
+import javax.jcr.{PropertyType,Session}
+import wknyc.Config
+import wknyc.model.{CaseStudy,Client,DownloadableAsset,PressAsset,User}
 
 class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUser) {
 	require(session.getWorkspace.getName == Config.ContentWorkspace,"Can only save/get Assets from ContentWorkspace")
@@ -9,6 +10,8 @@ class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedIn
 	override protected lazy val root = super.root
 	// Root for Case Studies
 	private lazy val CaseStudyRoot = getUnversionedNode("CaseStudys")
+	// Root for Clients
+	private lazy val ClientRoot = getUnversionedNode("Clients")
 	// Need a way to (read only) access user data
 	private def security = Config.Repository.login(Config.Admin, Config.CredentialsWorkspace)
 	protected override lazy val userDao = new UserDao(security,loggedInUser)
@@ -40,6 +43,23 @@ class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedIn
 			node.getProperty(CaseStudy.Related).getValues.map(v => getCaseStudy(v.getString)),
 			node.getProperty(CaseStudy.StudyType).getString,
 			node.getProperty(CaseStudy.Tags).getValues.map(v => v.getString)
+		)
+	}
+	def save(client:Client) = {
+		val node = getNode(ClientRoot,client.name,Client.NodeType)
+		saveContentInfo(node,client.contentInfo.modify(loggedInUser))
+		node.setProperty(Client.Name,client.name)
+		node.setProperty(Client.CaseStudies,client.caseStudies.map(study => study.uuid.get),PropertyType.REFERENCE)
+		session.save
+		node.checkin
+		client.cp(node.getUUID)
+	}
+	def getClient(uuid:String):Client = {
+		val node = session.getNodeByUUID(uuid)
+		Client(
+			getContentInfo(node),
+			node.getProperty(Client.Name).getString,
+			node.getProperty(Client.CaseStudies).getValues.map(v => getCaseStudy(v.getString))
 		)
 	}
 	// Release resources
