@@ -6,6 +6,9 @@ import wknyc.model.{Content,ContentInfo,User}
 abstract class Dao(private val session:Session, private val loggedInUser:User) {
 	protected def root = session.getRootNode
 	protected def userDao:UserDao
+	/** Release resources associated with the Dao
+		*/
+	def close
 	/** Create/retrieve an unstructured node from the root of the session's workspace
 		* @param name of the node to retrieve
 		* @returns Node with the given name
@@ -70,9 +73,11 @@ abstract class Dao(private val session:Session, private val loggedInUser:User) {
 			userDao.get(node.getProperty(Content.ModifiedBy).getString),
 			Some(node.getUUID)
 		)
-	/** Release resources associated with the Dao
-		*/
-	def close
+	protected def saveContentInfo(node:Node,content:ContentInfo) = {
+		node.setProperty(Content.DateCreated,content.dateCreated)
+		node.setProperty(Content.LastModified,content.lastModified)
+		node.setProperty(Content.ModifiedBy, loggedInUser.uuid.get)
+	}
 	// Convert a NodeIterator to an actual Iterator with generics
 	implicit protected def nodeiterator2iterator(nodeIterator:NodeIterator):Iterator[Node] = new Iterator[Node] {
 		def hasNext = nodeIterator.hasNext

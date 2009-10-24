@@ -76,9 +76,7 @@ class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUs
 		writeProperties(n,employee)
 		n.setProperty(Employee.FirstName,employee.firstName)
 		n.setProperty(Employee.LastName,employee.lastName)
-		n.setProperty(Content.DateCreated,ci.dateCreated)
-		n.setProperty(Content.LastModified,ci.lastModified)
-		n.setProperty(Content.ModifiedBy, loggedInUser.uuid.get)
+		saveContentInfo(n,employee.contentInfo.modify(loggedInUser))
 		// remove all SocialNetworks then re-add them
 		// Warning: This could be more efficient if it becomes a bottleneck
 		n.getNodes.foreach(sn => sn.remove)
