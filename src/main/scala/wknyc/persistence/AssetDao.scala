@@ -110,7 +110,7 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 		* @param uuid of asset to retrieve
 		* @returns Asset corresponding to uuid
 		*/
-	def get(uuid:String) = getByNode(session.getNodeByUUID(uuid))
+	def get[T <: Asset](uuid:String):T = getByNode(session.getNodeByUUID(uuid)).asInstanceOf[T]
 	/** Get appropriate object based on primary node type of given node
 		* @param node to retrieve from
 		* @returns Asset depending on node type

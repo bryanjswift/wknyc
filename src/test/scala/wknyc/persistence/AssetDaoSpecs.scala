@@ -32,7 +32,7 @@ object AssetDaoSpecs extends Specification {
 					ImageSet(new Image("/path/to/what","http://example.com/path","alt",15,20,TinyThumbnail))
 				))
 			asset.uuid must beSome[String]
-			val retrieved = dao.get(asset.uuid.get)
+			val retrieved = dao.get[ImageAsset](asset.uuid.get)
 			asset must_== retrieved
 		}
 		"save a CopyAsset" >> {
@@ -50,7 +50,7 @@ object AssetDaoSpecs extends Specification {
 					<p>This is just a test copy block</p>
 				))
 			asset.uuid must beSome[String]
-			val retrieved = dao.get(asset.uuid.get)
+			val retrieved = dao.get[CopyAsset](asset.uuid.get)
 			asset must_== retrieved
 		}
 		"save a DownloadableAsset" >> {
@@ -70,7 +70,7 @@ object AssetDaoSpecs extends Specification {
 					"http://example.com/path"
 				))
 			asset.uuid must beSome[String]
-			val retrieved = dao.get(asset.uuid.get)
+			val retrieved = dao.get[DownloadableAsset](asset.uuid.get)
 			asset must_== retrieved
 		}
 		"save a PressAsset" >> {
@@ -92,7 +92,7 @@ object AssetDaoSpecs extends Specification {
 					"Example Name"
 				))
 			asset.uuid must beSome[String]
-			val retrieved = dao.get(asset.uuid.get)
+			val retrieved = dao.get[PressAsset](asset.uuid.get)
 			asset must_== retrieved
 		}
 		"save a AwardAsset" >> {
@@ -134,7 +134,7 @@ object AssetDaoSpecs extends Specification {
 					image
 				))
 			asset.uuid must beSome[String]
-			val retrieved = dao.get(asset.uuid.get)
+			val retrieved = dao.get[AwardAsset](asset.uuid.get)
 			asset must_== retrieved
 		}
 	}
