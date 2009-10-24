@@ -32,6 +32,7 @@ object CaseStudy {
 case class Client(contentInfo:ContentInfo, name:String, caseStudies:List[CaseStudy]) extends Content {
 	def cp(uuid:String) = Client(contentInfo.cp(uuid), name, caseStudies)
 }
+
 object Client {
 	val NodeType = "wk:client"
 	val Name = "name"
