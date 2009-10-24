@@ -9,16 +9,15 @@ object AssetDaoSpecs extends Specification {
 		setSequential()
 		val securitySession = Config.Repository.login(Config.Admin,Config.CredentialsWorkspace)
 		val session = Config.Repository.login(Config.Admin,Config.ContentWorkspace)
-		var root = WkCredentials("root@wk.com","root","","",None)
+		val userDao = new UserDao(securitySession,Config.Admin)
+		val root = userDao.save(WkCredentials("root@wk.com","root","","",None))
+		val dao:AssetDao = new AssetDao(session,root)
 		doAfterSpec {
+			dao.close
 			securitySession.logout
 			session.logout
 		}
 		"save an ImageAsset" >> {
-			val userDao = new UserDao(securitySession,root)
-			root = userDao.save(root)
-			root.uuid must beSome[String] // Test credential saving
-			val dao = new AssetDao(session,root)
 			val asset = ImageAsset(
 					ContentInfo(root),
 					"Test Image",
@@ -27,7 +26,6 @@ object AssetDaoSpecs extends Specification {
 			dao.save(asset).uuid must beSome[String]
 		}
 		"get an ImageAsset" >> {
-			val dao = new AssetDao(session,root)
 			val asset = dao.save(ImageAsset(
 					ContentInfo(root),
 					"Test Image",
@@ -38,7 +36,6 @@ object AssetDaoSpecs extends Specification {
 			asset must_== retrieved
 		}
 		"save a CopyAsset" >> {
-			val dao = new AssetDao(session,root)
 			val asset = CopyAsset(
 					ContentInfo(root),
 					"Test Copy",
@@ -47,7 +44,6 @@ object AssetDaoSpecs extends Specification {
 			dao.save(asset).uuid must beSome[String]
 		}
 		"get a saved CopyAsset" >> {
-			val dao = new AssetDao(session,root)
 			val asset = dao.save(CopyAsset(
 					ContentInfo(root),
 					"Test Copy",
@@ -58,7 +54,6 @@ object AssetDaoSpecs extends Specification {
 			asset must_== retrieved
 		}
 		"save a DownloadableAsset" >> {
-			val dao = new AssetDao(session,root)
 			val asset = DownloadableAsset(
 					ContentInfo(root),
 					"Test Download",
@@ -68,7 +63,6 @@ object AssetDaoSpecs extends Specification {
 			dao.save(asset).uuid must beSome[String]
 		}
 		"get a saved DownloadableAsset" >> {
-			val dao = new AssetDao(session,root)
 			val asset = dao.save(DownloadableAsset(
 					ContentInfo(root),
 					"Test Download",
@@ -80,7 +74,6 @@ object AssetDaoSpecs extends Specification {
 			asset must_== retrieved
 		}
 		"save a PressAsset" >> {
-			val dao = new AssetDao(session,root)
 			val asset = PressAsset(
 					ContentInfo(root),
 					"Test Press",
@@ -91,7 +84,6 @@ object AssetDaoSpecs extends Specification {
 			dao.save(asset).uuid must beSome[String]
 		}
 		"get a saved PressAsset" >> {
-			val dao = new AssetDao(session,root)
 			val asset = dao.save(PressAsset(
 					ContentInfo(root),
 					"Test Press",
@@ -104,7 +96,6 @@ object AssetDaoSpecs extends Specification {
 			asset must_== retrieved
 		}
 		"save a AwardAsset" >> {
-			val dao = new AssetDao(session,root)
 			val image = dao.save(ImageAsset(
 					ContentInfo(root),
 					"Test Image",
@@ -125,7 +116,6 @@ object AssetDaoSpecs extends Specification {
 			dao.save(asset).uuid must beSome[String]
 		}
 		"get a saved AwardAsset" >> {
-			val dao = new AssetDao(session,root)
 			val image = dao.save(ImageAsset(
 					ContentInfo(root),
 					"Test Image",
