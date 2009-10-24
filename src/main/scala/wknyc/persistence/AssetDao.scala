@@ -7,7 +7,7 @@ import wknyc.model.{Asset,AwardAsset,Content,ContentInfo,CopyAsset,DownloadableA
 class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUser) {
 	require(session.getWorkspace.getName == Config.ContentWorkspace,"Can only save/get Assets from ContentWorkspace")
 	// Need a way to (read only) access user data
-	private def security = Config.Repository.login(Config.Admin, Config.CredentialsWorkspace)
+	private lazy val security = Config.Repository.login(Config.Admin, Config.CredentialsWorkspace)
 	protected override lazy val userDao = new UserDao(security,loggedInUser)
 	// Make the root for Asset saving a node called Assets
 	override protected lazy val root = getUnversionedNode(super.root,"Assets")
@@ -177,5 +177,8 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 			node.getProperty(PressAsset.SourceName).getString
 		)
 	// Release resources
-	override def close = userDao.close
+	override def close = {
+		userDao.close
+		security.logout
+	}
 }
