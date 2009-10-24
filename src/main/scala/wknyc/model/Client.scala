@@ -3,7 +3,6 @@ package wknyc.model
 /** Represent the Case Study concept which is the primary display unit */
 case class CaseStudy(
 	contentInfo:ContentInfo,
-	assets:List[Asset],
 	description:CopyAsset,
 	downloads:List[DownloadableAsset],
 	headline:String,
@@ -13,12 +12,11 @@ case class CaseStudy(
 	studyType:String,
 	tags:List[String]
 ) extends Content {
-	def cp(uuid:String) = CaseStudy(contentInfo.cp(uuid),assets,description,downloads,headline,name,press,related,studyType,tags)
+	def cp(uuid:String) = CaseStudy(contentInfo.cp(uuid),description,downloads,headline,name,press,related,studyType,tags)
 }
 
 object CaseStudy {
 	val NodeType = "wk:caseStudy"
-	val Assets = "assets"
 	val Description = "description"
 	val Downloads = "downloads"
 	val Headline = "headline"
