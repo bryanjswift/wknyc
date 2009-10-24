@@ -4,23 +4,23 @@ import java.util.Calendar
 
 /** Class to hold universal content information */
 class ContentInfo(val dateCreated:Calendar, val lastModified:Calendar, val modifiedBy:User, val uuid:Option[String]) {
-	def modify(user:User) = new ContentInfo(dateCreated, Calendar.getInstance, user, uuid)
-	def cp(uuid:String) = new ContentInfo(dateCreated, lastModified, modifiedBy, Some(uuid))
-	private def canEqual(a:Any) = a.isInstanceOf[ContentInfo]
-	def equals(ci:ContentInfo) = 
-		dateCreated == ci.dateCreated && lastModified == ci.lastModified && modifiedBy == ci.modifiedBy && uuid == ci.uuid
-	override def equals(q:Any) =
-		q match {
-			case that:ContentInfo =>
-				canEqual(q) && equals(that)
+	def cp(uuid:String) = ContentInfo(dateCreated, lastModified, modifiedBy, Some(uuid))
+	def modify(user:User) = ContentInfo(dateCreated, Calendar.getInstance, user, uuid)
+	/** ContentInfo refers to the same Content if dateCreated and uuid are the same */
+	def equals(ci:ContentInfo) = dateCreated == ci.dateCreated && uuid == ci.uuid
+	override def equals(obj:Any) =
+		obj match {
+			case that:ContentInfo => equals(that) && hashCode == that.hashCode
 			case _ => false
 		}
-	override def hashCode =
-		41 * (41 * (41 * (41 + dateCreated.hashCode) + lastModified.hashCode) + modifiedBy.hashCode) + uuid.hashCode
+	override val hashCode =
+		41 * (41 + dateCreated.hashCode) + uuid.hashCode
 }
 // Companion object for ContentInfo, nothing interesting to say
 object ContentInfo {
 	def apply(user:User) = create(user)
+	def apply(dateCreated:Calendar, lastModified:Calendar, modifiedBy:User, uuid:Option[String]) =
+		new ContentInfo(dateCreated, lastModified, modifiedBy, uuid)
 	def create(user:User) = {
 		val now = Calendar.getInstance
 		new ContentInfo(now, now, user, None)
