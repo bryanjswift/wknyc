@@ -12,6 +12,8 @@ class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUs
 	require(session.getWorkspace.getName == Config.CredentialsWorkspace,"Can only save/get Users from CredentialsWorkspace")
 	// Only retrieve root once
 	override protected lazy val root = super.root
+	// Make userDao refer to this
+	override protected lazy val userDao = this
 	/** Save an object which is at least of type User
 		* @param user to be saved delegates to saveCredentials or saveEmployee depending on type
 		* @returns T with uuid populated and lastModified/modifiedBy fields updated (if applicable)
@@ -90,7 +92,7 @@ class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUs
 		* @param s - username or UUID by which a node will be fetched
 		* @returns Employee or User built from node retrieved
 		*/
-	def get(s:String) = {
+	def get(s:String):User = {
 		val node = if (root.hasNode(s)) {
 			root.getNode(s)
 		} else {
@@ -98,6 +100,10 @@ class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUs
 		}
 		getByNode(node)
 	}
+	/** Get appropriate object based on primary node type of given node
+		* @param node to retrieve from
+		* @returns WkCredentials or Employee depending on node type
+		*/
 	private def getByNode(node:Node) =
 		node.getPrimaryNodeType.getName match {
 			case Employee.NodeType => getEmployee(node)
@@ -109,12 +115,7 @@ class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUs
 		*/
 	private def getEmployee(node:Node) =
 		Employee(
-			new ContentInfo(
-				node.getProperty(Content.DateCreated).getDate,
-				node.getProperty(Content.LastModified).getDate,
-				getCredentials(session.getNodeByUUID(node.getProperty(Content.ModifiedBy).getString)),
-				Some(node.getUUID)
-			),
+			getContentInfo(node),
 			getCredentials(node),
 			PersonalInfo(
 				node.getProperty(Employee.FirstName).getString,
@@ -136,4 +137,6 @@ class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUs
 			node.getProperty(User.Title).getString,
 			Some(node.getUUID)
 		)
+	// Release resources
+	override def close = { }
 }

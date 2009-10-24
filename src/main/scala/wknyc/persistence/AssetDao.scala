@@ -1,7 +1,6 @@
 package wknyc.persistence
 
 import javax.jcr.{Node,Session}
-import org.joda.time.DateTime
 import scala.xml.XML
 import wknyc.model.{Asset,AwardAsset,Content,ContentInfo,CopyAsset,DownloadableAsset,FileInfo,Image,ImageInfo,ImageAsset,PressAsset,User}
 
@@ -9,7 +8,7 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 	require(session.getWorkspace.getName == Config.ContentWorkspace,"Can only save/get Assets from ContentWorkspace")
 	// Need a way to (read only) access user data
 	private def security = Config.Repository.login(Config.Admin, Config.CredentialsWorkspace)
-	private lazy val userDao = new UserDao(security,loggedInUser)
+	protected override lazy val userDao = new UserDao(security,loggedInUser)
 	// Make the root for Asset saving a node called Assets
 	override protected lazy val root = getUnversionedNode(super.root,"Assets")
 	// Make the root for ImageAsset saving a node called ImageAssets
@@ -114,6 +113,10 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 		* @returns Asset corresponding to uuid
 		*/
 	def get(uuid:String) = getByNode(session.getNodeByUUID(uuid))
+	/** Get appropriate object based on primary node type of given node
+		* @param node to retrieve from
+		* @returns Asset depending on node type
+		*/
 	private def getByNode(node:Node) =
 		node.getPrimaryNodeType.getName match {
 			case AwardAsset.NodeType => getAwardAsset(node)
@@ -122,14 +125,7 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 			case ImageAsset.NodeType => getImageAsset(node)
 			case PressAsset.NodeType => getPressAsset(node)
 		}
-	private def getContentInfo(node:Node) =
-		new ContentInfo(
-			node.getProperty(Content.DateCreated).getDate,
-			node.getProperty(Content.LastModified).getDate,
-			userDao.get(node.getProperty(Content.ModifiedBy).getString),
-			Some(node.getUUID)
-		)
-	private def getAwardAsset(node:Node) =
+	private[persistence] def getAwardAsset(node:Node) =
 		AwardAsset(
 			getContentInfo(node),
 			node.getProperty(Asset.Title).getString,
@@ -137,31 +133,34 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 			getCopyAsset(node.getProperty(AwardAsset.Description).getNode),
 			getImageAsset(node.getProperty(AwardAsset.Image).getNode)
 		)
-	private def getCopyAsset(node:Node) =
+	private[persistence] def getCopyAsset(node:Node) =
 		CopyAsset(
 			getContentInfo(node),
 			node.getProperty(Asset.Title).getString,
 			XML.loadString(node.getProperty(CopyAsset.Body).getString)
 		)
-	private def getDownloadableAsset(node:Node) =
+	private[persistence] def getDownloadableAsset(node:Node) =
 		DownloadableAsset(
 			getContentInfo(node),
 			node.getProperty(Asset.Title).getString,
 			node.getProperty(FileInfo.Url).getString,
 			node.getProperty(FileInfo.Path).getString
 		)
-	private def getImageAsset(node:Node) = {
-		import wknyc.model.{ImageInfo,ImageSet,ImageSize}
+	private def getImage(node:Node) = {
+		import wknyc.model.ImageSize
+		Image(
+			node.getProperty(FileInfo.Path).getString,
+			node.getProperty(FileInfo.Url).getString,
+			node.getProperty(Image.Alt).getString,
+			node.getProperty(Image.Width).getLong.toInt,
+			node.getProperty(Image.Height).getLong.toInt,
+			ImageSize(node.getName)
+		)
+	}
+	private[persistence] def getImageAsset(node:Node) = {
+		import wknyc.model.{ImageSet,ImageSize}
 		val images = node.getNodes.foldLeft(Map[ImageSize,ImageInfo]())((map,node) =>
-			map + (ImageSize(node.getName) -> Image(
-					node.getProperty(FileInfo.Path).getString,
-					node.getProperty(FileInfo.Url).getString,
-					node.getProperty(Image.Alt).getString,
-					node.getProperty(Image.Width).getLong.toInt,
-					node.getProperty(Image.Height).getLong.toInt,
-					ImageSize(node.getName)
-				)
-			)
+			map + (ImageSize(node.getName) -> getImage(node))
 		)
 		ImageAsset(
 			getContentInfo(node),
@@ -169,7 +168,7 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 			ImageSet(images)
 		)
 	}
-	private def getPressAsset(node:Node) =
+	private[persistence] def getPressAsset(node:Node) =
 		PressAsset(
 			getContentInfo(node),
 			node.getProperty(Asset.Title).getString,
@@ -177,4 +176,6 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 			node.getProperty(PressAsset.Source).getString,
 			node.getProperty(PressAsset.SourceName).getString
 		)
+	// Release resources
+	override def close = userDao.close
 }

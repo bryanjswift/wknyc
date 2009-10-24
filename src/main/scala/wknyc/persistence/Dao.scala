@@ -1,10 +1,11 @@
 package wknyc.persistence
 
 import javax.jcr.{Node,NodeIterator,Session}
-import wknyc.model.User
+import wknyc.model.{Content,ContentInfo,User}
 
-class Dao(private val session:Session, private val loggedInUser:User) {
+abstract class Dao(private val session:Session, private val loggedInUser:User) {
 	protected def root = session.getRootNode
+	protected def userDao:UserDao
 	/** Create/retrieve an unstructured node from the root of the session's workspace
 		* @param name of the node to retrieve
 		* @returns Node with the given name
@@ -58,6 +59,20 @@ class Dao(private val session:Session, private val loggedInUser:User) {
 		} else {
 			parent.addNode(name,nt)
 		}
+	/** Retrieve ContentInfo for a given node
+		* @param node to get ContentInfo from
+		* @returns ContentInfo populated from node
+		*/
+	protected def getContentInfo(node:Node) =
+		new ContentInfo(
+			node.getProperty(Content.DateCreated).getDate,
+			node.getProperty(Content.LastModified).getDate,
+			userDao.get(node.getProperty(Content.ModifiedBy).getString),
+			Some(node.getUUID)
+		)
+	/** Release resources associated with the Dao
+		*/
+	def close
 	// Convert a NodeIterator to an actual Iterator with generics
 	implicit protected def nodeiterator2iterator(nodeIterator:NodeIterator):Iterator[Node] = new Iterator[Node] {
 		def hasNext = nodeIterator.hasNext
