@@ -12,100 +12,73 @@ object AssetDaoSpecs extends Specification {
 		val userDao = new UserDao(securitySession,Config.Admin)
 		val root = userDao.save(WkCredentials("root@wk.com","root","","",None))
 		val dao:AssetDao = new AssetDao(session,root)
+		val imageAsset = ImageAsset(
+				ContentInfo(root),
+				"Test Image",
+				ImageSet(new Image("/path/to/what","http://example.com/path","alt",15,20,TinyThumbnail))
+			)
+		val copyAsset = CopyAsset(
+				ContentInfo(root),
+				"Test Copy",
+				<p>This is just a test copy block</p>
+			)
+		val downloadableAsset = DownloadableAsset(
+				ContentInfo(root),
+				"Test Download",
+				"/path/to/download",
+				"http://example.com/path"
+			)
+		val pressAsset = PressAsset(
+				ContentInfo(root),
+				"Test Press",
+				"Rick Castle",
+				"http://example.com",
+				"Example Name"
+			)
 		doAfterSpec {
 			dao.close
 			securitySession.logout
 			session.logout
 		}
 		"save an ImageAsset" >> {
-			val asset = ImageAsset(
-					ContentInfo(root),
-					"Test Image",
-					ImageSet(new Image("/path/to/what","http://example.com/path","alt",15,20,TinyThumbnail))
-				)
-			dao.save(asset).uuid must beSome[String]
+			dao.save(imageAsset).uuid must beSome[String]
 		}
 		"get an ImageAsset" >> {
-			val asset = dao.save(ImageAsset(
-					ContentInfo(root),
-					"Test Image",
-					ImageSet(new Image("/path/to/what","http://example.com/path","alt",15,20,TinyThumbnail))
-				))
+			val asset = dao.save(imageAsset)
 			asset.uuid must beSome[String]
 			val retrieved = dao.get[ImageAsset](asset.uuid.get)
 			asset must_== retrieved
 		}
 		"save a CopyAsset" >> {
-			val asset = CopyAsset(
-					ContentInfo(root),
-					"Test Copy",
-					<p>This is just a test copy block</p>
-				)
-			dao.save(asset).uuid must beSome[String]
+			dao.save(copyAsset).uuid must beSome[String]
 		}
 		"get a saved CopyAsset" >> {
-			val asset = dao.save(CopyAsset(
-					ContentInfo(root),
-					"Test Copy",
-					<p>This is just a test copy block</p>
-				))
+			val asset = dao.save(copyAsset)
 			asset.uuid must beSome[String]
 			val retrieved = dao.get[CopyAsset](asset.uuid.get)
 			asset must_== retrieved
 		}
 		"save a DownloadableAsset" >> {
-			val asset = DownloadableAsset(
-					ContentInfo(root),
-					"Test Download",
-					"/path/to/download",
-					"http://example.com/path"
-				)
-			dao.save(asset).uuid must beSome[String]
+			dao.save(downloadableAsset).uuid must beSome[String]
 		}
 		"get a saved DownloadableAsset" >> {
-			val asset = dao.save(DownloadableAsset(
-					ContentInfo(root),
-					"Test Download",
-					"/path/to/download",
-					"http://example.com/path"
-				))
+			val asset = dao.save(downloadableAsset)
 			asset.uuid must beSome[String]
 			val retrieved = dao.get[DownloadableAsset](asset.uuid.get)
 			asset must_== retrieved
 		}
 		"save a PressAsset" >> {
-			val asset = PressAsset(
-					ContentInfo(root),
-					"Test Press",
-					"Rick Castle",
-					"http://example.com",
-					"Example Name"
-				)
-			dao.save(asset).uuid must beSome[String]
+			dao.save(pressAsset).uuid must beSome[String]
 		}
 		"get a saved PressAsset" >> {
-			val asset = dao.save(PressAsset(
-					ContentInfo(root),
-					"Test Press",
-					"Rick Castle",
-					"http://example.com",
-					"Example Name"
-				))
+			val asset = dao.save(pressAsset)
 			asset.uuid must beSome[String]
 			val retrieved = dao.get[PressAsset](asset.uuid.get)
 			asset must_== retrieved
 		}
 		"save a AwardAsset" >> {
-			val image = dao.save(ImageAsset(
-					ContentInfo(root),
-					"Test Image",
-					ImageSet(new Image("/path/to/what","http://example.com/path","alt",15,20,TinyThumbnail))
-				))
-			val copy = dao.save(CopyAsset(
-					ContentInfo(root),
-					"Test Copy",
-					<p>This is just a test copy block</p>
-				))
+			val image = dao.save(imageAsset)
+			val copy = dao.save(copyAsset)
 			val asset = AwardAsset(
 					ContentInfo(root),
 					"Test Award",
@@ -116,16 +89,8 @@ object AssetDaoSpecs extends Specification {
 			dao.save(asset).uuid must beSome[String]
 		}
 		"get a saved AwardAsset" >> {
-			val image = dao.save(ImageAsset(
-					ContentInfo(root),
-					"Test Image",
-					ImageSet(new Image("/path/to/what","http://example.com/path","alt",15,20,TinyThumbnail))
-				))
-			val copy = dao.save(CopyAsset(
-					ContentInfo(root),
-					"Test Copy",
-					<p>This is just a test copy block</p>
-				))
+			val image = dao.save(imageAsset)
+			val copy = dao.save(copyAsset)
 			val asset = dao.save(AwardAsset(
 					ContentInfo(root),
 					"Test Award",
