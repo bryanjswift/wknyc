@@ -11,8 +11,6 @@ class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) {
 	// Lucene -- pulled in by jackrabbit dependency
 	// Jersey
 	val jersey = "com.sun.jersey" % "jersey-server" % "1.1.2-ea"
-	// Joda Time
-	val jodaTime = "joda-time" % "joda-time" % "1.6"
 
 	// Specs
 	val specs = "org.scala-tools.testing" % "specs" % "1.6.0" % "test->default"
