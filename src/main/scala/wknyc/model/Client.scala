@@ -1,19 +1,19 @@
 package wknyc.model
 
 /** Represent the Case Study concept which is the primary display unit */
-class CaseStudy(
-	val contentInfo:ContentInfo,
-	val assets:List[Asset],
-	val description:CopyAsset,
-	val downloads:List[DownloadableAsset],
-	val headline:String,
-	val name:String,
-	val press:List[PressAsset],
-	val related:List[CaseStudy],
-	val studyType:String,
-	val tags:List[String]
+case class CaseStudy(
+	contentInfo:ContentInfo,
+	assets:List[Asset],
+	description:CopyAsset,
+	downloads:List[DownloadableAsset],
+	headline:String,
+	name:String,
+	press:List[PressAsset],
+	related:List[CaseStudy],
+	studyType:String,
+	tags:List[String]
 ) extends Content {
-	def cp(uuid:String) = new CaseStudy(contentInfo.cp(uuid),assets,description,downloads,headline,name,press,related,studyType,tags)
+	def cp(uuid:String) = CaseStudy(contentInfo.cp(uuid),assets,description,downloads,headline,name,press,related,studyType,tags)
 }
 
 object CaseStudy {
@@ -29,8 +29,8 @@ object CaseStudy {
 	val Tags = "tags"
 }
 /** Represent a collection of CaseStudy objects */
-class Client(val contentInfo:ContentInfo, val name:String, val caseStudies:List[CaseStudy]) extends Content {
-	def cp(uuid:String) = new Client(contentInfo.cp(uuid), name, caseStudies)
+case class Client(contentInfo:ContentInfo, name:String, caseStudies:List[CaseStudy]) extends Content {
+	def cp(uuid:String) = Client(contentInfo.cp(uuid), name, caseStudies)
 }
 object Client {
 	val NodeType = "wk:client"
