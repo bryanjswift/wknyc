@@ -1,7 +1,7 @@
 package wknyc.persistence
 
 import org.specs.Specification
-import wknyc.model._
+import wknyc.model.{CaseStudy,Client,ContentInfo,CopyAsset,DownloadableAsset,PressAsset,WkCredentials}
 
 object ClientDaoSpecs extends Specification {
 	"ClientDao" should {
