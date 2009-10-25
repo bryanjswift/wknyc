@@ -1,6 +1,7 @@
 package wknyc.persistence
 
 import javax.jcr.{Node,Session}
+import wknyc.Config
 import wknyc.model.{Content,ContentInfo,Employee,PersonalInfo,SocialNetwork,User,WkCredentials}
 
 /** UserDao is created to save and retrieve User type objects from the repository

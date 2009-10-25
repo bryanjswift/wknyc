@@ -1,6 +1,7 @@
 package wknyc.persistence
 
 import javax.jcr.{PropertyType,Session}
+import wknyc.Config
 import wknyc.model.{CaseStudy,Client,DownloadableAsset,PressAsset,User}
 
 class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUser) {

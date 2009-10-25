@@ -2,6 +2,7 @@ package wknyc.persistence
 
 import javax.jcr.{Node,Session}
 import scala.xml.XML
+import wknyc.Config
 import wknyc.model.{Asset,AwardAsset,Content,ContentInfo,CopyAsset,DownloadableAsset,FileInfo,Image,ImageInfo,ImageAsset,PressAsset,User}
 
 class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUser) {

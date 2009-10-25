@@ -1,6 +1,7 @@
 package wknyc.persistence
 
 import org.specs.Specification
+import wknyc.Config
 import wknyc.model.{CaseStudy,Client,ContentInfo,CopyAsset,DownloadableAsset,PressAsset,WkCredentials}
 
 object ClientDaoSpecs extends Specification {
@@ -17,17 +18,30 @@ object ClientDaoSpecs extends Specification {
 				"Title",
 				<p>Just a test</p>
 			))
+		val download = assetDao.save(DownloadableAsset(
+				ContentInfo(root),
+				"Download Title",
+				"/download/path",
+				"download url"
+			))
+		val press = assetDao.save(PressAsset(
+				ContentInfo(root),
+				"Press Title",
+				"Press Author",
+				"Press Source Url?",
+				"Press Source Name"
+			))
 		val caseStudy =
 			CaseStudy(
 				ContentInfo(root),
 				copy,
-				List[DownloadableAsset](),
+				List(download),
 				"Headline",
 				"name",
-				List[PressAsset](),
+				List(press),
 				List[CaseStudy](),
 				"study type",
-				List[String]()
+				List("tag1","tag2","another tag")
 			)
 		val dao = new ClientDao(session,root)
 		doAfterSpec {

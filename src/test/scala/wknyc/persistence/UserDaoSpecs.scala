@@ -1,6 +1,7 @@
 package wknyc.persistence
 
 import org.specs.Specification
+import wknyc.Config
 import wknyc.model.{ContentInfo,Employee,PersonalInfo,SocialNetwork,User,WkCredentials}
 
 object UserDaoSpecs extends Specification {

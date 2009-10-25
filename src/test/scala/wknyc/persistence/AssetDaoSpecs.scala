@@ -1,6 +1,7 @@
 package wknyc.persistence
 
 import org.specs.Specification
+import wknyc.Config
 import wknyc.model.{AwardAsset,ContentInfo,CopyAsset,DownloadableAsset,Image,ImageAsset,ImageSet,PressAsset,TinyThumbnail,WkCredentials}
 
 object AssetDaoSpecs extends Specification {
