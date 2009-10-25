@@ -15,6 +15,8 @@ class ContentInfo(val dateCreated:Calendar, val lastModified:Calendar, val modif
 		}
 	override val hashCode =
 		41 * (41 + dateCreated.hashCode) + uuid.hashCode
+	override val toString =
+		List(dateCreated.getTimeInMillis,lastModified.getTimeInMillis,modifiedBy.username,uuid.toString).mkString("ContentInfo(",", ",")")
 }
 // Companion object for ContentInfo, nothing interesting to say
 object ContentInfo {
