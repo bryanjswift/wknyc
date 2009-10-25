@@ -1,4 +1,4 @@
-package wknyc.web.rest
+package wknyc.web.providers
 
 import java.lang.{String, Class}
 import javax.ws.rs.core.{MultivaluedMap, MediaType}
