@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<h1>WKNYC.COM Registration Form</h1>
-		<form method="POST" action="/wk/v1/users/register">
+		<form method="POST" action="wk/v1/users/register">
 			<label for="username">Username</label>
 			<input type="text" id="username" name="username" value="" />
 			<label for="password">Password</label>
