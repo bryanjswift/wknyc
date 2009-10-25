@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<title>WKNYC Registration</title>
+		<link type="text/css" rel="stylesheet" href="css/main.css" />
+	</head>
+	<body>
+		<h1>WKNYC.COM Registration Form</h1>
+		<form method="POST" action="/wk/v1/users/register">
+			<label for="username">Username</label>
+			<input type="text" id="username" name="username" value="" />
+			<label for="password">Password</label>
+			<input type="password" id="password" name="password" value="" />
+			<label for="department">Department</label>
+			<input type="text" id="department" name="department" value="" />
+			<label for="title">Title</label>
+			<input type="text" id="title" name="title" value="" />
+		</form>
+		<script type="text/javascript" src="js/main.js"></script>
+	</body>
+</html>
+
