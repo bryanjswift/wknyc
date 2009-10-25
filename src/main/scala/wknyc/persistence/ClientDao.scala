@@ -13,8 +13,9 @@ class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedIn
 	// Root for Clients
 	private lazy val ClientRoot = getUnversionedNode("Clients")
 	// Need a way to (read only) access user data
-	private def security = Config.Repository.login(Config.Admin, Config.CredentialsWorkspace)
+	private lazy val security = Config.Repository.login(Config.Admin, Config.CredentialsWorkspace)
 	protected override lazy val userDao = new UserDao(security,loggedInUser)
+	// Need a way to (read only) access asset data
 	private lazy val assetDao = new AssetDao(session,loggedInUser)
 	def save(caseStudy:CaseStudy) = {
 		val node = getNode(CaseStudyRoot,caseStudy.name,CaseStudy.NodeType)
@@ -63,7 +64,11 @@ class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedIn
 		)
 	}
 	// Release resources
-	override def close = userDao.close
+	override def close = {
+		assetDao.close
+		security.logout
+		userDao.close
+	}
 	// Implicitly convert List to Array so .toArray isn't everywhere
 	private implicit def list2array[T](l:List[T]):Array[T] = l.toArray
 	// Implicitly convert Array to List so .toList isn't everywhere

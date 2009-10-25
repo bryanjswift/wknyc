@@ -177,7 +177,7 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 		)
 	// Release resources
 	override def close = {
-		userDao.close
 		security.logout
+		userDao.close
 	}
 }

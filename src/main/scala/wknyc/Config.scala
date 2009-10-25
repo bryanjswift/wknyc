@@ -37,6 +37,7 @@ class WkRepository extends TransientRepository {
 			registered += (workspace -> true)
 			Config.registerNodeTypes(session)
 		}
+		//Console.println("WkRepository::login - Num. Sessions: " + sessions.size)
 		session
 	}
 	override def loggedOut(session:SessionImpl) = {
@@ -44,6 +45,7 @@ class WkRepository extends TransientRepository {
 		if (sessions.isEmpty) {
 			registered = Map[String,Boolean]()
 		}
+		//Console.println("WkRepository::loggedOut - Num. Sessions: " + sessions.size)
 		super.loggedOut(session)
 	}
 }
