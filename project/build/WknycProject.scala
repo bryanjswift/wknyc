@@ -5,7 +5,7 @@ class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) {
 	val javaNet = "Java.net Repository for Maven" at "http://download.java.net/maven/2/"
 
 	// define project for submodule
-	lazy val simpleVelocity = project("simple-velocity")
+	lazy val simpleVelocityProject = project("simple-velocity")
 
 	// Jackrabbit and Dependencies
 	val jcr = "javax.jcr" % "jcr" % "1.0"
@@ -14,6 +14,9 @@ class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) {
 	// Lucene -- pulled in by jackrabbit dependency
 	// Jersey
 	val jersey = "com.sun.jersey" % "jersey-server" % "1.1.2-ea"
+	// Velocity
+	val velocity = "org.apache.velocity" % "velocity" % "1.6.1"
+	val simpleVelocity = "simple-velocity" / "target" * "*simple-velocity-0.1.jar"
 
 	// Specs
 	val specs = "org.scala-tools.testing" % "specs" % "1.6.0" % "test->default"
