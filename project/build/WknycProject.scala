@@ -4,6 +4,9 @@ class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) {
 	// repository locations (for Jersey)
 	val javaNet = "Java.net Repository for Maven" at "http://download.java.net/maven/2/"
 
+	// define project for submodule
+	lazy val simpleVelocity = project("simple-velocity")
+
 	// Jackrabbit and Dependencies
 	val jcr = "javax.jcr" % "jcr" % "1.0"
 	val jackrabbit = "org.apache.jackrabbit" % "jackrabbit-core" % "1.6.0"
