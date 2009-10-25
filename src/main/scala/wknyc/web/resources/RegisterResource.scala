@@ -25,7 +25,6 @@ class RegisterResource {
 			val user = dao.save(WkCredentials(username,password,department,title,None))
 			val xml =
 				<Response>
-					<Status>200</Status>
 					<Message>Credentials successfully created for {user.username}</Message>
 					<Credentials>
 						<UUID>{user.uuid.get}</UUID>
@@ -61,7 +60,6 @@ class RegisterResource {
 			))
 			val xml =
 				<Response>
-					<Status>200</Status>
 					<Message>Employee successfully created for {employee.username}</Message>
 					<Credentials>
 						<UUID>{employee.uuid.get}</UUID>
@@ -79,4 +77,3 @@ class RegisterResource {
 		}
   }
 }
-

@@ -2,6 +2,7 @@ package wknyc.security
 
 import javax.jcr.{Credentials,Node,RepositoryException,Session,SimpleCredentials}
 import org.apache.jackrabbit.core.security.authentication.Authentication
+import wknyc.Config
 import wknyc.model.WkCredentials
 
 class WkAuthentication(private val systemSession:Session) extends Authentication {
