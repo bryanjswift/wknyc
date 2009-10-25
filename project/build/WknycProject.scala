@@ -15,8 +15,8 @@ class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) {
 	// Jersey
 	val jersey = "com.sun.jersey" % "jersey-server" % "1.1.2-ea"
 	// Velocity
-	val velocity = "org.apache.velocity" % "velocity" % "1.6.1"
-	val simpleVelocity = "simple-velocity" / "target" * "*simple-velocity-0.1.jar"
+	val velocity = "org.apache.velocity" % "velocity" % "1.6.2"
+	val velocityTools = "org.apache.velocity" % "velocity-tools" % "2.0-beta4"
 
 	// Specs
 	val specs = "org.scala-tools.testing" % "specs" % "1.6.0" % "test->default"
