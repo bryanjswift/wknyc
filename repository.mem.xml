@@ -53,7 +53,7 @@
 		</AccessManager>
 		<LoginModule class="wknyc.security.WkLoginModule">
 			<!--<para name="principalProvider" value="class.name" />-->
-			<!-- 
+			<!--
 					anonymous user name ('anonymous' is the default value)
 			-->
 			<param name="anonymousId" value="anonymous"/>
@@ -66,7 +66,7 @@
 	<!--
 				location of workspaces root directory and name of default workspace
 	-->
-	<Workspaces rootPath="${rep.home}/workspaces" defaultWorkspace="default"/>
+	<Workspaces rootPath="${rep.home}/workspaces" defaultWorkspace="content" />
 	<!--
 				workspace configuration template:
 				used to create the initial workspace if there's no workspace yet

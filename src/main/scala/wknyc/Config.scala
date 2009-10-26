@@ -10,7 +10,7 @@ import wknyc.model.WkCredentials
 object Config {
 	lazy val Repository = new WkRepository()
 	lazy val CredentialsWorkspace = "security"
-	lazy val ContentWorkspace = "default"
+	lazy val ContentWorkspace = "content"
 	lazy val Admin = WkCredentials("repositoryAdmin@wk.com","Jus1 4 dummy pa5sw0r6","Administration","Administrator",None)
 	lazy val ClassLoader = getClass.getClassLoader
 	def registerNodeTypes(session:Session):Array[NodeType] =
