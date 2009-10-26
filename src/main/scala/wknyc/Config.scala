@@ -1,11 +1,22 @@
 package wknyc
 
+import java.util.Properties
 import javax.jcr.{Credentials,Session}
 import javax.jcr.nodetype.NodeType
 import org.apache.jackrabbit.api.JackrabbitNodeTypeManager
 import org.apache.jackrabbit.core.{SessionImpl,TransientRepository}
 import org.apache.jackrabbit.core.nodetype.NodeTypeManagerImpl
+import scala.collection.jcl.Conversions.convertSet
 import wknyc.model.WkCredentials
+
+object Props {
+	private[this] val properties = new Properties()
+	properties.load(getClass().getClassLoader().getResourceAsStream("wknyc.properties"))
+	def apply(property:String) = properties.getProperty(property)
+	def objectForProperty[T](property:String) = Class.forName(apply(property)).getConstructor().newInstance().asInstanceOf[T]
+	def foreach(fcn: (String,String) => Unit) =
+		properties.keySet.foreach(key => fcn(key.toString,apply(key.toString)))
+}
 
 object Config {
 	lazy val Repository = new WkRepository()
@@ -13,6 +24,7 @@ object Config {
 	lazy val ContentWorkspace = "content"
 	lazy val Admin = WkCredentials("repositoryAdmin@wk.com","Jus1 4 dummy pa5sw0r6","Administration","Administrator",None)
 	lazy val ClassLoader = getClass.getClassLoader
+	Props.foreach((key,value) => System.setProperty(key,value))
 	def registerNodeTypes(session:Session):Array[NodeType] =
 		session.getWorkspace.getName match {
 			case CredentialsWorkspace => registerNodeTypes("security.cnd",session)
