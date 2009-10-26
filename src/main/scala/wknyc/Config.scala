@@ -13,7 +13,8 @@ import java.util.logging.Logger
 object Props {
 	protected val logger = Logger.getLogger(getClass.getName)
 	private[this] val properties = new Properties()
-	load("wknyc.local.properties") // load local properties
+	private[this] val ClassLoader = getClass.getClassLoader
+	load("defaults/wknyc.local.properties") // load local properties
 	load("wknyc.properties") // if non-local properties exist load them to overwrite local properties
 	def apply(property:String) = properties.getProperty(property)
 	def objectForProperty[T](property:String) =
@@ -27,7 +28,7 @@ object Props {
 		properties.keySet.foreach(key => fcn(key.toString,apply(key.toString)))
 	def load(path:String) =
 		try {
-			properties.load(getClass.getClassLoader.getResourceAsStream(path))
+			properties.load(ClassLoader.getResourceAsStream(path))
 		} catch {
 			case ex:Exception =>
 				logger.warning("Unable to load properties in classpath resource : " + path + ". Attempting it threw a " + ex.getClass.getName)
