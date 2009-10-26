@@ -8,14 +8,30 @@ import org.apache.jackrabbit.core.{SessionImpl,TransientRepository}
 import org.apache.jackrabbit.core.nodetype.NodeTypeManagerImpl
 import scala.collection.jcl.Conversions.convertSet
 import wknyc.model.WkCredentials
+import java.util.logging.Logger
 
 object Props {
+	protected val logger = Logger.getLogger(getClass.getName)
 	private[this] val properties = new Properties()
-	properties.load(getClass().getClassLoader().getResourceAsStream("wknyc.properties"))
+	load("wknyc.local.properties") // load local properties
+	load("wknyc.properties") // if non-local properties exist load them to overwrite local properties
 	def apply(property:String) = properties.getProperty(property)
-	def objectForProperty[T](property:String) = Class.forName(apply(property)).getConstructor().newInstance().asInstanceOf[T]
+	def objectForProperty[T](property:String) =
+		try {
+			Class.forName(apply(property)).getConstructor.newInstance.asInstanceOf[T]
+		} catch {
+			case ex:Exception =>
+				logger.warning("Unable to load instance of " + apply(property) + ". A " + ex.getClass.getName + " was thrown")
+		}
 	def foreach(fcn: (String,String) => Unit) =
 		properties.keySet.foreach(key => fcn(key.toString,apply(key.toString)))
+	def load(path:String) =
+		try {
+			properties.load(getClass.getClassLoader.getResourceAsStream(path))
+		} catch {
+			case ex:Exception =>
+				logger.warning("Unable to load properties in classpath resource : " + path + ". Attempting it threw a " + ex.getClass.getName)
+		}
 }
 
 object Config {
