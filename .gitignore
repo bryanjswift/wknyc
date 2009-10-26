@@ -8,7 +8,10 @@ nbactions.xml
 project
 repository
 repository.xml
+src/main/resources/wknyc.properties
 target
 webapp/WEB-INF/classes
 webapp/WEB-INF/lib
-wknyc.*
+wknyc.iml
+wknyc.ipr
+wknyc.iws
