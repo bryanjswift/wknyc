@@ -19,7 +19,7 @@ object Props {
 	def apply(property:String) = properties.getProperty(property)
 	def objectForProperty[T](property:String) =
 		try {
-			Class.forName(apply(property)).getConstructor.newInstance.asInstanceOf[T]
+			Class.forName(apply(property)).getConstructor().newInstance().asInstanceOf[T]
 		} catch {
 			case ex:Exception =>
 				logger.warning("Unable to load instance of " + apply(property) + ". A " + ex.getClass.getName + " was thrown")
