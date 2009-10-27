@@ -5,6 +5,8 @@ import sbt._
 class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) with CleanWebappPlugin with CleanRepositoryPlugin {
 	// repository locations (for Jersey)
 	val javaNet = "Java.net Repository for Maven" at "http://download.java.net/maven/2/"
+	// Repository location for simple-velocity
+	val bryanjswift = "Bryan J Swift" at "http://repos.bryanjswift.com/maven2/"
 
 	// Jackrabbit and Dependencies
 	val jcr = "javax.jcr" % "jcr" % "1.0"
@@ -16,6 +18,7 @@ class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) with CleanW
 	// Velocity
 	val velocity = "org.apache.velocity" % "velocity" % "1.6.2"
 	val velocityTools = "org.apache.velocity" % "velocity-tools" % "2.0-beta4"
+	val simpleVelocity = "bryanjswift" % "simple-velocity" % "0.1.0"
 
 	// Specs
 	val specs = "org.scala-tools.testing" % "specs" % "1.6.0" % "test->default"
