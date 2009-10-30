@@ -43,7 +43,8 @@ object Config {
 	lazy val ContentWorkspace = "content"
 	lazy val Admin = WkCredentials("repositoryAdmin@wk.com","Jus1 4 dummy pa5sw0r6","Administration","Administrator",None)
 	lazy val ClassLoader = getClass.getClassLoader
-	Props.foreach((key,value) => System.setProperty(key,value))
+	val systemProps = List("org.apache.jackrabbit.repository.home","org.apache.jackrabbit.repository.conf")
+	systemProps.foreach(key => System.setProperty(key,Props(key)))
 	def registerNodeTypes(session:Session):Array[NodeType] =
 		session.getWorkspace.getName match {
 			case CredentialsWorkspace => registerNodeTypes("security.cnd",session)
