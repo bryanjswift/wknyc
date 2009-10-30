@@ -108,5 +108,10 @@
 			<id>javanet</id>
 			<url>http://download.java.net/maven/2</url>
 		</repository>
+		<repository>
+			<name>Bryan J Swift</name>
+			<id>bryanjswift</id>
+			<url>http://repos.bryanjswift.com/maven2</url>
+		</repository>
 	</repositories>
 </project>
