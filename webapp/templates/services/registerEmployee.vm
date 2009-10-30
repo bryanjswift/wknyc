@@ -1,0 +1,15 @@
+<Response>
+	#if ($employee)
+		<Message>Employee successfully created for $employee.username()</Message>
+		<Credentials>
+			<UUID>$employee.uuid().get()</UUID>
+			<Username>$employee.username()</Username>
+			<Department>$employee.department()</Department>
+			<Title>$employee.title()</Title>
+			<FirstName>$employee.firstName()</FirstName>
+			<LastName>$employee.lastName()</LastName>
+		</Credentials>
+	#else
+		<Message>Failed to save $username</Message>
+	#end
+</Response>
