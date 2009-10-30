@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>wkync : work</title>
+	<link rel="stylesheet" type="text/css" href="library/css/style.css" />
+	<script type="text/javascript" src="library/js/mootools-1.2.4-core.min.js"></script>
+	<script type="text/javascript" src="library/js/main.js"></script>
+	<script type="text/javascript" src="library/js/wknyc/common/gui/DropDown.js"></script>
+	<script type="text/javascript" src="library/js/wknyc/site/work/WorkListing.js"></script>
+	<script type="text/javascript" src="library/js/xmlparser.js"></script>
+	<script type="text/javascript" src="library/js/lightbox.js"></script>
+	<script type="text/javascript" src="library/js/cufon-yui.js"></script>
+	<script type="text/javascript" src="library/js/Univers_LT_Std_300.font.js"></script>
+	
+    <script type="text/javascript">
+    	function pageInit() {
+		    wknyc.section.currentSection = "work";
+		    wknyc.swf.src.xml = "library/data/work.xml";
+		    
+			var workListing = new wknyc.site.work.WorkListing();
+    	}
+    </script>
+
+	<!--[if lte IE 7]>
+	<link rel="stylesheet" type="text/css" href="css/iestyle.css" />
+	<![endif]-->
+</head>
+<body>
+	<div id="container">
+		<div id="navHead">
+			<h1><a href="#">Wieden + Kennedy</a></h1>
+			<div id="navListContainer">				
+				<ul id="navList">
+					<li id="work" class="label"><a href="workTemplate.html" class="univers">WORK</a>
+					</li>
+					<li id="post" class="label"><a href="postingsTemplate.html" class="univers">POSTINGS</a>						
+					</li>
+					<li id="culture" class="label"><a href="cultureTemplate.html" class="univers">CULTURE</a>
+						<ul class="subMenu">
+							<li id="wknyfm"><a href="#" class="univers">WKNY.FM</a></li>
+							<li id="links"><a href="#" class="univers">LINKS</a></li>
+							<li id="map"><a href="#" class="univers">MAP</a></li>
+							<li id="photo"><a href="#" class="univers">PHOTOS</a></li>
+							<li id="video"><a href="#" class="univers">VIDEOS</a></li>
+							<li id="people"><a href="#" class="univers">PEOPLE</a></li>
+						</ul>
+					</li>
+					<li id="jobs" class="label"><a href="jobsTemplate.html" class="univers">JOBS</a>
+					</li>
+					<li id="contact" class="label"><a href="contactTemplate.html" class="univers">CONTACT</a>
+					</li>
+				</ul>
+			</div>
+			<!-- end of Navigation -->	
+			<div id="rssClientContainer">
+				<div id="rssClientWrap">
+					<h3 id="rss"><a href="#">RSS 2.0</a></h3>
+					<h3 id="clientLogin"><a href="#">Client Login</a></h3>
+				</div>
+			</div>
+			<ul id="sectionTabs">
+				<li class="on">
+					<div class="left"></div>
+					<a class="univers" href="#">Work</a>
+					<div class="right"></div>
+				</li>
+			</ul>
+			<div id="tabWorkGrid" class="">
+				<a class="">Grid View</a>
+			</div>
+			<div id="tabWorkBlog" class="">
+				<a class="">Blog View</a>
+			</div>
+			<div id="searchContainer">
+				<div id="searchInputBkgd">
+					<form method="get" action="">  
+						<input id="searchInput" type="text" value="Search"  name="s" id="s" />  
+						<input id="searchBtn" type="image" src="library/images/btnsIcons/btnGo.gif" id="submit" value="Search" />
+					</form>
+				</div>
+			</div>
+			<div id="soundBtn"><a href="#">Sound Button</a></div>
+		</div>
+		<!-- Beginning of Content Section -->
+		<div id="contentWrap">
+			<div id="contentWhite">
+				<div id="contentInnerDiv" style="">
+					<div id="workNav">
+						<div class="workPager"></div>
+						<ul id="cssdropdown" style="position:absolute;	top:30px;left:720px;">
+							<li style="float:left;font-size:11px;margin:8px 6px 0 0;color:#96b79e;">Filter by:</li>
+							<li class="headlink">
+								<a id="clientFilterToggle">Client</a>
+								 <ul class="filterMenu">
+								 	<li class="filterTop cell"></li>
+								 	<li class="filterMid cell all">All</li>
+									<li class="filterBottom"></li>
+								 </ul>
+							 </li>
+							  <li class="headlinkDate">
+								  <a href="#">Date</a>
+									 <ul>
+								  <li><a href="#">11.29.2008</a></li>
+								  <li><a href="#">11.29.2008</a></li>
+								  <li><a href="#">11.29.2008</a></li>
+								 </ul>
+							 </li>
+						</ul>
+					</div>
+					<!-- start grid area -->
+					<div id="gridMarkup">
+						<div class="workGridContainer">
+							<div style="margin:15px 0 0;width:436px;border-bottom:solid 1px #ebebeb;">
+								<h3 class="grayArrow" style="margin-bottom:17px"></h3>
+								<div style="float:right;width:143px;height:227px;position:relative;margin-bottom:25px;">
+									<p class="workGridDescription"></p>
+									<table cellspacing="0" style="margin:15px 0 0;">
+										<tr>
+											<td class="initThumbRow1 thumbnailContainer"><img src="" width="26" height="26" class="workSqThumb" /></td>
+										</tr>
+										<tr>
+											<td class="initThumbRow2 thumbnailContainer"><img src="" width="26" height="26" class="workSqThumb" /></td>
+										</tr>
+									</table>										
+									<div class="linkDescriptionContainer">
+										<p class="link"></p>
+										<p class="description"></p>
+									</div>
+									<a href="" class="plusBtn" style="margin-bottom:24px;position:absolute;top:202px;left:0;">View Case Study</a>
+								</div>
+								<a class="imgLink">
+									<img src="" width="272" height="227" class="workGridThumb" style="float:left;margin-right:5px;" />
+								</a>
+								<div class="clearer"></div>
+							</div>
+						</div>
+					</div>
+					<!-- end grid area -->
+					<!-- start blog area -->
+					<div id="blogMarkup">
+						<div class="workBlogContainer">
+							<h3 class="grayArrow" style="margin-bottom:17px">Nike Air Force 25</h3>
+							<div style="float:right;width:261px;height:353px;position:relative;margin-bottom:35px;">
+								<p class="workBlogDescription">Nacinia eget, ultricies eu, nisl. Proin pharetra gravida lacus. Cum sociis natoque penatibus et magnis di.</p>
+								<table cellspacing="0" style="margin:15px 0 0;">
+									<tr>
+										<td class="initThumbRow1 thumbnailContainer"><img src="" width="26" height="26" class="workSqThumb" /></td>
+									</tr>
+									<tr>
+										<td class="initThumbRow2 thumbnailContainer"><img src="" width="26" height="26" class="workSqThumb" /></td>
+									</tr>
+								</table>
+								<div class="linkDescriptionContainer">
+									<p class="link">Interactive	</p>
+									<p class="description">07.2007</p>
+								</div>								
+								<a href="#" class="plusBtn" style="margin-bottom:24px;position:absolute;top:328px;left:0;">View Case Study</a>
+							</div>
+							<a class="imgLink">
+								<img src="" width="634" height="353" class="workBlogThumb" style="float:left;margin-right:5px;" alt="" />
+							</a>
+							<div class="clearer"></div>
+						</div>					
+					</div>
+					<!-- end blog area -->
+					<div style="background: url(images/bkgds/centerLineBkgd.png) repeat-y; width:956px;">
+						<div id="workContentContainer">						
+							<div id="workContentAnchor" class="clearer"></div>
+						</div>
+					</div>
+					<div style="height:80px; width:956px;position:relative;">
+						<div class="workPager">
+							<span class="leftPagerArrow" style="margin-right:5px;"><a href="#" class="prevGreenBtn"><img src="library/images/btnsIcons/greenArrowLeft.png" alt="" width="6" height="7" style="margin-bottom:1px" /></a></span>
+							<a href="#" style="margin:0 2px 0 0;">01</a> | <a href="#" style="margin:0 2px;">02</a	> | <a href="#" style="margin:0 2px;">03</a> | <span style="margin:0 2px;text-decoration:underline;">04</span> | <a href="#" style="margin:0 2px;">05</a> | <span style="margin:0 2px;">...</span> <a href="#" style="margin:0 0 0 2px;">09</a>
+							<span style="margin:0 5px;"><a href="#" class="nextGreenBtn"><img src="library/images/btnsIcons/greenArrowRight.png" alt="" width="5" height="7" style="margin-bottom:1px" /></a></span><a href="#" style="margin-left:5px;">Back to Top</a>
+						</div>					
+					</div>
+					<div style="background:white;height:45px; width:956px;"></div>
+				</div>
+			</div>
+			<div id="navListFooter">
+				<ul>
+					<li id="work"><a href="#">WORK</a></li>
+					<li id="post"><a href="#">POSTINGS</a></li>
+					<li id="culture"><a href="#">CULTURE</a></li>
+					<li id="jobs"><a href="#">JOBS</a></li>
+					<li id="contact"><a href="#">CONTACT</a></li>
+				</ul>
+			</div>
+			<div id="rssWkContainer">
+				<div id="rssWkWrap">
+					<h3 id="rss"><a href="#">RSS 2.0</a></h3>
+					<h3 id="wk"><a href="#">wk.com</a></h3>
+				</div>
+			</div>
+			<div id="copyrightFooter">&copy; <a href="#">Wieden + Kennedy</a> | <a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a> | <a href="#">www.wk.com</a></div>
+		</div>
+	</div>
+	<div id="lightbox">
+		<div id="lightboxNfo">
+			<div id="lightboxTitle"></div>
+			<div id="lightboxClose"><a onclick="gallery.lightboxKill();">Close</a></div>
+		</div>
+		<div id="lightboxImg"></div>
+		<div id="lightboxNav">
+			<div id="lightboxDescription"></div>
+			<div id="lightboxPager"><a onclick="prevImage();">Previous</a>&nbsp;|&nbsp;<a onclick="nextImage();">Next</a></div>
+		</div>
+	</div>
+	<div id="modal"></div>		
+</body>
+</html>

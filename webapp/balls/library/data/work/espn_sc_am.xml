@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workcase>
+	<id>espn_sc_am</id>
+	<client>ESPN</client>
+	<title>SPORTSCENTER AM</title>
+	<type>Interactive</type>
+	<month>03</month>
+	<year>2009</year>
+	<description>Nacinia eget, ultricies eu, nisl. Proin pharetra gravida lacus. Cum sociis natoque penatibus et magnis di.</description>
+	<link>workCaseTemplate.html</link>
+	<video autoRewind="true" width="658" height="407" link="" bufferTime="5" share="false">
+		<paths>
+			<path id="video" src="JordanBeLifestylecase.f4v"></path>
+			<path id="image" src="FPO_PROJECT_001_FULL.jpg"></path>
+		</paths>
+		<tracklist>
+			<tracking id="on_video_start" tag=""/>
+			<tracking id="on_video_end" tag=""/>		
+		</tracklist>
+	</video>
+	<gallery>
+		<media client="Nike" type="Interactive" title="Steve Couch Dog" description="03.2009 | Print | NBA to K" linkPdf="pdf.pdf" linkSite="site.html">
+			<images>
+				<image type="tiny" src="steve_couch_dog_tiny.jpg" />
+				<image type="small" src="steve_couch_dog_small.jpg" />
+				<image type="medium" src="steve_couch_dog_medium.jpg" />
+				<image type="large" src="steve_couch_dog_large.jpg" />
+				<image type="full" src="steve_couch_dog_full.jpg" />
+			</images>
+		</media>
+	</gallery>
+	<related>
+		<link href="">
+			<title>ESPN MNF</title>
+			<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+		</link>
+		<link href="">
+			<title>Nike Air Force 25</title>
+			<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+		</link>
+		<link href="">
+			<title>ESPN MNF</title>
+			<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+		</link>
+		<link href="">
+			<title>Nike Air Force 25</title>
+			<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+		</link>
+		<link href="">
+			<title>ESPN MNF</title>
+			<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+		</link>
+		<link href="">
+			<title>Nike Air Force 25</title>
+			<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+		</link>
+	</related>
+	<press>
+		<link href="">
+			<title>The Jumpman In Us All</title>
+			<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+		</link>
+		<link href="">
+			<title>The Jumpman In Us All</title>
+			<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+		</link>
+		<link href="">
+			<title>The Jumpman In Us All</title>
+			<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+		</link>
+		<link href="">
+			<title>The Jumpman In Us All</title>
+			<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+		</link>
+		<link href="">
+			<title>The Jumpman In Us All</title>
+			<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+		</link>
+		<link href="">
+			<title>The Jumpman In Us All</title>
+			<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+		</link>		
+	</press>
+</workcase>

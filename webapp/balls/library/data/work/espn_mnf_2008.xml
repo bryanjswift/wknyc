@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<workcase>
+		<id>espn_mnf_2008</id>
+		<client>ESPN</client>
+		<title>Monday Night Football 2008</title>
+		<type>Interactive</type>
+		<month>03</month>
+		<year>2009</year>
+		<description>Nacinia eget, ultricies eu, nisl. Proin pharetra gravida lacus. Cum sociis natoque penatibus et magnis di.</description>
+		<link>workCaseTemplate.html</link>
+		<video autoRewind="true" width="658" height="407" link="" bufferTime="5" share="false">
+			<paths>
+				<path id="video" src="MNF_WKNYC.flv"></path>
+				<path id="image" src="sack_mondays_doldrums_full.jpg"></path>
+			</paths>
+			<tracklist>
+				<tracking id="on_video_start" tag=""/>
+				<tracking id="on_video_end" tag=""/>		
+			</tracklist>
+		</video>
+		<gallery>
+			<media client="ESPN" type="Interactive" title="Sack Mondays Doldrums" description="03.2009 | Print | NBA to K" linkPdf="pdf.pdf" linkSite="site.html">
+				<images>
+					<image type="tiny" src="sack_mondays_doldrums_tiny.jpg" />
+					<image type="small" src="sack_mondays_doldrums_small.jpg" />
+					<image type="medium" src="sack_mondays_doldrums_medium.jpg" />
+					<image type="large" src="sack_mondays_doldrums_large.jpg" />
+					<image type="full" src="sack_mondays_doldrums_full.jpg" />
+				</images>
+			</media>
+			<media client="ESPN" type="Interactive" title="A First Down" description="03.2009 | Print | NBA to K" linkPdf="pdf.pdf" linkSite="site.html">
+				<images>
+					<image type="tiny" src="a_first_down_tiny.jpg" />
+					<image type="small" src="a_first_down_small.jpg" />
+					<image type="medium" src="a_first_down_medium.jpg" />
+					<image type="large" src="a_first_down_large.jpg" />
+					<image type="full" src="a_first_down_full.jpg" />
+				</images>
+			</media>
+			<media client="ESPN" type="Interactive" title="TGIMNF" description="03.2009 | Print | NBA to K" linkPdf="pdf.pdf" linkSite="site.html">
+				<images>
+					<image type="tiny" src="tgimnf_tiny.jpg" />
+					<image type="small" src="tgimnf_small.jpg" />
+					<image type="medium" src="tgimnf_medium.jpg" />
+					<image type="large" src="tgimnf_large.jpg" />
+					<image type="full" src="tgimnf_full.jpg" />
+				</images>
+			</media>
+			<media client="ESPN" type="Interactive" title="Monday Hail Mary" description="03.2009 | Print | NBA to K" linkPdf="pdf.pdf" linkSite="site.html">
+				<images>
+					<image type="tiny" src="monday_hail_mary_tiny.jpg" />
+					<image type="small" src="monday_hail_mary_small.jpg" />
+					<image type="medium" src="monday_hail_mary_medium.jpg" />
+					<image type="large" src="monday_hail_mary_large.jpg" />
+					<image type="full" src="monday_hail_mary_full.jpg" />
+				</images>
+			</media>
+			<media client="ESPN" type="Interactive" title="MNF Music Maestro" description="03.2009 | Print | NBA to K" linkPdf="pdf.pdf" linkSite="site.html">
+				<images>
+					<image type="tiny" src="mnf_music_maestro_1_tiny.jpg" />
+					<image type="small" src="mnf_music_maestro_1_small.jpg" />
+					<image type="medium" src="mnf_music_maestro_1_medium.jpg" />
+					<image type="large" src="mnf_music_maestro_1_large.jpg" />
+					<image type="full" src="mnf_music_maestro_1_full.jpg" />
+				</images>
+			</media>
+			<media client="ESPN" type="Interactive" title="MNF Music Maestro" description="03.2009 | Print | NBA to K" linkPdf="pdf.pdf" linkSite="site.html">
+				<images>
+					<image type="tiny" src="mnf_music_maestro_2_tiny.jpg" />
+					<image type="small" src="mnf_music_maestro_2_small.jpg" />
+					<image type="medium" src="mnf_music_maestro_2_medium.jpg" />
+					<image type="large" src="mnf_music_maestro_2_large.jpg" />
+					<image type="full" src="mnf_music_maestro_2_full.jpg" />
+				</images>
+			</media>
+			<media client="ESPN" type="Interactive" title="Sponge After" description="03.2009 | Print | NBA to K" linkPdf="pdf.pdf" linkSite="site.html">
+				<images>
+					<image type="tiny" src="sponge_after_tiny.jpg" />
+					<image type="small" src="sponge_after_small.jpg" />
+					<image type="medium" src="sponge_after_medium.jpg" />
+					<image type="large" src="sponge_after_large.jpg" />
+					<image type="full" src="sponge_after_full.jpg" />
+				</images>
+			</media>
+			<media client="ESPN" type="Interactive" title="Paper Jam" description="03.2009 | Print | NBA to K" linkPdf="pdf.pdf" linkSite="site.html">
+				<images>
+					<image type="tiny" src="paper_jam_30_tiny.jpg" />
+					<image type="small" src="paper_jam_30_small.jpg" />
+					<image type="medium" src="paper_jam_30_medium.jpg" />
+					<image type="large" src="paper_jam_30_large.jpg" />
+					<image type="full" src="paper_jam_30_full.jpg" />
+				</images>
+			</media>
+			<media client="ESPN" type="Interactive" title="IIMY" description="03.2009 | Print | NBA to K" linkPdf="pdf.pdf" linkSite="site.html">
+				<images>
+					<image type="tiny" src="iimy_tiny.jpg" />
+					<image type="small" src="iimy_small.jpg" />
+					<image type="medium" src="iimy_medium.jpg" />
+					<image type="large" src="iimy_large.jpg" />
+					<image type="full" src="iimy_full.jpg" />
+				</images>
+			</media>
+			<media client="ESPN" type="Interactive" title="Alarm Clocks" description="03.2009 | Print | NBA to K" linkPdf="pdf.pdf" linkSite="site.html">
+				<images>
+					<image type="tiny" src="alarm_clocks_45_tiny.jpg" />
+					<image type="small" src="alarm_clocks_45_small.jpg" />
+					<image type="medium" src="alarm_clocks_45_medium.jpg" />
+					<image type="large" src="alarm_clocks_45_large.jpg" />
+					<image type="full" src="alarm_clocks_45_full.jpg" />
+				</images>
+			</media>
+			<media client="ESPN" type="Interactive" title="Cubicles" description="03.2009 | Print | NBA to K" linkPdf="pdf.pdf" linkSite="site.html">
+				<images>
+					<image type="tiny" src="cubicles_30_tiny.jpg" />
+					<image type="small" src="cubicles_30_small.jpg" />
+					<image type="medium" src="cubicles_30_medium.jpg" />
+					<image type="large" src="cubicles_30_large.jpg" />
+					<image type="full" src="cubicles_30_full.jpg" />
+				</images>
+			</media>
+		</gallery>
+		<related>
+			<link href="">
+				<title>ESPN MNF</title>
+				<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+			</link>
+			<link href="">
+				<title>Nike Air Force 25</title>
+				<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+			</link>
+			<link href="">
+				<title>ESPN MNF</title>
+				<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+			</link>
+			<link href="">
+				<title>Nike Air Force 25</title>
+				<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+			</link>
+			<link href="">
+				<title>ESPN MNF</title>
+				<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+			</link>
+			<link href="">
+				<title>Nike Air Force 25</title>
+				<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+			</link>
+		</related>
+		<press>
+			<link href="">
+				<title>The Jumpman In Us All</title>
+				<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+			</link>
+			<link href="">
+				<title>The Jumpman In Us All</title>
+				<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+			</link>
+			<link href="">
+				<title>The Jumpman In Us All</title>
+				<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+			</link>
+			<link href="">
+				<title>The Jumpman In Us All</title>
+				<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+			</link>
+			<link href="">
+				<title>The Jumpman In Us All</title>
+				<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+			</link>
+			<link href="">
+				<title>The Jumpman In Us All</title>
+				<desc>Mauris quis nunc sed tortor vehicula tincidunt.</desc>
+			</link>		
+		</press>
+	</workcase>

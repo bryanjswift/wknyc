@@ -1,0 +1,15 @@
+#picWrap {
+padding:6px 0 0 1px;
+background: url(../images/picsFrames/bkgdPicTop312px.gif) no-repeat;
+background-position: top left;
+}
+
+#picWrap img {
+padding:0 6px 6px;
+background: url(../images/picsFrames/bkgdPicBot312px.gif);
+background-position:bottom;
+}
+
+#navList {
+line-height:-1px;
+}

@@ -1,0 +1,561 @@
+/* Sprite Elements ____________________________________________________________ */
+.sidebar .slider_gutter .slider_gutter_item,
+.sidebar .slider_gutter .knob {
+	background: transparent url(assets/rangeSlider_sprite.gif) no-repeat scroll 0 0;
+}
+
+#caseStudiesHeader .sidebar a,
+#newCaseStudyContent > a.cancel,
+#newCaseStudyContent #assets fieldset.capsule a.expand-collapse {
+	background: transparent url(assets/gui_sprite.png) no-repeat scroll 0 0;
+}
+
+#steps_tabs li,
+#steps_nav ol li {
+	background: transparent url(assets/caseStudies_sprite.png) no-repeat scroll 0 0;
+}
+
+
+/* General ____________________________________________________________________ */
+
+
+
+/* Header _____________________________________________________________________ */
+#caseStudiesHeader {
+	height: 90px;
+	margin-top: 30px;
+}
+
+#caseStudiesHeader .sidebar a {
+	display: block;
+	height: 30px;
+	font-size: 14px;
+	text-transform: uppercase;
+	padding: 4px 0 0 25px;
+	margin-left: -16px;
+	background-position: left -80px;
+}
+	#caseStudiesHeader .sidebar a.cancel {
+		background-position: left -120px;
+	}
+
+#caseStudiesHeader .content {
+	width:704px;
+	float:left;
+	margin-bottom:20px;
+	padding: 0 13px;
+}
+
+
+/* Case Studies Listing _______________________________________________________ */
+.sidebar .contentBody label {
+	top: 6px;
+}
+
+.sidebar .contentBody h2 {
+	margin-bottom: 10px;
+}
+
+.sidebar .contentBody h4 {
+	margin-bottom: 3px;
+}
+
+.sidebar .filterSection li a {
+	padding: 4px;
+	display: block;
+}
+	.sidebar .filterSection li.on a {
+		background-color: #96B79E;
+		color: #ffffff;
+	}
+	.sidebar .filterSection li.on.all a {
+		background-color: transparent;
+		color: #96B79E;
+		font-weight:bold;
+	}
+
+.sidebar .filterSection {
+	margin-top: 30px;
+}
+
+
+/* Slider _____________________________________________________________________ */
+.sidebar .slide_container {
+	width: 158px;
+}
+
+.sidebar .slide_container .slider_gutter {
+	width: 160px;
+	position: relative;
+}
+
+.sidebar .slider_gutter .slider_gutter_item {
+	width: 9px;
+	height: 20px;
+	float: left;
+}
+	.sidebar .slider_gutter .slider_gutter_l { background-position: -30px 4px; }
+	.sidebar .slider_gutter .slider_gutter_r { background-position: right 4px; }
+
+.sidebar .slider_gutter .slider_gutter_item.gutter {
+	background-position: left -30px;
+	background-repeat: repeat-x;
+	width: 140px;
+}
+
+.sidebar .slider_gutter img {
+	height: 8px;
+	margin: 5px 0 0 -9px;
+	position: absolute;
+	width: 160px;
+}
+
+.sidebar .slider_gutter .knob {
+	cursor:pointer;
+	height:20px;
+	width:18px;
+	position: absolute;
+	margin-left: -7px;
+}
+
+
+/* Content ____________________________________________________________________ */
+#caseStudiesHeader h1 {
+	padding-bottom: 20px;
+}
+
+#caseStudiesHeader p {
+	font-size: 13px;
+}
+
+#caseStudiesHeader h3.grayArrow {
+	margin-left: -13px;
+}
+
+#caseStudiesHeader {
+	font-size: 12px;
+}
+
+
+/* Table ______________________________________________________________________ */
+#caseStudiesContent table {
+	width:100%;
+}
+
+#allCaseStudiesTable td,
+#allCaseStudiesTable th {
+	padding-left: 20px;
+	padding-right: 15px;
+}
+	#allCaseStudiesTable td:first-child,
+	#allCaseStudiesTable th:first-child {
+		padding-left: 0px;
+	}
+
+#allCaseStudiesTable th {
+	font-weight: bold;
+	cursor: pointer;
+}
+	#allCaseStudiesTable th.forward_sort,
+	#allCaseStudiesTable th.reverse_sort {
+		color: #96B79E;
+	}
+
+#allCaseStudiesTable td {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	line-height: 16px;
+	font-size: 12px;
+}
+
+#allCaseStudiesTable td span.order {
+	display: none;
+}
+
+#allCaseStudiesTable .name {
+	width:300px;
+}
+
+#allCaseStudiesTable .name a {
+	display: block;
+	font-weight: bold;
+}
+
+
+/* New Cast Study _____________________________________________________________ */
+#newCaseStudyContent.maincol {
+	float: none;
+	width: auto;
+}
+
+#steps_tabs {
+	overflow: hidden;
+}
+
+#steps_tabs li{
+	float: left;
+	margin-left: 30px;
+	padding: 2px 0 0 6px;
+	height: 19px;
+	background-position: left -21px;
+	font-size: 17px;
+	color: #ffffff;
+	text-transform: uppercase;
+}
+	#steps_tabs li:first-child {
+		margin-left: 0;
+	}
+	#steps_tabs li.active {
+		background-position: left top;
+	}
+	
+#steps_tabs li a {
+	padding-left: 10px;
+	color: #cccccc;
+}
+	#steps_tabs li.active a {
+		color: #96B79E;
+	}
+
+#steps_nav {
+	background-color: #F9F9F9;
+	padding: 10px;
+	margin-top: 40px;
+	border-top: 3px #CCCCCC solid;
+	overflow: hidden;
+}
+
+#steps_nav ol {
+	overflow: hidden;
+	float: left;
+}
+
+#steps_nav ol li {
+	float: left;
+	margin-right: 20px;
+	padding: 4px 0 0 7px;
+	height: 19px;
+	background-position: left -21px;
+	font-size: 14px;
+	color: #ffffff;
+	text-transform: uppercase;
+}
+
+#steps_nav ol li a {
+	padding-left: 10px;
+	color: #999999;
+}
+
+#steps_nav span {
+	display: block;
+	float: left;
+	line-height: 22px;
+}
+
+#steps_nav > a {
+	float: right;
+	font-size: 14px;
+	line-height: 22px;
+	margin-left: 20px;
+}
+	#steps_nav > a.disabled {
+		color: #CCCCCC;
+	}
+
+
+/* Capsules _________________________________________________________________ */
+#newCaseStudyContent form fieldset.capsule{
+	background-color: #f9f9f9;
+	border: 1px solid #cccccc;
+	padding: 20px;
+	margin-top: 20px;
+	position: relative;
+}
+	#newCaseStudyContent fieldset.capsule.required {
+		padding-top: 28px;
+	}
+
+#newCaseStudyContent fieldset.capsule > div {
+	vertical-align: top;
+	padding-right: 10px;
+	display: inline-block;
+	
+	/* IE7 Awesomeness */
+	min-height: 1px !important;
+	zoom: 1 !important;
+	*display: inline !important;
+}
+	#newCaseStudyContent fieldset.capsule > div.hide {
+		display: none !important;
+	}
+
+#newCaseStudyContent fieldset.capsule label.header {
+	display: block;
+	margin-bottom: 10px;
+}
+
+#newCaseStudyContent fieldset.capsule.required > h4 {
+	position: absolute;
+	top: -20px;
+}
+
+#newCaseStudyContent form fieldset.capsule .content {
+	clear: both;
+	display: block;
+	padding: 20px 0 0;
+}
+
+#newCaseStudyContent form fieldset.capsule .content h2 {
+	border-top: 1px solid #cccccc;
+	padding: 10px 0 0;
+}
+
+#newCaseStudyContent form fieldset.capsule .content h2 .skinned-fileinput {
+	margin-left: 10px;
+	vertical-align: middle;
+}
+
+#newCaseStudyContent form fieldset.capsule .content fieldset {
+	display: block;
+	margin-top: 20px;
+}
+	#newCaseStudyContent form fieldset.capsule .content fieldset:first-child {
+		margin-top: 0;
+	}
+
+#newCaseStudyContent > a.cancel {
+	height: 30px;
+	font-size: 14px;
+	text-transform: uppercase;
+	padding: 4px 0 0 25px;
+	margin-left: -16px;
+	background-position: left -120px;
+}
+
+#newCaseStudyContent #steps_nav {
+	margin-bottom: 20px;
+}
+
+
+/* Basic Info Tab _____________________________________________________________ */
+#newCaseStudyContent #basic_info form fieldset {
+	margin-top: 20px;
+	overflow: hidden;
+}
+
+#newCaseStudyContent #basic_info fieldset .popup-wrapper {
+	float: left;
+}
+
+#newCaseStudyContent #basic_info form label {
+	width: 226px;
+	display: block;
+	float: left;
+	padding-top: 7px;
+}
+
+#newCaseStudyContent #basic_info form .input-wrap {
+	float: left;
+}
+
+#newCaseStudyContent #basic_info form input[type=text] {
+	width: 315px;
+}
+
+#newCaseStudyContent #basic_info form textarea {
+	width: 460px;
+	min-height: 100px;
+}
+
+#newCaseStudyContent #basic_info .spinbox-wrapper {
+	float: left;
+}
+
+#newCaseStudyContent #basic_info form fieldset.sortOrder input {
+	width: 17px;
+	text-align: center;
+}
+
+#newCaseStudyContent #basic_info form fieldset.sortOrder > a {
+	display: none;
+}
+
+#newCaseStudyContent #basic_info form fieldset.launchDate .month,
+#newCaseStudyContent #basic_info form fieldset.launchDate .year {
+	display:inline;
+	width: auto;
+	float: none;
+}
+	#newCaseStudyContent #basic_info form fieldset.launchDate input.month,
+	#newCaseStudyContent #basic_info form fieldset.launchDate input.year {
+		width: 35px;
+		margin-right: 10px;
+	}
+	#newCaseStudyContent #basic_info form fieldset.launchDate input.month {
+		width: 25px;
+	}
+	#newCaseStudyContent #basic_info form fieldset.launchDate label.month,
+	#newCaseStudyContent #basic_info form fieldset.launchDate label.year {
+		padding-top: 0;
+		top: 7px;
+	}
+
+#newCaseStudyContent #basic_info .skinned-fileinput label {
+	float: none;
+	padding: 0;
+	width: auto;
+}
+
+
+/* Assets Tab _________________________________________________________________ */
+#newCaseStudyContent #assets form {
+	margin-bottom: 20px;
+}
+
+#newCaseStudyContent #assets fieldset.capsule .order {
+	width: 25px;
+}
+	#newCaseStudyContent #assets fieldset.capsule .order input[type=text] {
+		text-align: center;
+		width: 19px;
+	}
+
+#newCaseStudyContent #assets fieldset.capsule .title {
+	width: 300px;
+}
+
+#newCaseStudyContent #assets fieldset.capsule .title input[type=text] {
+	width: 294px;
+}
+
+#newCaseStudyContent #assets fieldset.capsule .title > label {
+	margin-top: 10px;
+	display: block;
+}
+	#newCaseStudyContent #assets fieldset.capsule .title > label.header {
+		margin-top: 0;
+	}
+
+#newCaseStudyContent #assets fieldset.capsule .type {
+	width: 200px;
+}
+	#newCaseStudyContent #assets fieldset.capsule .type strong {
+		position: relative;
+		top: 5px;
+	}
+
+#newCaseStudyContent #assets fieldset.capsule .launchDate {
+	width: 120px;
+}
+
+#newCaseStudyContent #assets fieldset.capsule .launchDate input[type=text] {
+	text-align: center;
+}
+	#newCaseStudyContent #assets fieldset.capsule .launchDate input.launchDateYear {
+		width: 35px;
+	}
+	#newCaseStudyContent #assets fieldset.capsule .launchDate input.launchDateMonth {
+		width: 25px;
+	}
+	#newCaseStudyContent #assets fieldset.capsule .launchDate input.launchDateDay {
+		width: 25px;
+	}
+
+#newCaseStudyContent #assets fieldset.capsule .launchDate .input-wrap {
+	display: inline-block;
+	
+	/* IE7 Awesomeness */
+	min-height: 1px !important;
+	zoom: 1 !important;
+	*display: inline !important;
+}
+
+#newCaseStudyContent #assets fieldset.capsule a.expand-collapse {
+	display: block;
+	text-indent: -3000px;
+	width: 17px;
+	height: 17px;
+	background-position: left -80px;
+}
+	#newCaseStudyContent #assets fieldset.capsule a.expand-collapse.open {
+		background-position: left -120px;
+	}
+	#newCaseStudyContent #assets fieldset.capsule > a.expand-collapse {
+		position: absolute;
+		top: -20px;
+		right: 30px;
+	}
+	#newCaseStudyContent #assets fieldset.capsule.required > a.expand-collapse {
+		top: -29px;
+	}
+	#newCaseStudyContent #assets fieldset.capsule .content a.expand-collapse {
+		position: absolute;
+		bottom: -21px;
+		right: 30px;
+	}
+
+#newCaseStudyContent #assets fieldset.capsule .content .imgsize {
+	float: left;
+	margin-top: 20px;
+}
+	#newCaseStudyContent #assets fieldset.capsule .content .imgsize:first-child {
+		margin-top: 0;
+	}
+	#newCaseStudyContent #assets fieldset.capsule .content .imgsize.full_size {
+		float: none;
+	}
+	#newCaseStudyContent #assets fieldset.capsule .content .imgsize.medium_size,
+	#newCaseStudyContent #assets fieldset.capsule .content .imgsize.sidebar_size {
+		margin-right: 20px;
+	}
+	#newCaseStudyContent #assets fieldset.capsule .content .imgsize.tiny_size {
+		margin-bottom: 70px;
+	}
+	#newCaseStudyContent #assets fieldset.capsule .content .imgsize.small_size {
+		position: relative;
+		top: 7px;
+	}
+
+#newCaseStudyContent #assets fieldset.capsule .content .imgsize label {
+	position: static;
+	display: block;
+}
+
+#newCaseStudyContent #assets fieldset.capsule .content .imgsize h3 {
+	color: #ffffff;
+	background: #cccccc;
+	vertical-align: top;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+	
+	/* IE7 Awesomeness */
+	min-height: 1px !important;
+	zoom: 1 !important;
+	*display: inline !important;
+}
+	#newCaseStudyContent #assets fieldset.capsule .content .imgsize.large_size h3 {
+		width: 634px;
+		height: 275px;
+		padding-top: 260px;
+	}
+	#newCaseStudyContent #assets fieldset.capsule .content .imgsize.medium_size h3 {
+		width: 272px; 
+		height: 117px;
+		padding-top: 110px;
+	}
+	#newCaseStudyContent #assets fieldset.capsule .content .imgsize.sidebar_size h3 {
+		width: 133px;
+		height: 64px;
+		padding-top: 25px;
+	}
+	#newCaseStudyContent #assets fieldset.capsule .content .imgsize.small_size h3 {
+		width: 104px; 
+		height: 67px;
+		padding-top: 25px;
+	}
+	#newCaseStudyContent #assets fieldset.capsule .content .imgsize.tiny_size h3 {
+		width: 26px; 
+		height: 26px;
+	}

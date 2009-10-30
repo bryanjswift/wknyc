@@ -1,0 +1,72 @@
+<div id="basic_info">
+    <form>
+        <fieldset class="name">
+            <label>
+                Case Study Name*
+            </label>
+            <input id="nameField" name="nameField" type="text" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num" />
+        </fieldset>
+        <fieldset class="shortDesc">
+            <label>
+                Case Short Description*
+            </label>
+            <input id="shortDescField" name="shortDescField" type="text" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num" />
+        </fieldset>
+        <fieldset class="longDesc">
+            <label>
+                Case Study Long Description*
+            </label>
+            <textarea id="longDescField" name="longDescField" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num">
+            </textarea>
+        </fieldset>
+        <fieldset class="client">
+            <label>
+                Client*
+            </label>
+            <select id="clientSelect" name="clientSelect" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num">
+                <option>Delta</option>
+                <option>Nike</option>
+            </select>
+        </fieldset>
+        <fieldset class="sortOrder">
+            <label>
+                Sort Order*
+            </label>
+            <a class="top" href="#">Up</a>
+            <input id="orderpicker" name="orderpicker" maxlength="2" type="text" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num" />
+			<a class="bottom" href="#">Down</a>
+        </fieldset>
+        <fieldset class="launchDate">
+            <label>
+                Campaign Launch Date
+            </label>
+            <label class="prefill month">
+                MM
+            </label>
+            <input id="launchDateMonth" class="month" maxlength="2" type="text" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num" />
+            <label class="prefill year">
+                YYYY
+            </label>
+            <input id="launchDateYear" class="year" maxlength="4" type="text" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num" />
+        </fieldset>
+        <fieldset>
+            <label>
+                Case Study Download
+            </label>
+            <div class="skinned-fileinput">
+                <input type="file" name="select_PDF" id="select_PDF" />
+				<a class="file_upload plus" href="#">select PDF</a>
+            </div>
+        </fieldset>
+        <fieldset class="displayOnSite">
+            <label>
+                Display on site?
+            </label>
+            <input type="radio" id="displayOnSiteRadio-on" name="displayOnSiteRadio" /><input type="radio" id="displayOnSiteRadio-off" name="displayOnSiteRadio" />
+        </fieldset>
+    </form>
+</div>
+
+<script type="text/javascript">
+    wknyc.cms.caseStudies.newCaseStudy.setTabLoadedCallback( wknyc.cms.caseStudies.newCaseStudy.setupBasicInfoSection );
+</script>

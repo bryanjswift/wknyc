@@ -1,0 +1,166 @@
+#modal{
+	background-color:#000;
+	z-index:9990;
+	top:0px;
+	left:0px;
+	position:absolute;
+	visibility:hidden;
+	cursor:pointer;
+}
+
+#lightbox {
+	position:absolute;
+	visibility:hidden;
+	color:#707070;
+	z-index:9999;
+}
+
+#lightbox a {
+	font-family:Helvetica;
+	text-decoration:none;
+}
+
+#lightbox a:hover{
+	text-decoration:underline;
+	cursor:pointer;
+}
+
+#lightboxNav {
+	
+}
+
+#lightboxNfo {
+	margin-bottom:20px;
+}
+
+#lightboxTitle h3{
+	float:left;
+	margin-bottom:-15px;
+}
+
+#lightboxClose a{
+	float:right;
+	clear:both;
+	margin-bottom:10px;
+}
+
+#lightboxLinks {
+	float:right;
+}
+
+#lightboxDescription {
+	float:left;
+}
+
+#lightboxPager {
+	border-top:solid 1px #707070;
+	float:left;
+	clear:both;
+	width:100%;
+	padding-top:15px;
+}
+
+#lightboxImg {
+	background-color:#fff;
+	height:100%;
+}
+
+#lightboxImg .jobDescription {
+	display:block;
+}
+
+.lightBox {
+	cursor:pointer;
+}
+
+#preloader {
+	width:16px;
+	height:16px;
+	background: url(../images/preloader_modal.gif) no-repeat;
+	position:relative;
+	top:49%;
+	left:49%;
+}
+
+#shareOverlay {
+	position:absolute;
+	background: url(../images/bkgds/shareOverlay.png) no-repeat;
+	width:581px;
+	height:235px;
+	z-index:9998;
+	visibility:hidden;
+}
+
+#shareOverlay #links {
+	width:130px;
+	height:100px;
+	position:absolute;
+	top:85px;
+	left:25px;
+}
+
+#shareOverlay #links a {
+	padding:1px;
+}
+
+#shareOverlay #embed {
+	position:absolute;
+	top:87px;
+	left:189px;
+}
+
+#shareOverlay #embed textarea {
+	position:absolute;
+	width:150px;
+	height:55px;
+	border:none;
+	font-family:helvetica;
+	font-size:10px;
+	color:#707070;
+}
+
+#shareOverlay .plusBtn {
+	position:absolute;
+	top:80px;
+	left:-5px;
+	width:150px;
+}
+
+#shareOverlay #email {
+	position:absolute;
+	top:87px;
+	left:375px;	
+}
+
+#shareOverlay #email input {
+	height:10px;
+	font-family:helvetica;
+	font-size:10px;
+	color:#707070;
+	margin-bottom:12px;
+	width:180px;
+}
+
+#shareOverlay #email textarea {
+	width:180px;
+	height:30px;
+	border:none;
+	font-family:helvetica;
+	font-size:10px;
+	color:#707070;
+}
+
+#shareOverlay #email #required {
+	position:absolute;
+	top:-40px;
+	left:132px;
+	font-family:helvetica;
+	font-size:10px;
+	color:#707070;
+}
+
+#shareOverlay #email #close {
+	position:absolute;
+	top:126px;
+	left:166px;
+}
