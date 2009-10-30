@@ -26,6 +26,8 @@ object Props {
 		}
 	def foreach(fcn: (String,String) => Unit) =
 		properties.keySet.foreach(key => fcn(key.toString,apply(key.toString)))
+	def foreach(filter: (String) => Boolean, fcn: (String,String) => Unit) =
+		properties.keySet.filter(key => filter(key.toString)).foreach(key => fcn(key.toString,apply(key.toString)))
 	def load(path:String) =
 		try {
 			properties.load(ClassLoader.getResourceAsStream(path))
