@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<toolbox>
+  <data type="string">
+    <key>bar</key>
+    <value>this is bar.</value>
+  </data>
+</toolbox>

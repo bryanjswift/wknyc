@@ -17,7 +17,8 @@ class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) with CleanW
 	val jersey = "com.sun.jersey" % "jersey-server" % "1.1.2-ea"
 	// Velocity
 	val velocity = "org.apache.velocity" % "velocity" % "1.6.2"
-	val velocityTools = "org.apache.velocity" % "velocity-tools" % "2.0-beta4"
+	val velocityTools = "velocity-tools" % "velocity-tools" % "1.4"
+	val commonsDigester = "commons-digester" % "commons-digester" % "1.8"
 	val simpleVelocity = "bryanjswift" % "simple-velocity" % "0.1.0-SNAPSHOT"
 
 	// Specs
