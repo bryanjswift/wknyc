@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<display-name>wknyc.com</display-name>
-	<!-- Jersey Webservice Servlet -->
+<!-- Jersey Webservice Servlet -->
 	<servlet>
 		<servlet-name>Jersey Servlet</servlet-name>
 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
@@ -11,15 +11,15 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-	<!-- Define v1 of Jersey REST API -->
+<!-- Define v1 of Jersey REST API -->
 	<servlet-mapping>
 		<servlet-name>Jersey Servlet</servlet-name>
 		<url-pattern>/wk/v1/*</url-pattern>
 	</servlet-mapping>
-	<!-- Define Velocity View Servlet -->
+<!-- Define Velocity View Servlet -->
 	<servlet>
 		<servlet-name>velocity</servlet-name>
-		<servlet-class>org.apache.velocity.tools.view.VelocityViewServlet</servlet-class>
+		<servlet-class>org.apache.velocity.tools.view.servlet.VelocityViewServlet</servlet-class>
 		<init-param>
 			<param-name>org.apache.velocity.toolbox</param-name>
 			<param-value>/WEB-INF/tools.xml</param-value>
@@ -29,14 +29,22 @@
 			<param-value>/WEB-INF/classes/velocity/velocity.properties</param-value>
 		</init-param>
 	</servlet>
-	<!-- Map *.vm files to Velocity -->
+<!-- Map *.vm files to Velocity -->
 	<servlet-mapping>
 		<servlet-name>velocity</servlet-name>
 		<url-pattern>*.vm</url-pattern>
 	</servlet-mapping>
-	<!-- List welcome files -->
+<!-- Define wknyc Register Servlet -->
+	<servlet>
+		<servlet-name>registerUser</servlet-name>
+		<servlet-class>wknyc.web.servlets.RegisterServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>registerUser</servlet-name>
+		<url-pattern>/credentials/register</url-pattern>
+	</servlet-mapping>
+<!-- List welcome files -->
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 </web-app>
-
