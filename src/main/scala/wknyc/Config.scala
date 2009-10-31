@@ -1,6 +1,7 @@
 package wknyc
 
 import java.util.Properties
+import java.util.logging.Logger
 import javax.jcr.{Credentials,Session}
 import javax.jcr.nodetype.NodeType
 import org.apache.jackrabbit.api.JackrabbitNodeTypeManager
@@ -8,7 +9,6 @@ import org.apache.jackrabbit.core.{SessionImpl,TransientRepository}
 import org.apache.jackrabbit.core.nodetype.NodeTypeManagerImpl
 import scala.collection.jcl.Conversions.convertSet
 import wknyc.model.WkCredentials
-import java.util.logging.Logger
 
 object Props {
 	protected val logger = Logger.getLogger(getClass.getName)
@@ -43,7 +43,7 @@ object Config {
 	lazy val ContentWorkspace = "content"
 	lazy val Admin = WkCredentials("repositoryAdmin@wk.com","Jus1 4 dummy pa5sw0r6","Administration","Administrator",None)
 	lazy val ClassLoader = getClass.getClassLoader
-	val systemProps = List("org.apache.jackrabbit.repository.home","org.apache.jackrabbit.repository.conf")
+	private val systemProps = List("org.apache.jackrabbit.repository.home","org.apache.jackrabbit.repository.conf")
 	systemProps.foreach(key => System.setProperty(key,Props(key)))
 	def registerNodeTypes(session:Session):Array[NodeType] =
 		session.getWorkspace.getName match {
