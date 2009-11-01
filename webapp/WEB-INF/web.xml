@@ -22,24 +22,6 @@
 		<servlet-name>Jersey Servlet</servlet-name>
 		<url-pattern>/wk/v1/*</url-pattern>
 	</servlet-mapping>
-<!-- Define Velocity View Servlet -->
-	<servlet>
-		<servlet-name>velocity</servlet-name>
-		<servlet-class>org.apache.velocity.tools.view.servlet.VelocityViewServlet</servlet-class>
-		<init-param>
-			<param-name>org.apache.velocity.toolbox</param-name>
-			<param-value>/WEB-INF/toolbox.xml</param-value>
-		</init-param>
-		<init-param>
-			<param-name>org.apache.velocity.properties</param-name>
-			<param-value>/WEB-INF/classes/velocity/velocity.properties</param-value>
-		</init-param>
-	</servlet>
-<!-- Map *.vm files to Velocity -->
-	<servlet-mapping>
-		<servlet-name>velocity</servlet-name>
-		<url-pattern>*.vm</url-pattern>
-	</servlet-mapping>
 <!-- Define wknyc Register Servlet -->
 	<servlet>
 		<servlet-name>registerUser</servlet-name>
