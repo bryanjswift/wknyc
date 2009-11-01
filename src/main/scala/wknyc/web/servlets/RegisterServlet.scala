@@ -1,15 +1,13 @@
 package wknyc.web.servlets
 
-import javax.servlet.http.{HttpServletRequest => Request, HttpServletResponse => Response}
-import org.apache.velocity.tools.view.servlet.VelocityViewServlet
+import javax.servlet.http.{HttpServlet,HttpServletRequest => Request, HttpServletResponse => Response}
 import velocity.{VelocityHelper,VelocityView}
 import wknyc.Config
 import wknyc.business.UserManager
 import wknyc.business.validators.UserValidator
 import wknyc.model.WkCredentials
 
-class RegisterServlet extends VelocityViewServlet with WkServlet {
-	VelocityHelper.load("velocity/velocity.properties")
+class RegisterServlet extends HttpServlet with WkServlet {
 	override def doGet(request:Request, response:Response) = {
 		val view = new VelocityView("register.vm")
 		view.render(Map("errors" -> Nil),request,response)
