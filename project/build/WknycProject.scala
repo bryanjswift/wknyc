@@ -15,6 +15,8 @@ class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) with CleanW
 	// Lucene -- pulled in by jackrabbit dependency
 	// Jersey
 	val jersey = "com.sun.jersey" % "jersey-server" % "1.1.2-ea"
+	// FileUpload
+	val fileUpload = "commons-fileupload" % "commons-fileupload" % "1.2.1"
 	// Velocity
 	val velocity = "org.apache.velocity" % "velocity" % "1.6.2"
 	val simpleVelocity = "bryanjswift" % "simple-velocity" % "0.2.0"
