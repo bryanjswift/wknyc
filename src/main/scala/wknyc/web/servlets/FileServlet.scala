@@ -9,13 +9,13 @@ import wknyc.Config
 
 class FileServlet extends HttpServlet with WkServlet {
 	override def doPost(request:Request, response:Response) = {
-		val servletFileUpload = new ServletFileUpload(FileServlet.FileFactory)
-		val items = servletFileUpload.parseRequest(request)
+		val items = FileServlet.ServletFileUpload.parseRequest(request)
 		val view = new VelocityView("assets/imageUpload.vm")
 		view.render(Map("errors" -> Nil),request,response)
 	}
 }
 
 object FileServlet {
-	val FileFactory = new DiskFileItemFactory
+	lazy val FileFactory = new DiskFileItemFactory
+	lazy val ServletFileUpload = new ServletFileUpload(FileFactory)
 }
