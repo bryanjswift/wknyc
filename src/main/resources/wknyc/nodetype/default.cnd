@@ -22,10 +22,12 @@ mixin
 -size (string)
 
 [wk:imageAsset] > nt:base, wk:asset
-+Large(wk:image)=wk:image
-+Medium(wk:image)=wk:image
-+Small(wk:image)=wk:image
-+Tiny(wk:image)=wk:image
++full(wk:image)=wk:image
++large(wk:image)=wk:image
++sidebar(wk:image)=wk:image
++medium(wk:image)=wk:image
++small(wk:image)=wk:image
++tiny(wk:image)=wk:image
 
 [wk:copyAsset] > nt:base, wk:asset
 -body (string)

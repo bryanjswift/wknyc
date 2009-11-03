@@ -20,25 +20,6 @@ object FileInfo {
 	val Path = "path"
 	val Url = "url"
 }
-trait File extends FileInfo {
-	def path:String
-	def url:String
-}
-/** Size of image trait and related objects */
-sealed trait ImageSize { def name:String }
-object ImageSize {
-	def apply(name:String) =
-		name match {
-			case LargeThumbnail.name => LargeThumbnail
-			case MediumThumbnail.name => MediumThumbnail
-			case SmallThumbnail.name => SmallThumbnail
-			case TinyThumbnail.name => TinyThumbnail
-		}
-}
-case object LargeThumbnail extends ImageSize { val name = "Large" }
-case object MediumThumbnail extends ImageSize { val name = "Medium" }
-case object SmallThumbnail extends ImageSize { val name = "Small" }
-case object TinyThumbnail extends ImageSize { val name = "Tiny" }
 /** Trait and class representing an image file on the server */
 sealed trait ImageInfo extends FileInfo {
 	def alt:String
@@ -46,7 +27,7 @@ sealed trait ImageInfo extends FileInfo {
 	def height:Int
 	def size:ImageSize
 }
-case class Image(path:String, url:String, alt:String, width:Int, height:Int, size:ImageSize) extends File with ImageInfo
+case class Image(path:String, url:String, alt:String, width:Int, height:Int, size:ImageSize) extends FileInfo with ImageInfo
 object Image {
 	val NodeType = "wk:image"
 	val Alt = "alt"
