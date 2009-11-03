@@ -31,6 +31,15 @@
 		<servlet-name>registerUser</servlet-name>
 		<url-pattern>/credentials/register</url-pattern>
 	</servlet-mapping>
+<!-- Define wknyc Image Upload Servlet -->
+	<servlet>
+		<servlet-name>imageUpload</servlet-name>
+		<servlet-class>wknyc.web.servlets.ImageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>imageUpload</servlet-name>
+		<url-pattern>/assets/imageUpload</url-pattern>
+	</servlet-mapping>
 <!-- List welcome files -->
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
