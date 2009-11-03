@@ -19,7 +19,7 @@ class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) with CleanW
 	val fileUpload = "commons-fileupload" % "commons-fileupload" % "1.2.1"
 	// Velocity
 	val velocity = "org.apache.velocity" % "velocity" % "1.6.2"
-	val simpleVelocity = "bryanjswift" % "simple-velocity" % "0.2.0"
+	val simpleVelocity = "bryanjswift" % "simple-velocity" % "0.2.1"
 
 	// Specs
 	val specs = "org.scala-tools.testing" % "specs" % "1.6.0" % "test->default"
