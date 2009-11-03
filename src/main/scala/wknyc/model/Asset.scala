@@ -27,7 +27,10 @@ sealed trait ImageInfo extends FileInfo {
 	def height:Int
 	def size:ImageSize
 }
-case class Image(path:String, url:String, alt:String, width:Int, height:Int, size:ImageSize) extends FileInfo with ImageInfo
+case class Image(path:String, url:String, alt:String, size:ImageSize) extends FileInfo with ImageInfo {
+	val width = size.width
+	val height = size.height
+}
 object Image {
 	val NodeType = "wk:image"
 	val Alt = "alt"

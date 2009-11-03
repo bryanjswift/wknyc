@@ -16,6 +16,6 @@ trait WkServlet {
 		val path = savePath + name
 		val file = new File(path)
 		item.write(file)
-		Image(path,"","",0,0,LargeThumbnail)
+		Image(path,"","",LargeThumbnail)
 	}
 }

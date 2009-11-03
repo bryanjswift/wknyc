@@ -16,7 +16,7 @@ object AssetDaoSpecs extends Specification {
 		val imageAsset = ImageAsset(
 				ContentInfo(root),
 				"Test Image",
-				ImageSet(new Image("/path/to/what","http://example.com/path","alt",15,20,TinyThumbnail))
+				ImageSet(new Image("/path/to/what","http://example.com/path","alt",TinyThumbnail))
 			)
 		val copyAsset = CopyAsset(
 				ContentInfo(root),

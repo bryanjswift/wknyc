@@ -151,8 +151,6 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 			node.getProperty(FileInfo.Path).getString,
 			node.getProperty(FileInfo.Url).getString,
 			node.getProperty(Image.Alt).getString,
-			node.getProperty(Image.Width).getLong.toInt,
-			node.getProperty(Image.Height).getLong.toInt,
 			ImageSize(node.getName)
 		)
 	}
