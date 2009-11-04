@@ -1,7 +1,9 @@
 package wknyc.web.servlets
 
-import org.apache.commons.fileupload.servlet.ServletFileUpload
+import java.io.File
 import org.apache.commons.fileupload.{FileItemIterator,FileItemStream}
+import org.apache.commons.fileupload.disk.DiskFileItemFactory
+import org.apache.commons.fileupload.servlet.ServletFileUpload
 
 trait FileServlet extends WkServlet {
 	protected implicit def convertIterator(it:FileItemIterator):Iterator[FileItemStream] =
@@ -27,5 +29,7 @@ trait FileServlet extends WkServlet {
 }
 
 object FileServlet {
-	lazy val ServletFileUpload = new ServletFileUpload()
+	lazy val DiskFileItemFactory = new DiskFileItemFactory(2048,new File("target/temp"))
+	lazy val ServletFileUpload = new ServletFileUpload(DiskFileItemFactory)
+	lazy val StreamingUpload = new ServletFileUpload()
 }

@@ -13,7 +13,7 @@ trait WkServlet {
 		else { Some(value) }
 	}
 	protected def imageFromFileItemStream(stream:FileItemStream,savePath:String) = {
-		val path = savePath + stream.getName.substring(stream.getName.lastIndexOf(File.separator))
+		val path = savePath + "stream-" + stream.getName
 		val in = stream.openStream
 		val out = new FileOutputStream(new File(path))
 		try {
@@ -30,5 +30,6 @@ trait WkServlet {
 			out.write(buffer, 0, len)
 			len = in.read(buffer)
 		}
+		out.flush
 	}
 }

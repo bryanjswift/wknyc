@@ -15,6 +15,7 @@
 			</ul>
 		#end
 		<form method="POST" action="/assets/imageUpload" enctype="multipart/form-data">
+			<input type="hidden" name="dumb" value="stupid" />
 			<label for="full">Full Size Image</label><input type="file" id="full" name="full" />
 			<button type="submit">Upload</button>
 		</form>
