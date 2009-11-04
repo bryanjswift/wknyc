@@ -14,8 +14,9 @@
 				#end
 			</ul>
 		#end
-		<form method="POST" action="credentials/register">
-			<button type="submit">Register</button>
+		<form method="POST" action="/assets/imageUpload" enctype="multipart/form-data">
+			<label for="full">Full Size Image</label><input type="file" id="full" name="full" />
+			<button type="submit">Upload</button>
 		</form>
 		<script type="text/javascript" src="js/main.js"></script>
 	</body>

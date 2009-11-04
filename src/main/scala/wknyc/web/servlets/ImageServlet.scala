@@ -2,6 +2,7 @@ package wknyc.web.servlets
 
 import javax.servlet.http.{HttpServlet,HttpServletRequest => Request, HttpServletResponse => Response}
 import velocity.{VelocityView}
+import wknyc.Props
 
 class ImageServlet extends HttpServlet with FileServlet {
 	override def doGet(request:Request, response:Response) = {
@@ -17,3 +18,4 @@ class ImageServlet extends HttpServlet with FileServlet {
 		view.render(Map("errors" -> Nil,"assets" -> assets),request,response)
 	}
 }
+

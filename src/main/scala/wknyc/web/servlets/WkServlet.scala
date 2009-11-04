@@ -9,7 +9,8 @@ trait WkServlet {
 	implicit val default = ""
 	protected def getParameter(request:Request,param:String)(implicit default:String) = {
 		val value = request.getParameter(param)
-		if (value == default) None else Some(value)
+		if (value == default) { None }
+		else { Some(value) }
 	}
 	protected def imageFromFileItemStream(stream:FileItemStream,savePath:String) = {
 		val path = savePath + stream.getName.substring(stream.getName.lastIndexOf(File.separator))
