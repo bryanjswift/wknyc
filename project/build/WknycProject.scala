@@ -41,5 +41,7 @@ class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) with CleanW
 	override def managedDependencyPath = "project" / "lib_managed"
 	// remove test classes and test resources from jetty's classpath
 	override def jettyClasspath = super.jettyClasspath --- testCompilePath --- testResourcesOutputPath
+	// compile with all debugging information
+	//override def compileOptions = super.compileOptions ++ List(CompileOption("-g:vars"))
 }
 
