@@ -9,7 +9,7 @@ import velocity.{VelocityView}
 import wknyc.model.{ContentInfo,Image,ImageAsset,ImageSet,ImageSize}
 
 class ImageServlet extends HttpServlet with FileServlet {
-	val path = createPath(Props("wknyc.uploads.images"))
+	val path = createRelativePath(Props("wknyc.uploads.images"))
 	override def doGet(request:Request, response:Response) = {
 		val view = new VelocityView("assets/imageUpload.vm")
 		view.render(Map("errors" -> Nil),request,response)
@@ -55,7 +55,7 @@ class ImageServlet extends HttpServlet with FileServlet {
 		}
 	}
 	private def processFile(item:FileItem) = {
-		val path = createPath(Props("wknyc.uploads.images"))
+		val path = createRelativePath(Props("wknyc.uploads.images"))
 		val size = ImageSize(item.getFieldName)
 		val savePath = path + File.separator + item.getName
 		val file = new File(savePath)
