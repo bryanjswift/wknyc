@@ -1,15 +1,21 @@
 package wknyc.web.servlets
 
-import java.io.File
-import org.apache.commons.fileupload.{FileItemIterator,FileItemStream}
+import java.io.{File,InputStream,OutputStream}
+import org.apache.commons.fileupload.{FileItem,FileItemIterator,FileItemStream}
 import org.apache.commons.fileupload.disk.DiskFileItemFactory
 import org.apache.commons.fileupload.servlet.ServletFileUpload
+import wknyc.model.{Image,ImageSize}
 
 trait FileServlet extends WkServlet {
 	protected implicit def convertIterator(it:FileItemIterator):Iterator[FileItemStream] =
 		new Iterator[FileItemStream] {
 			def hasNext = it.hasNext
 			def next = it.next
+		}
+	protected implicit def convertIterator(iter:java.util.Iterator[FileItem]):Iterator[FileItem] =
+		new Iterator[FileItem] {
+			def hasNext = iter.hasNext
+			def next = iter.next
 		}
 	protected def createPath(path:String) = {
 		val folders = path.split(java.io.File.separator)
@@ -26,6 +32,17 @@ trait FileServlet extends WkServlet {
 			}
 		})
 	}
+	protected def writeFile(in:InputStream,out:OutputStream,buffer:Array[Byte]):Unit = {
+		var len = in.read(buffer)
+		writeFile(in,out,buffer,len)
+		out.flush
+	}
+	private def writeFile(in:InputStream,out:OutputStream,buffer:Array[Byte],len:Int):Unit =
+		if (len != -1) {
+			out.write(buffer, 0, len)
+			val length = in.read(buffer)
+			writeFile(in,out,buffer,length)
+		}
 }
 
 object FileServlet {
