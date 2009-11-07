@@ -1,6 +1,5 @@
 package wknyc.model
 
-import java.util.Date
 import scala.xml.NodeSeq
 
 /** Trait representing the basic fields of a site asset */
