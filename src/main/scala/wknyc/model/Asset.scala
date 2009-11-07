@@ -45,7 +45,8 @@ case class ImageSet(private val images:Map[ImageSize,ImageInfo]) {
 }
 object ImageSet {
 	def apply(info:ImageInfo):ImageSet = ImageSet(Map(info.size -> info))
-	def apply(images:ImageInfo*):ImageSet = ImageSet(images.foldLeft(Map[ImageSize,ImageInfo]())((map,image) => map + (image.size -> image)))
+	def apply(images:ImageInfo*):ImageSet = apply(images.elements)
+	def apply(images:Iterator[ImageInfo]):ImageSet = ImageSet(images.foldLeft(Map[ImageSize,ImageInfo]())((map,image) => map + (image.size -> image)))
 }
 // Image related asset classes
 case class ImageAsset(contentInfo:ContentInfo, title:String, images:ImageSet) extends Asset {
