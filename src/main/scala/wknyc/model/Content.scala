@@ -5,7 +5,7 @@ import java.util.Calendar
 /** Class to hold universal content information */
 class ContentInfo(val dateCreated:Calendar, val lastModified:Calendar, val modifiedBy:User, val uuid:Option[String]) {
 	def cp(uuid:String) = ContentInfo(dateCreated, lastModified, modifiedBy, Some(uuid))
-	def modify(user:User) = ContentInfo(dateCreated, Calendar.getInstance, user, uuid)
+	def modifiedBy(user:User) = ContentInfo(dateCreated, Calendar.getInstance, user, uuid)
 	/** ContentInfo refers to the same Content if dateCreated and uuid are the same */
 	def equals(ci:ContentInfo) = dateCreated == ci.dateCreated && uuid == ci.uuid
 	override def equals(obj:Any) =

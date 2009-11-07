@@ -19,7 +19,7 @@ class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedIn
 	private lazy val assetDao = new AssetDao(session,loggedInUser)
 	def save(caseStudy:CaseStudy) = {
 		val node = getNode(CaseStudyRoot,caseStudy.name,CaseStudy.NodeType)
-		saveContentInfo(node,caseStudy.contentInfo.modify(loggedInUser))
+		saveContentInfo(node,caseStudy.contentInfo.modifiedBy(loggedInUser))
 		node.setProperty(CaseStudy.Description,session.getNodeByUUID(caseStudy.description.uuid.get))
 		node.setProperty(CaseStudy.Downloads,caseStudy.downloads.map(a => a.uuid.get),PropertyType.REFERENCE)
 		node.setProperty(CaseStudy.Headline,caseStudy.headline)
@@ -48,7 +48,7 @@ class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedIn
 	}
 	def save(client:Client) = {
 		val node = getNode(ClientRoot,client.name,Client.NodeType)
-		saveContentInfo(node,client.contentInfo.modify(loggedInUser))
+		saveContentInfo(node,client.contentInfo.modifiedBy(loggedInUser))
 		node.setProperty(Client.Name,client.name)
 		node.setProperty(Client.CaseStudies,client.caseStudies.map(study => study.uuid.get),PropertyType.REFERENCE)
 		session.save

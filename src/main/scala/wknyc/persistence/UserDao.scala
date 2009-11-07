@@ -45,7 +45,7 @@ class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUs
 		* @returns Employee with uuid, lastModified and modifiedBy updated
 		*/
 	private def saveEmployee(employee:Employee) = {
-		val ci = employee.contentInfo.modify(loggedInUser) // do it first so saved data and object have same values
+		val ci = employee.contentInfo.modifiedBy(loggedInUser) // do it first so saved data and object have same values
 		val n = getNode(employee.username,Employee.NodeType)
 		writeProperties(n,employee,ci)
 		session.save
@@ -76,7 +76,7 @@ class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUs
 		writeProperties(n,employee)
 		n.setProperty(Employee.FirstName,employee.firstName)
 		n.setProperty(Employee.LastName,employee.lastName)
-		saveContentInfo(n,employee.contentInfo.modify(loggedInUser))
+		saveContentInfo(n,employee.contentInfo.modifiedBy(loggedInUser))
 		// remove all SocialNetworks then re-add them
 		// Warning: This could be more efficient if it becomes a bottleneck
 		n.getNodes.foreach(sn => sn.remove)

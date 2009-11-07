@@ -45,7 +45,7 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 		*/
 	private def writeAssetProperties(node:Node,asset:Asset) = {
 		node.setProperty(Asset.Title,asset.title)
-		saveContentInfo(node,asset.contentInfo.modify(loggedInUser))
+		saveContentInfo(node,asset.contentInfo.modifiedBy(loggedInUser))
 		node
 	}
 	/** Write general FileInfo properties to a node
