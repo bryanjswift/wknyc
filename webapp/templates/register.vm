@@ -14,6 +14,9 @@
 				#end
 			</ul>
 		#end
+		#if ($creds != $None && $creds.get().uuid() != $None)
+			<p>User saved with id of $creds.get().uuid().get()</p>
+		#end
 		<form method="POST" action="/credentials/register">
 			<label for="username">Username</label>
 			<input type="text" id="username" name="username" value="" />

@@ -26,7 +26,7 @@ class RegisterServlet extends HttpServlet with WkServlet {
 				)
 				view.render(Map("errors" -> errors,"creds" -> user),request,response)
 			case _ =>
-				view.render(Map("errors" -> errors),request,response)
+				view.render(Map("errors" -> errors,"creds" -> None),request,response)
 		}
 	}
 }
