@@ -9,7 +9,7 @@ import wknyc.model.WkCredentials
 
 class RegisterServlet extends HttpServlet with WkServlet {
 	override def doGet(request:Request, response:Response) = {
-		val view = new VelocityView("register.vm")
+		val view = new VelocityView(RegisterServlet.ViewName)
 		view.render(Map("errors" -> Nil),request,response)
 	}
 	override def doPost(request:Request, response:Response) = {
@@ -17,8 +17,9 @@ class RegisterServlet extends HttpServlet with WkServlet {
 		val password = getParameter(request,"password")
 		val department = getParameter(request,"department")
 		val title = getParameter(request,"title")
+		// Validation should happen in UserManager
 		val errors = UserValidator.validateCredentials(username,password,department,title)
-		val view = new VelocityView("register.vm")
+		val view = new VelocityView(RegisterServlet.ViewName)
 		errors match {
 			case Nil =>
 				val user = UserManager.save(
@@ -29,4 +30,8 @@ class RegisterServlet extends HttpServlet with WkServlet {
 				view.render(Map("errors" -> errors,"creds" -> None),request,response)
 		}
 	}
+}
+
+object RegisterServlet {
+	val ViewName = "register.vm"
 }
