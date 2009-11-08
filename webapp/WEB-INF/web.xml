@@ -7,6 +7,12 @@
 		<servlet-class>velocity.resource.loader.WebappResourceLoaderStartupServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+<!-- Startup Servlet for WkRepository ... Creates a Session and leaves it open for the life of the Servlet -->
+	<servlet>
+		<servlet-name>Startup Servlet for WkRepository</servlet-name>
+		<servlet-class>wknyc.web.servlets.RepositoryStartupServlet</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
 <!-- Jersey Webservice Servlet -->
 	<servlet>
 		<servlet-name>Jersey Servlet</servlet-name>
