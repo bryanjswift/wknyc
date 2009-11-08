@@ -14,7 +14,7 @@
 				#end
 			</ul>
 		#end
-		<form method="POST" action="credentials/register">
+		<form method="POST" action="/credentials/register">
 			<label for="username">Username</label>
 			<input type="text" id="username" name="username" value="" />
 			<label for="password">Password</label>

@@ -5,7 +5,7 @@ import javax.servlet.http.{HttpServlet,HttpServletRequest => Request, HttpServle
 import org.apache.commons.fileupload.{FileItem,FileItemStream}
 import org.apache.commons.fileupload.servlet.ServletFileUpload
 import org.apache.commons.fileupload.util.Streams
-import velocity.{VelocityView}
+import velocity.VelocityView
 import wknyc.model.{ContentInfo,Image,ImageAsset,ImageSet,ImageSize}
 
 class ImageServlet extends HttpServlet with FileServlet {
@@ -31,7 +31,6 @@ class ImageServlet extends HttpServlet with FileServlet {
 	}
 	private def getAssetStreaming(request:Request) = {
 		val (formFields, fileItems) = FileServlet.StreamingUpload.getItemIterator(request).duplicate
-		// getting name requires work
 		val name = Streams.asString(formFields.find(item => item.getFieldName == "name").get.openStream)
 		var images:List[Image] = Nil
 		while (fileItems.hasNext) {
