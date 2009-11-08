@@ -8,14 +8,30 @@ object UserDaoSpecs extends Specification {
 	"UserDao" should {
 		shareVariables()
 		setSequential()
-		val session = Config.Repository.login(Config.Admin,"security")
+		val session = Config.Repository.login(Config.Admin,Config.CredentialsWorkspace)
 		var root = WkCredentials("root@wk.com","root","","",None)
 		doAfterSpec { session.logout }
-		"save an Employee" >> {
+		"save a WkCredentials" >> {
 			var dao = new UserDao(session,root)
 			root = dao.save(root)
 			root.uuid must beSome[String] // Test credential saving
-			dao = new UserDao(session,root)
+		}
+		"get a WkCredentials by uuid" >> {
+			val dao = new UserDao(session,root)
+			val creds = dao.save(WkCredentials("bs@wk.com","bs","T","SE",None))
+			creds.uuid must beSome[String]
+			val retrieved = dao.get(creds.uuid.get)
+			creds must_== retrieved
+		}
+		"get a WkCredentials by username" >> {
+			val dao = new UserDao(session,root)
+			val creds = dao.save(WkCredentials("bs1@wk.com","bs","T","SE",None))
+			creds.uuid must beSome[String]
+			val retrieved = dao.get(creds.username)
+			creds must_== retrieved
+		}
+		"save an Employee" >> {
+			val dao = new UserDao(session,root)
 			val emp = Employee(
 					ContentInfo(root),
 					WkCredentials("bryan.swift@wk.com","bs","Digital","Software Engineer",None),
