@@ -5,7 +5,7 @@
 	<servlet>
 		<servlet-name>Startup Servlet for WebappResourceLoader</servlet-name>
 		<servlet-class>velocity.resource.loader.WebappResourceLoaderStartupServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
+		<load-on-startup>3</load-on-startup>
 	</servlet>
 <!-- Startup Servlet for WkRepository ... Creates a Session and leaves it open for the life of the Servlet -->
 	<servlet>
