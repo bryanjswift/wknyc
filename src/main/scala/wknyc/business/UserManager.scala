@@ -23,7 +23,7 @@ object UserManager {
 			if (user.password == password) Some(user) else None
 		})
 	}
-	def using[T,D <: Dao](session:Session,dao:D)(f:(D) => T) =
+	private def using[T,D <: Dao](session:Session,dao:D)(f:(D) => T) =
 		try {
 			f(dao)
 		} finally {
