@@ -28,6 +28,15 @@
 		<servlet-name>Jersey Servlet</servlet-name>
 		<url-pattern>/wk/v1/*</url-pattern>
 	</servlet-mapping>
+<!-- Define wknyc Login Servlet -->
+	<servlet>
+		<servlet-name>login</servlet-name>
+		<servlet-class>wknyc.web.servlets.LoginServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>login</servlet-name>
+		<url-pattern>/credentials/login</url-pattern>
+	</servlet-mapping>
 <!-- Define wknyc Register Servlet -->
 	<servlet>
 		<servlet-name>registerUser</servlet-name>
