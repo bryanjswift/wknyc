@@ -26,8 +26,13 @@
 			virtual file system where the repository stores global state
 			(e.g. registered namespaces, custom node types, etc.)
 	-->
-	<FileSystem class="org.apache.jackrabbit.core.fs.local.LocalFileSystem">
-		<param name="path" value="${rep.home}/repository"/>
+	<FileSystem class="org.apache.jackrabbit.core.fs.db.DbFileSystem">
+		<param name="driver" value="com.mysql.jdbc.Driver" />
+		<param name="url" value="jdbc:mysql://localhost/wknyc?autoReconnect=true" />
+		<param name="user" value="wknyc" />
+		<param name="password" value="wknyc" />
+		<param name="schema" value="mysql" />
+		<param name="schemaObjectPrefix" value="wknyc_fs_" />
 	</FileSystem>
 	<!--
 			security configuration
@@ -77,25 +82,33 @@
 				virtual file system of the workspace:
 				class: FQN of class implementing the FileSystem interface
 		-->
-		<FileSystem class="org.apache.jackrabbit.core.fs.local.LocalFileSystem">
-			<param name="path" value="${wsp.home}"/>
+		<FileSystem class="org.apache.jackrabbit.core.fs.db.DbFileSystem">
+			<param name="driver" value="com.mysql.jdbc.Driver" />
+			<param name="url" value="jdbc:mysql://localhost/wknyc?autoReconnect=true" />
+			<param name="user" value="wknyc" />
+			<param name="password" value="wknyc" />
+			<param name="schema" value="mysql" />
+			<param name="schemaObjectPrefix" value="wknyc_fs${wsp.name}_" />
 		</FileSystem>
 		<!--
 				persistence manager of the workspace:
 				class: FQN of class implementing the PersistenceManager interface
 		-->
-		<PersistenceManager class="org.apache.jackrabbit.core.persistence.bundle.DerbyPersistenceManager">
-			<param name="url" value="jdbc:derby:${wsp.home}/db;create=true"/>
-			<param name="schemaObjectPrefix" value="${wsp.name}_"/>
+		<PersistenceManager class="org.apache.jackrabbit.core.persistence.bundle.MySqlPersistenceManager">
+			<param name="driver" value="com.mysql.jdbc.Driver" />
+			<param name="url" value="jdbc:mysql://localhost/wknyc?autoReconnect=true" />
+			<param name="user" value="wknyc" />
+			<param name="password" value="wknyc" />
+			<param name="schemaObjectPrefix" value="wknyc_pm${wsp.name}_" />
 		</PersistenceManager>
 		<!--
 				Search index and the file system it uses.
 				class: FQN of class implementing the QueryHandler interface
 		-->
 		<SearchIndex class="org.apache.jackrabbit.core.query.lucene.SearchIndex">
-			<param name="path" value="${wsp.home}/index"/>
-			<param name="extractorPoolSize" value="2"/>
-			<param name="supportHighlighting" value="true"/>
+			<param name="path" value="${wsp.home}/index" />
+			<param name="extractorPoolSize" value="2" />
+			<param name="supportHighlighting" value="true" />
 		</SearchIndex>
 	</Workspace>
 	<!--
@@ -106,8 +119,13 @@
 				Configures the filesystem to use for versioning for the respective
 				persistence manager
 		-->
-		<FileSystem class="org.apache.jackrabbit.core.fs.local.LocalFileSystem">
-			<param name="path" value="${rep.home}/version"/>
+		<FileSystem class="org.apache.jackrabbit.core.fs.db.DbFileSystem">
+			<param name="driver" value="com.mysql.jdbc.Driver" />
+			<param name="url" value="jdbc:mysql://localhost/wknyc?autoReconnect=true" />
+			<param name="user" value="wknyc" />
+			<param name="password" value="wknyc" />
+			<param name="schema" value="mysql" />
+			<param name="schemaObjectPrefix" value="wknyc_fsversion" />
 		</FileSystem>
 		<!--
 				Configures the persistence manager to be used for persisting version state.
@@ -115,9 +133,12 @@
 				a 'normal' persistence manager, but this could change in future
 				implementations.
 		-->
-		<PersistenceManager class="org.apache.jackrabbit.core.persistence.bundle.DerbyPersistenceManager">
-			<param name="url" value="jdbc:derby:${rep.home}/version/db;create=true"/>
-			<param name="schemaObjectPrefix" value="version_"/>
+		<PersistenceManager class="org.apache.jackrabbit.core.persistence.bundle.MySqlPersistenceManager">
+			<param name="driver" value="com.mysql.jdbc.Driver" />
+			<param name="url" value="jdbc:mysql://localhost/wknyc?autoReconnect=true" />
+			<param name="user" value="wknyc" />
+			<param name="password" value="wknyc" />
+			<param name="schemaObjectPrefix" value="wknyc_pmversion_" />
 		</PersistenceManager>
 	</Versioning>
 	<!--
@@ -125,8 +146,8 @@
 			(/jcr:system tree, contains mainly versions)
 	-->
 	<SearchIndex class="org.apache.jackrabbit.core.query.lucene.SearchIndex">
-		<param name="path" value="${rep.home}/repository/index"/>
-		<param name="extractorPoolSize" value="2"/>
-		<param name="supportHighlighting" value="true"/>
+		<param name="path" value="${rep.home}/repository/index" />
+		<param name="extractorPoolSize" value="2" />
+		<param name="supportHighlighting" value="true" />
 	</SearchIndex>
 </Repository>
