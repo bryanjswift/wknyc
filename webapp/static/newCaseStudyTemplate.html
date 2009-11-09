@@ -6,6 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="library/css/style.css" />
 	<link rel="stylesheet" type="text/css" href="library/css/gui.css" />
 	<link rel="stylesheet" type="text/css" href="library/css/caseStudies.css" />
+	<link rel="stylesheet" type="text/css" href="library/css/newCaseStudy.css" />
 	<!--[if lte IE 7]>
 	<link rel="stylesheet" type="text/css" href="css/iestyle.css" />
 	<![endif]-->
@@ -76,20 +77,20 @@
 					</div>
 					<div id="newCaseStudyContent" class="maincol">
 						<ol id="steps_tabs" class="steps">
-							<li>1<a href="library/ajax/cms/caseStudies/newCaseStudy-BasicInfo.html">Basic Information</a></li>
-							<li>2<a href="library/ajax/cms/caseStudies/newCaseStudy-Assets.html">Assets</a></li>
-							<li>3<a href="library/ajax/cms/caseStudies/newCaseStudy-Press.html">Press</a></li>
+							<li>1<a href="library/ajax/cms/newCaseStudy/newCaseStudy-BasicInfo.html">Basic Information</a></li>
+							<li>2<a href="library/ajax/cms/newCaseStudy/newCaseStudy-Assets.html">Assets</a></li>
+							<li>3<a href="library/ajax/cms/newCaseStudy/newCaseStudy-Press.html">Press</a></li>
 						</ol>
 						<div id="steps_content"></div>
 						<div id="steps_nav">
 							<ol>
-								<li>1<a href="library/ajax/cms/caseStudies/newCaseStudy-BasicInfo.html">Basic Information</a></li>
-								<li>2<a href="library/ajax/cms/caseStudies/newCaseStudy-Assets.html">Assets</a></li>
-								<li>3<a href="library/ajax/cms/caseStudies/newCaseStudy-Press.html">Press</a></li>
+								<li>1<a href="library/ajax/cms/newCaseStudy/newCaseStudy-BasicInfo.html">Basic Information</a></li>
+								<li>2<a href="library/ajax/cms/newCaseStudy/newCaseStudy-Assets.html">Assets</a></li>
+								<li>3<a href="library/ajax/cms/newCaseStudy/newCaseStudy-Press.html">Press</a></li>
 							</ol>
 							<span>Your changes will be saved.</span>
-							<a href="#">Finish</a>
-							<a href="#" class="disabled">Save Draft</a>
+							<a class="submit" href="#">Finish</a>
+							<a href="#" class="save disabled">Save Draft</a>
 						</div>
 						<a class="cancel" href="#">Cancel</a>
 					</div>
@@ -121,10 +122,11 @@
 	<div id="modal"></div>
 	
 	<!-- Core -->
-	<script type="text/javascript" src="library/js/mootools-1.2.4-core.min.js"></script>
-	<script type="text/javascript" src="library/js/mootools-1.2.4.2-more.min.js"></script>
+	<script type="text/javascript" src="library/js/mootools/mootools-1.2.4-core.js"></script>
+	<script type="text/javascript" src="library/js/mootools/mootools-1.2.4.2-more.js"></script>
 	<!-- Global -->
 	<script type="text/javascript" src="library/js/main.js"></script>
+	<script type="text/javascript" src="library/js/wknyc/common/Localization.js"></script>
 	<script type="text/javascript" src="library/js/gui.min.js"></script>
 	<script type="text/javascript" src="library/js/xmlparser.js"></script>
 	<script type="text/javascript" src="library/js/lightbox.js"></script>
@@ -132,13 +134,12 @@
 	<script type="text/javascript" src="library/js/Univers_LT_Std_300.font.js"></script>
 	<!-- Page -->
 	<script type="text/javascript" src="library/js/mgfxtabs.min.js"></script>
-	<script type="text/javascript" src="library/js/caseStudies.min.js"></script>
+	<script type="text/javascript" src="library/js/newCaseStudy.min.js"></script>
 	
     <script type="text/javascript">
     	function pageInit() {
 		    wknyc.section.currentSection = "caseStudies";
-		    wknyc.swf.src.xml = "library/data/work.xml";
-		    wknyc.cms.caseStudies.newCaseStudy = new wknyc.cms.caseStudies.NewCaseStudy();
+		    wknyc.cms.newCaseStudy.instance = new wknyc.cms.newCaseStudy.NewCaseStudy();
     	}
     </script>		
 </body>

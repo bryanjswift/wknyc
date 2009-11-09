@@ -1,0 +1,84 @@
+<div id="press">
+	<form id="pressForm" class="capsuleForm">
+		<!-- Press Capsule -->
+		<fieldset class="capsule">
+			<div class="itemName">
+				<label class="header">Press Item Name*</label>
+				<input class="pressItemName required" name="pressItemName" type="text" />
+			</div>
+			<div class="pressDate">
+				<label class="header">Launch Date</label>
+				<label class="prefill">YYYY</label>
+				<input class="pressDateYear" name="pressDateYear" type="text" />
+				<label class="prefill">MM</label>
+				<input class="pressDateMonth" name="pressDateMonth" type="text" />
+				<label class="prefill">DD</label>
+				<input class="pressDateDay" name="pressDateDay" type="text" />
+				
+				<div class="hidden-field">
+					<input class="dateValue validate-date required" type="text" />
+				</div>
+			</div>
+			<div class="pressUrl">
+				<label class="header">URL</label>
+				<label class="prefill">http://</label>
+				<input class="urlField" name="urlField" type="text" />
+			</div>
+			<div class="pressSource">
+				<label class="header">Source</label>
+				<input class="sourceField" name="sourceField" type="text" />
+			</div>
+			<div class="pressByline">
+				<label class="header">Byline</label>
+				<input class="bylineField" name="bylineField" type="text" />
+			</div>
+		</fieldset>
+		<fieldset class="hide">
+			<input type="submit" value="Submit" />
+		</fieldset>
+	</form>
+	
+	<a href="#" id="add_more_press" class="plus">Add more press</a>
+	
+	<!-- Templates: Used as markup that JS can clone. -->
+	<div class="templates">
+		<form>
+			<!-- Press Capsule -->
+			<fieldset class="capsule">
+				<div class="itemName">
+					<label class="header">Press Item Name*</label>
+					<input class="pressItemName required" name="pressItemName" type="text" />
+				</div>
+				<div class="pressDate">
+					<label class="header">Launch Date</label>
+					<label class="prefill">YYYY</label>
+					<input class="pressDateYear minLength:4 validate-integer" name="pressDateYear" type="text" />
+					<label class="prefill">MM</label>
+					<input class="pressDateMonth minLength:2 validate-integer" name="pressDateMonth" type="text" />
+					<label class="prefill">DD</label>
+					<input class="pressDateDay minLength:2 validate-integer" name="pressDateDay" type="text" />
+				</div>
+				<div class="pressUrl">
+					<label class="header">URL</label>
+					<label class="prefill">http://</label>
+					<input class="urlField" name="urlField" type="text" />
+				</div>
+				<div class="pressSource">
+					<label class="header">Source</label>
+					<input class="sourceField" name="sourceField" type="text" />
+				</div>
+				<div class="pressByline">
+					<label class="header">Byline</label>
+					<input class="bylineField" name="bylineField" type="text" />
+				</div>
+			</fieldset>
+			<fieldset class="hide">
+				<input type="submit" value="Submit" />
+			</fieldset>
+		</form>
+	</div>	
+</div>
+	
+<script type="text/javascript">
+    wknyc.cms.newCaseStudy.instance.setTabLoadedCallback( wknyc.cms.newCaseStudy.instance.setupPressSection );
+</script>

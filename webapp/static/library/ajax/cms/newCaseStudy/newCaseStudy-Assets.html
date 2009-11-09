@@ -1,5 +1,5 @@
 <div id="assets">
-	<form id="assetsForm">
+	<form id="assetsForm" class="capsuleForm">
 		<!-- Required Video Asset Capsule -->
 		<fieldset class="capsule required">
 			<h4>Case Study Video Overview <em>(Required)</em></h4>
@@ -15,7 +15,7 @@
 				<label class="prefill">Enter asset title as it will appear in the case study.</label>
 				<input id="assetTitleField" name="assetTitleField" type="text" />
 				
-				<label>URL</label>
+				<label class="header">URL</label>
 				<label class="prefill">http://</label>
 				<input id="urlField" name="urlField" type="text" />
 			</div>
@@ -114,7 +114,7 @@
 				<label class="prefill">Enter asset title as it will appear in the case study.</label>
 				<input id="assetTitleField" name="assetTitleField" type="text" />
 				
-				<label>URL</label>
+				<label class="header">URL</label>
 				<label class="prefill">http://</label>
 				<input id="urlField" name="urlField" type="text" />
 			</div>
@@ -198,6 +198,9 @@
 				<a href="#" class="expand-collapse open" title="Expand/Collapse">Expand/Collapse</a>
 			</div>
 		</fieldset>
+		<fieldset class="hide">
+			<input type="submit" value="Submit" />
+		</fieldset>
 	</form>
 	
 	<a href="#" id="add_more_assets" class="plus">Add more assets</a>
@@ -221,7 +224,7 @@
 				<label class="prefill">Enter asset title as it will appear in the case study.</label>
 				<input id="assetTitleField" name="assetTitleField" type="text" />
 				
-				<label>URL</label>
+				<label class="header">URL</label>
 				<label class="prefill">http://</label>
 				<input id="urlField" name="urlField" type="text" />
 			</div>
@@ -309,5 +312,5 @@
 </div>
 
 <script type="text/javascript">
-    wknyc.cms.caseStudies.newCaseStudy.setTabLoadedCallback( wknyc.cms.caseStudies.newCaseStudy.setupAssetsSection );
+    wknyc.cms.newCaseStudy.instance.setTabLoadedCallback( wknyc.cms.newCaseStudy.instance.setupAssetsSection );
 </script>

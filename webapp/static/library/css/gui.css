@@ -63,8 +63,20 @@ a.plus {
 .popup {
 	width: 200px;
 	position: absolute;
-	top: 0px;
-	right: -220px
+	top: -5px;
+	left: 100%;
+	margin-left: 10px;
+	z-index: 1000;
+}
+
+.popup > div {
+	background-color: rgba(0,0,0,.5);
+	padding: 10px;
+	color: #ffffff;
+	
+	/* Rounded corners */
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
 }
 
 

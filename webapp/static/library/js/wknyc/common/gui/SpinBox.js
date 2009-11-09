@@ -1,5 +1,5 @@
 /**
- * @author freelancedeveloper1
+ * @author joseph.schmitt
  */
 wknyc.common.gui.SpinBox = new Class({
 	Implements: Options,

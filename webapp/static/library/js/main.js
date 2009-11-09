@@ -8,6 +8,20 @@ var _currentSection, _duration, _transition;
 
 //Main namespace
 var wknyc = {
+	//Packages
+	cms: {
+		caseStudies:{},
+		newCaseStudy:{}
+	},
+	site: {
+		work:{}
+	},
+	common: {
+		gui:{},
+		utils: {}
+	},
+	
+	//Global Variables
 	section: {
 		currentSection: ""
 	},
@@ -17,15 +31,7 @@ var wknyc = {
 	},
 	utils: {},
 	gui: {},
-	cms: {
-		caseStudies:{}
-	},
-	site: {
-		work:{}
-	},
-	common: {
-		gui:{}
-	},
+	
 	swf: {},
 	globals: {},
 	fx: {

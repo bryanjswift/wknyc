@@ -3,10 +3,12 @@
  * 
  * @author joseph.schmitt
  */
-wknyc.cms.caseStudies.NewCaseStudy = new Class({
+wknyc.cms.newCaseStudy.NewCaseStudy = new Class({
 	//Class vars
 	tabs: null,
 	tabLoadedCallback: null,
+	
+	currentTab: null,
 	
 	/**
 	 * Class constructor
@@ -22,7 +24,7 @@ wknyc.cms.caseStudies.NewCaseStudy = new Class({
 			$('steps_content'), 
 			{
 				useAjax: true,
-				defaultTab: 1
+				defaultTab: 2
 			}
 		).addEvent('change', this.onTabChange.bind(this));
 		
@@ -34,6 +36,16 @@ wknyc.cms.caseStudies.NewCaseStudy = new Class({
 				loadDefaultTab: false
 			}
 		).addEvent('change', this.onTabNav.bind(this));
+		
+		var saveDraftButton = $('steps_nav').getElement('a.save').addEvent('click', function(e){
+			this.onSaveDraft();
+			return false;
+		}.bind(this));
+		
+		var submitButton = $('steps_nav').getElement('a.submit').addEvent('click', function(e){
+			this.onFinish();
+			return false;
+		}.bind(this));
 	},
 	
 	onTabChange: function(tabindex, tab) {
@@ -42,12 +54,34 @@ wknyc.cms.caseStudies.NewCaseStudy = new Class({
 	},
 	
 	/**
+	 * Saves the current tab section, but doesn't markt he role as finished or publish
+	 */
+	onSaveDraft: function() {
+		this.currentTab.submit();
+		
+		/*
+		 * TODO: Stuf ro ajax call to mark the role as saved.
+		 */
+	},
+	
+	/**
+	 * Saves the current tab and marks the role as finished.
+	 */
+	onFinish: function() {
+		this.currentTab.submit();
+		
+		/*
+		 * TODO: Stub for ajax call to mark the role as finished.
+		 */
+	},
+	
+	/**
 	 * Sets the function that should be called once the new tab content has been
 	 * loaded.
 	 * @param {Function} fnc - Function to set the callback to.
 	 */
 	setTabLoadedCallback: function(fnc) {
-		this.tabLoadedCallback = fnc;
+		this.tabLoadedCallback = fnc.bind(this);
 	},
 	
 	onTabNav: function(tabindex, tab) {
@@ -73,22 +107,17 @@ wknyc.cms.caseStudies.NewCaseStudy = new Class({
 	 * Function to be called once the Basic Info section is loaded.
 	 */
 	setupBasicInfoSection: function() {
-		var basicInfo = new wknyc.cms.caseStudies.BasicInfoTab($('basic_info'));
+		if( this.currentTab ) this.currentTab.destroy();
+		this.currentTab = new wknyc.cms.newCaseStudy.BasicInfoTab($('basic_info'));
 	},
 	
 	setupAssetsSection: function() {
-		var assets = new wknyc.cms.caseStudies.AssetsTab($('assets'));
-	},
-	
-	setupCreditsSection: function() {
-		console.log('Credits');
+		if( this.currentTab ) this.currentTab.destroy();
+		this.currentTab = new wknyc.cms.newCaseStudy.AssetsTab($('assets'));
 	},
 	
 	setupPressSection: function() {
-		console.log('Press');
-	},
-	
-	setupAwardsSection: function() {
-		console.log('Awards');
+		if( this.currentTab ) this.currentTab.destroy();
+		this.currentTab = new wknyc.cms.newCaseStudy.PressTab($('press'));
 	}
 });

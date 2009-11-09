@@ -1,5 +1,5 @@
 /**
- * @author jayjo
+ * @author joseph.schmitt
  */
 wknyc.common.gui.SectionTabs = new Class({
 	Implements: Options,

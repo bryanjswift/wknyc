@@ -14,7 +14,7 @@
  * 
  * @author joseph.schmitt
  */
-wknyc.cms.caseStudies.HelpPopup = new Class({
+wknyc.cms.newCaseStudy.HelpPopup = new Class({
 	Implements: Options,
 	
 	options: {
@@ -24,7 +24,9 @@ wknyc.cms.caseStudies.HelpPopup = new Class({
 	
 	//Class vars
 	element: $empty,
+	wrapper: $empty,
 	focusBlurTarget: null,
+	titleTagTarget: null,
 	popup: $empty,
 	
 	/**
@@ -43,8 +45,9 @@ wknyc.cms.caseStudies.HelpPopup = new Class({
 	},
 	
 	setupAssets: function(){
-		var wrapper = new Element('div').addClass('popup-wrapper').wraps(this.element);
-		this.popup = new Element('div').addClass('popup').inject(wrapper).appendText(this.titleTagTarget.get('title'));
+		this.wrapper = new Element('div').addClass('popup-wrapper').wraps(this.element);
+		this.popup = new Element('div').addClass('popup').inject(this.wrapper);
+		var text = new Element('div').inject(this.popup).appendText(this.titleTagTarget.get('title'));
 		this.popup.set('tween', {duration: 200, transition: new Fx.Transition(Fx.Transitions.Quad.easeOut)});
 		
 		this.element.erase('title');
@@ -68,5 +71,26 @@ wknyc.cms.caseStudies.HelpPopup = new Class({
 	hide: function(skipTween){
 		if(skipTween) this.popup.fade('hide');
 		else this.popup.fade('out');
+	},
+	
+	destroy: function() {
+		wknyc.cms.newCaseStudy.HelpPopup.Unwrap(this.element);
+		this.popup.erase('tween');
+		
+		if( this.focusBlurTarget ) this.focusBlurTarget.removeEvents();
+		
+		this.element = null;
+		this.wrapper = null;
+		this.focusBlurTarget = null;
+		this.titleTagTarget = null;
+		this.popup = null;
 	}
 });
+
+wknyc.cms.newCaseStudy.HelpPopup.Unwrap = function(element) {
+	var wrapper = element.getParent('.popup-wrapper');
+	if(!wrapper) return;
+	
+	element.inject(wrapper, 'before');
+	wrapper.dispose();
+};

@@ -26,7 +26,7 @@
  * 					after the new content has loaded and has been written to the DOM,
  * 					but before the transition starts.
  * 
- * @author freelancedeveloper1
+ * @author joseph.schmitt
  */
 wknyc.common.gui.Tabs = new Class({
 	Implements: [Options, Events],

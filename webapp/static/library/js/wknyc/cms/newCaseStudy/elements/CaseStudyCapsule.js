@@ -1,7 +1,7 @@
 /**
  * @author joseph.schmitt
  */
-wknyc.cms.caseStudies.CaseStudyCapsule = new Class({
+wknyc.cms.newCaseStudy.CaseStudyCapsule = new Class({
 	Implements: Options,
 	
 	options: {
