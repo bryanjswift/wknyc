@@ -3,25 +3,30 @@ package wknyc.business.validators
 import wknyc.model.{Employee,User,WkCredentials}
 
 object UserValidator {
-	def validateCredentials(username:Option[String],password:Option[String],department:Option[String],title:Option[String]) = {
-		validateUsername(username) ::: validatePassword(password) ::: validateDepartment(department) ::: validateTitle(title) ::: Nil
-	}
-	private def validateUsername(username:Option[String]):List[ValidationError] =
+	def validateCredentials(username:Option[String],password:Option[String],department:Option[String],title:Option[String]) =
+		(
+			validateUsername(username)
+			:: validatePassword(password)
+			:: validateDepartment(department)
+			:: validateTitle(title)
+			:: Nil
+		)
+	private def validateUsername(username:Option[String]):ValidationResult =
 		username match {
-			case None => List(ValidationError("username","Username is required"))
-			case _ => Nil
+			case None => ValidationError("username","Username is required")
+			case _ => ValidationSuccess("username")
 		}
-	private def validatePassword(username:Option[String]):List[ValidationError] =
+	private def validatePassword(username:Option[String]):ValidationResult =
 		username match {
-			case None => List(ValidationError("password","Password is required"))
-			case _ => Nil
+			case None => ValidationError("password","Password is required")
+			case _ => ValidationSuccess("password")
 		}
-	private def validateDepartment(department:Option[String]):List[ValidationError] =
+	private def validateDepartment(department:Option[String]):ValidationResult =
 		department match {
-			case _ => Nil
+			case _ => ValidationSuccess("department")
 		}
-	private def validateTitle(title:Option[String]):List[ValidationError] =
+	private def validateTitle(title:Option[String]):ValidationResult =
 		title match {
-			case _ => Nil
+			case _ => ValidationSuccess("title")
 		}
 }
