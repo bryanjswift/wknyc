@@ -86,6 +86,11 @@ class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUs
 			node.setProperty(SocialNetwork.Url, sn.url)
 		})
 	}
+	/** Check whether a given username exists in the repository
+		* @param username to check for
+		* @returns true if username is taken, false otherwise
+		*/
+	def exists(username:String):Boolean = root.hasNode(username)
 	/** Fetch an Employee or User based on a given UUID or username
 		* @param s - username or UUID by which a node will be fetched
 		* @returns Employee or User built from node retrieved

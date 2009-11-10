@@ -13,7 +13,7 @@ object UserManager {
 		val session = Config.Repository.login(loggedIn,Config.CredentialsWorkspace)
 		using(session,new UserDao(session,Config.Admin))((dao) => {
 			try {
-				Some(dao.save(user).asInstanceOf[T])
+				Some(dao.save(user))
 			} catch {
 				case e:Exception => None
 			}
