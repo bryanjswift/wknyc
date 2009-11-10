@@ -20,7 +20,7 @@ class RegisterResource {
 		@FormParam("department") department:String,
 		@FormParam("title") title:String
 	) = {
-		val user = UserManager.save(WkCredentials(username,password,department,title,None),Config.Admin)
+		val user = UserManager.register(WkCredentials(username,password,department,title,None),Config.Admin)
 		val xml =
 			if (user.isEmpty) {
 				<Response>
@@ -51,7 +51,7 @@ class RegisterResource {
 		@FormParam("firstName") firstName:String,
 		@FormParam("lastName") lastName:String
   ) = {
-		val user = UserManager.save(Employee(
+		val user = UserManager.register(Employee(
 			ContentInfo(Config.Admin),
 			WkCredentials(username,password,department,title,None),
 			PersonalInfo(firstName,lastName,List[SocialNetwork]())

@@ -6,7 +6,10 @@ import wknyc.model.{Employee,User,WkCredentials}
 import wknyc.persistence.{Dao,UserDao}
 
 object UserManager {
-	def save[T <: User](user:T,loggedIn:User):Option[T] = {
+	def register[T <: User](user:T,loggedIn:User):Option[T] = {
+		save(user,loggedIn)
+	}
+	private def save[T <: User](user:T,loggedIn:User):Option[T] = {
 		val session = Config.Repository.login(loggedIn,Config.CredentialsWorkspace)
 		using(session,new UserDao(session,Config.Admin))((dao) => {
 			try {

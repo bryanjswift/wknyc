@@ -22,7 +22,7 @@ class RegisterServlet extends HttpServlet with WkServlet {
 		val view = new VelocityView(RegisterServlet.ViewName)
 		errors match {
 			case Nil =>
-				val user = UserManager.save(
+				val user = UserManager.register(
 					WkCredentials(username.get,password.get,department.getOrElse(""),title.getOrElse(""),None),Config.Admin
 				)
 				view.render(Map("errors" -> errors,"creds" -> user),request,response)
