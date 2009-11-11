@@ -1,32 +1,33 @@
 package wknyc.business.validators
 
-import wknyc.model.{Employee,User,WkCredentials}
+import wknyc.model.{Employee,WkCredentials}
+import wknyc.model.User._
 
 object UserValidator {
-	def validateCredentials(username:Option[String],password:Option[String],department:Option[String],title:Option[String]) =
-		(
-			validateUsername(username)
-			:: validatePassword(password)
-			:: validateDepartment(department)
-			:: validateTitle(title)
-			:: Nil
-		)
-	private def validateUsername(username:Option[String]):ValidationResult =
+	private val emptyRE = "^$".r
+	def validateCredentials(creds:WkCredentials) = ( // using parens because this is one statement
+		validateUsername(creds.username)
+		:: validatePassword(creds.password)
+		:: validateDepartment(creds.department)
+		:: validateTitle(creds.title)
+		:: Nil
+	)
+	private def validateUsername(username:String):ValidationResult =
 		username match {
-			case None => ValidationError("username","Username is required")
-			case _ => ValidationSuccess("username")
+			case emptyRE(empty) => ValidationError(Username,"Username is required")
+			case _ => ValidationSuccess(Username)
 		}
-	private def validatePassword(username:Option[String]):ValidationResult =
+	private def validatePassword(username:String):ValidationResult =
 		username match {
-			case None => ValidationError("password","Password is required")
-			case _ => ValidationSuccess("password")
+			case emptyRE(empty) => ValidationError(Password,"Password is required")
+			case _ => ValidationSuccess(Password)
 		}
-	private def validateDepartment(department:Option[String]):ValidationResult =
+	private def validateDepartment(department:String):ValidationResult =
 		department match {
-			case _ => ValidationSuccess("department")
+			case _ => ValidationSuccess(Department)
 		}
-	private def validateTitle(title:Option[String]):ValidationResult =
+	private def validateTitle(title:String):ValidationResult =
 		title match {
-			case _ => ValidationSuccess("title")
+			case _ => ValidationSuccess(Title)
 		}
 }

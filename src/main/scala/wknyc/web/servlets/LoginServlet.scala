@@ -3,6 +3,7 @@ package wknyc.web.servlets
 import javax.servlet.http.{HttpServlet,HttpServletRequest => Request, HttpServletResponse => Response}
 import velocity.VelocityView
 import wknyc.business.UserManager
+import wknyc.model.User._
 import wknyc.web.WknycSession
 
 class LoginServlet extends HttpServlet with WkServlet {
@@ -11,8 +12,8 @@ class LoginServlet extends HttpServlet with WkServlet {
 		view.render(Map("user" -> null,"errors" -> Nil),request,response)
 	}
 	override def doPost(request:Request, response:Response) = {
-		val username = getParameter(request,"username").get
-		val password = getParameter(request,"password").get
+		val username = getParameter(request)("username")
+		val password = getParameter(request)("password")
 		val (context,user) = UserManager.authenticate(username,password) match {
 			case Some(user) =>
 				val opt = Some(user)
