@@ -17,7 +17,7 @@ class RegisterServlet extends HttpServlet with WkServlet {
 		val param = getParameter(request)(_)
 		val creds = WkCredentials(param(Username),param(Password),param(Department),param(Title),None)
 		// Validation should happen in UserManager
-		val errors = UserValidator.validateCredentials(creds)
+		val errors = UserValidator.validate(creds)
 		val view = new VelocityView(RegisterServlet.ViewName)
 		errors match {
 			case Nil =>
