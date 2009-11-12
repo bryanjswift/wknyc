@@ -3,8 +3,7 @@ package wknyc.web.servlets
 import javax.servlet.http.{HttpServlet,HttpServletRequest => Request, HttpServletResponse => Response}
 import velocity.{VelocityHelper,VelocityView}
 import wknyc.Config
-import wknyc.business.UserManager
-import wknyc.business.validators.UserValidator
+import wknyc.business.{Failure,Success,UserManager}
 import wknyc.model.User._
 import wknyc.model.WkCredentials
 
@@ -16,16 +15,15 @@ class RegisterServlet extends HttpServlet with WkServlet {
 	override def doPost(request:Request, response:Response) = {
 		val param = getParameter(request)(_)
 		val creds = WkCredentials(param(Username),param(Password),param(Department),param(Title),None)
-		// Validation should happen in UserManager
-		val errors = UserValidator.validate(creds)
-		val view = new VelocityView(RegisterServlet.ViewName)
-		errors match {
-			case Nil =>
-				val user = UserManager.register(creds,Config.Admin)
-				view.render(Map("errors" -> errors,"creds" -> user),request,response)
-			case _ =>
-				view.render(Map("errors" -> errors,"creds" -> None),request,response)
+		val result = UserManager.register(creds,Config.Admin)
+		val map = result match {
+			case Success(creds,message) =>
+				Map("errors" -> result.errors,"creds" -> result.payload)
+			case Failure(errors,message) =>
+				Map("errors" -> errors,"creds" -> creds)
 		}
+		val view = new VelocityView(RegisterServlet.ViewName)
+		view.render(map,request,response)
 	}
 }
 

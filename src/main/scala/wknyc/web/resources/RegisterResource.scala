@@ -4,7 +4,7 @@ import com.sun.jersey.spi.resource.Singleton
 import javax.ws.rs.{POST,Produces,Path,FormParam}
 import javax.ws.rs.core.{MediaType,Response}
 import wknyc.Config
-import wknyc.business.UserManager
+import wknyc.business.{Failure,Success,UserManager}
 import wknyc.model.{ContentInfo,Employee,PersonalInfo,SocialNetwork,WkCredentials}
 import wknyc.persistence.UserDao
 
@@ -22,21 +22,21 @@ class RegisterResource {
 	) = {
 		val user = UserManager.register(WkCredentials(username,password,department,title,None),Config.Admin)
 		val xml =
-			if (user.isEmpty) {
-				<Response>
-					<Message>Failed to save {username}</Message>
-				</Response>
-			} else {
-				val creds = user.get
-				<Response>
-					<Message>Credentials successfully created for {creds.username}</Message>
-					<Credentials>
-						<UUID>{creds.uuid.get}</UUID>
-						<Username>{creds.username}</Username>
-						<Department>{creds.department}</Department>
-						<Title>{creds.title}</Title>
-					</Credentials>
-				</Response>
+			user match {
+				case Success(creds,message) =>
+					<Response>
+						<Message>Credentials successfully created for {creds.username}</Message>
+						<Credentials>
+							<UUID>{creds.uuid.get}</UUID>
+							<Username>{creds.username}</Username>
+							<Department>{creds.department}</Department>
+							<Title>{creds.title}</Title>
+						</Credentials>
+					</Response>
+				case Failure(errors,message) =>
+					<Response>
+						<Message>Failed to save {username}</Message>
+					</Response>
 			}
 		Response.status(Response.Status.OK).entity(xml).build
 	}
@@ -57,23 +57,23 @@ class RegisterResource {
 			PersonalInfo(firstName,lastName,List[SocialNetwork]())
 		),Config.Admin)
 		val xml =
-			if (user.isEmpty) {
-				<Response>
-					<Message>Failed to save {username}</Message>
-				</Response>
-			} else {
-				val employee = user.get
-				<Response>
-					<Message>Employee successfully created for {employee.username}</Message>
-					<Credentials>
-						<UUID>{employee.uuid.get}</UUID>
-						<Username>{employee.username}</Username>
-						<Department>{employee.department}</Department>
-						<Title>{employee.title}</Title>
-						<FirstName>{employee.firstName}</FirstName>
-						<LastName>{employee.lastName}</LastName>
-					</Credentials>
-				</Response>
+			user match {
+				case Success(employee,message) =>
+					<Response>
+						<Message>Employee successfully created for {employee.username}</Message>
+						<Credentials>
+							<UUID>{employee.uuid.get}</UUID>
+							<Username>{employee.username}</Username>
+							<Department>{employee.department}</Department>
+							<Title>{employee.title}</Title>
+							<FirstName>{employee.firstName}</FirstName>
+							<LastName>{employee.lastName}</LastName>
+						</Credentials>
+					</Response>
+				case Failure(errors,message) =>
+					<Response>
+						<Message>Failed to save {username}</Message>
+					</Response>
 			}
 		Response.status(Response.Status.OK).entity(xml).build
   }

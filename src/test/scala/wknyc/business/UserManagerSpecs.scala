@@ -9,8 +9,8 @@ object UserManagerSpecs extends Specification {
 		"return Some(user) when saving a valid user" >> {
 			val user = WkCredentials("bs@wk.com","password","T","SE",None)
 			val saved = UserManager.register(user,Config.Admin)
-			saved must beSome[WkCredentials]
-			saved.get.uuid must beSome[String]
+			saved must beSuccess[WkCredentials]
+			saved.payload.uuid must beSome[String]
 		}
 		"return Some(user) when authenticating a valid user" >> {
 			// open session so repository doesn't shut down during test
