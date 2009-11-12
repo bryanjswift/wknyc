@@ -5,13 +5,15 @@ import wknyc.Config
 import wknyc.model.{WkCredentials,User}
 
 object UserManagerSpecs extends Specification {
-	"UserManager" should {
-		"return Some(user) when saving a valid user" >> {
+	"UserManager.register" should {
+		"return Success(user) when saving a valid user" >> {
 			val user = WkCredentials("bs@wk.com","password","T","SE",None)
 			val saved = UserManager.register(user,Config.Admin)
 			saved must beSuccess[WkCredentials]
 			saved.payload.uuid must beSome[String]
 		}
+	}
+	"UserManager.authenticate" should {
 		"return Some(user) when authenticating a valid user" >> {
 			// open session so repository doesn't shut down during test
 			val session = Config.Repository.login(Config.Admin,Config.CredentialsWorkspace)
