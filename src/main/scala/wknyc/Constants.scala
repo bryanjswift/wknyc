@@ -1,0 +1,4 @@
+package wknyc
+
+object Constants {
+}
