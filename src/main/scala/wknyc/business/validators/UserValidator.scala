@@ -1,15 +1,18 @@
 package wknyc.business.validators
 
-import wknyc.model.{Employee,User,WkCredentials}
+import wknyc.model.{Employee,PersonalInfo,User,WkCredentials}
+import wknyc.model.Employee._
 import wknyc.model.User._
 
-object UserValidator {
-	private val emptyRE = "^$".r
-	def validate(user:User) =
+object UserValidator extends Validator {
+	// do the work
+	override def validate(user:AnyRef):List[ValidationResult] =
 		user match {
 			case creds:WkCredentials => validateCredentials(creds)
 			case employee:Employee => validateEmployee(employee)
+			case _ => Nil
 		}
+	// Type Validation
 	private def validateCredentials(creds:WkCredentials) = ( // this is one statement
 		validateUsername(creds.username)
 		:: validatePassword(creds.password)
@@ -17,23 +20,19 @@ object UserValidator {
 		:: validateTitle(creds.title)
 		:: Nil
 	)
-	private def validateEmployee(employee:Employee) = validateCredentials(employee.credentials)
-	private def validateUsername(username:String):ValidationResult =
-		username match {
-			case emptyRE(empty) => ValidationError(Username,"Username is required")
-			case _ => ValidationSuccess(Username)
-		}
-	private def validatePassword(username:String):ValidationResult =
-		username match {
-			case emptyRE(empty) => ValidationError(Password,"Password is required")
-			case _ => ValidationSuccess(Password)
-		}
-	private def validateDepartment(department:String):ValidationResult =
-		department match {
-			case _ => ValidationSuccess(Department)
-		}
-	private def validateTitle(title:String):ValidationResult =
-		title match {
-			case _ => ValidationSuccess(Title)
-		}
+	private def validateEmployee(employee:Employee) =
+		validateCredentials(employee.credentials) ::: validatePersonalInfo(employee.personalInfo)
+	private def validatePersonalInfo(info:PersonalInfo) = ( // this is one statement
+		validateFirstName(info.firstName)
+		:: validateLastName(info.lastName)
+		:: Nil
+	)
+	// Credentials Field Validation
+	private def validateUsername(username:String) = required(username,Username)
+	private def validatePassword(password:String) = required(password,Password)
+	private def validateDepartment(department:String) = notValidated(Department)
+	private def validateTitle(title:String) = notValidated(Title)
+	// PersonalInfo Field Validation
+	private def validateFirstName(firstName:String) = notValidated(FirstName)
+	private def validateLastName(lastName:String) = notValidated(LastName)
 }
