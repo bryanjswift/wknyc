@@ -10,7 +10,7 @@ object UserValidator extends Validator {
 		user match {
 			case creds:WkCredentials => validateCredentials(creds)
 			case employee:Employee => validateEmployee(employee)
-			case _ => Nil
+			case _ => throw new IllegalArgumentException(String.format("%s is not a known User type",user.getClass.getName))
 		}
 	// Type Validation
 	private def validateCredentials(creds:WkCredentials) = ( // this is one statement
