@@ -61,7 +61,7 @@ class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUs
 		* @param n - node to write data to
 		* @param user whose data should be written
 		*/
-	private def writeProperties(n:Node,user:User):Unit = {
+	private def writeProperties(n:Node,user:User) {
 		n.setProperty(User.Username,user.username)
 		n.setProperty(User.Password,user.password)
 		n.setProperty(User.Department,user.department)
@@ -72,7 +72,7 @@ class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUs
 		* @param employee object containing data to write
 		* @param ci ContentInfo with datestamps and user tracking to write
 		*/
-	private def writeProperties(n:Node,employee:Employee,ci:ContentInfo):Unit = {
+	private def writeProperties(n:Node,employee:Employee,ci:ContentInfo) {
 		writeProperties(n,employee)
 		n.setProperty(Employee.FirstName,employee.firstName)
 		n.setProperty(Employee.LastName,employee.lastName)

@@ -18,17 +18,18 @@ trait FileServlet extends WkServlet {
 			def next = iter.next
 		}
 	protected val createRelativePath = FileServlet.createRelativePath _
-	protected def writeFile(in:InputStream,out:OutputStream,buffer:Array[Byte]):Unit = {
+	protected def writeFile(in:InputStream,out:OutputStream,buffer:Array[Byte]) {
 		var len = in.read(buffer)
 		writeFile(in,out,buffer,len)
 		out.flush
 	}
-	private def writeFile(in:InputStream,out:OutputStream,buffer:Array[Byte],len:Int):Unit =
+	private def writeFile(in:InputStream,out:OutputStream,buffer:Array[Byte],len:Int) {
 		if (len != -1) {
 			out.write(buffer, 0, len)
 			val length = in.read(buffer)
 			writeFile(in,out,buffer,length)
 		}
+	}
 }
 
 object FileServlet {
