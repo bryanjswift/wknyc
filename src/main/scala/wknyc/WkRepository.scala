@@ -6,6 +6,8 @@ import org.apache.jackrabbit.core.{SessionImpl,TransientRepository}
 class WkRepository extends TransientRepository {
 	private var registered = Set[String]()
 	private var sessions = Set[Session]()
+	def kill =
+		sessions.foreach(session => session.logout)
 	override def login(credentials:Credentials,workspaceName:String) = {
 		val session = super.login(credentials,workspaceName)
 		sessions += session
