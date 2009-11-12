@@ -14,6 +14,9 @@
 				#end
 			</ul>
 		#end
+		#if (!$uuid.isEmpty())
+			<p>Successfully saved ImageAsset with uuid: $uuid.get()</p>
+		#end
 		<form method="POST" action="/assets/imageUpload" enctype="multipart/form-data">
 			<input type="hidden" name="name" id="name" value="stupid" />
 			<label for="full">Full Size Image</label><input type="file" id="full" name="full" />

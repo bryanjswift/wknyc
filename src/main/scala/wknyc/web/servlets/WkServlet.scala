@@ -10,4 +10,9 @@ trait WkServlet {
 		if (value == default || value == null) { this.default }
 		else { value }
 	}
+	protected def getSession(request:Request) =
+		request.getSession.getAttribute(WknycSession.Key) match {
+			case null => None
+			case session:WknycSession => Some(session)
+		}
 }

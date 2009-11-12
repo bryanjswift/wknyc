@@ -7,17 +7,26 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload
 import org.apache.commons.fileupload.util.Streams
 import velocity.VelocityView
 import wknyc.model.{ContentInfo,Image,ImageAsset,ImageSet,ImageSize}
+import wknyc.persistence.AssetDao
 
 class ImageServlet extends HttpServlet with FileServlet {
 	val path = createRelativePath(Props("wknyc.uploads.images"))
 	override def doGet(request:Request, response:Response) = {
 		val view = new VelocityView("assets/imageUpload.vm")
-		view.render(Map("errors" -> Nil),request,response)
+		view.render(Map("errors" -> Nil,"uuid" -> None),request,response)
 	}
 	override def doPost(request:Request, response:Response) = {
 		val asset = getAssetStreaming(request)
+		var uuid:Option[String] = None
+		getSession(request).foreach(session =>
+			session.user.foreach(user => {
+				val s = Config.Repository.login(user)
+				val dao = new AssetDao(s,user)
+				uuid = dao.save(asset).uuid
+			})
+		)
 		val view = new VelocityView("assets/imageUpload.vm")
-		view.render(Map("errors" -> Nil),request,response)
+		view.render(Map("errors" -> Nil,"uuid" -> uuid),request,response)
 	}
 	private def getAssetTempFiles(request:Request) = {
 		val list = FileServlet.ServletFileUpload.parseRequest(request).asInstanceOf[java.util.List[FileItem]]
