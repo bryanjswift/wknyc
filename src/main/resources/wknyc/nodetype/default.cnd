@@ -8,8 +8,7 @@ mixin
 
 [wk:client] > nt:base, wk:content
 -name (string) primary mandatory
-+caseStudies(wk:caseStudy)=wk:caseStudy
-multiple
+// Will likely have child nodes of type wk:caseStudy
 
 [wk:caseStudy] > nt:base, wk:content
 -name (string) primary mandatory
