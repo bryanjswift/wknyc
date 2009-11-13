@@ -52,15 +52,7 @@ class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedIn
 	def save(client:Client) = {
 		val node = getNode(ClientRoot,client.name,Client.NodeType)
 		saveContentInfo(node,client.contentInfo.modifiedBy(loggedInUser))
-		client.caseStudies.foreach(study => {
-			val n =
-				if (node.hasNode(study.name)) {
-					node.getNode(study.name)
-				} else {
-					getNode(node,study.name,CaseStudy.NodeType)
-				}
-			writeCaseStudy(n,study)
-		})
+		client.caseStudies.foreach(study => writeCaseStudy(getNode(node,study.name,CaseStudy.NodeType),study))
 		node.setProperty(Client.Name,client.name)
 		session.save
 		node.checkin
