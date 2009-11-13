@@ -6,6 +6,26 @@ mixin
 -lastModified (date)
 -modifiedBy (string) mandatory
 
+[wk:client] > nt:base, wk:content
+-name (string) primary mandatory
++caseStudies(wk:caseStudy)=wk:caseStudy
+multiple
+
+[wk:caseStudy] > nt:base, wk:content
+-name (string) primary mandatory
+-headline (string) mandatory
+-studyType (string) mandatory
+-tags (string) multiple
+-related (reference) multiple
++video(wk:asset)=wk:downloadAsset
++images(wk:imageAsset)=wk:imageAsset
+multiple
++description(wk:copyAsset)=wk:copyAsset
++downloads(wk:downloadAsset)=wk:downloadAsset
+multiple
++press(wk:pressAsset)=wk:pressAsset
+multiple
+
 [wk:asset] > wk:content
 mixin
 -title (string) primary mandatory
@@ -44,17 +64,3 @@ mixin
 -description (reference)
 -image (reference)
 
-[wk:caseStudy] > nt:base, wk:content
--assets (reference) multiple
--description (reference) mandatory
--downloads (reference) multiple
--headline (string) mandatory
--name (string) primary mandatory
--press (reference) multiple
--related (reference) multiple
--studyType (string) mandatory
--tags (string) multiple
-
-[wk:client] > nt:base, wk:content
--name (string) primary mandatory
--caseStudies (reference) multiple
