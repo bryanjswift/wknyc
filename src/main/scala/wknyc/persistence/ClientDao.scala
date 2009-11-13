@@ -1,6 +1,6 @@
 package wknyc.persistence
 
-import javax.jcr.{PropertyType,Session}
+import javax.jcr.{Node,PropertyType,Session}
 import wknyc.Config
 import wknyc.model.{CaseStudy,Client,DownloadableAsset,PressAsset,User}
 
@@ -19,6 +19,12 @@ class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedIn
 	private lazy val assetDao = new AssetDao(session,loggedInUser)
 	def save(caseStudy:CaseStudy) = {
 		val node = getNode(CaseStudyRoot,caseStudy.name,CaseStudy.NodeType)
+		writeCaseStudy(node,caseStudy)
+		session.save
+		node.checkin
+		caseStudy.cp(node.getUUID)
+	}
+	private def writeCaseStudy(node:Node,caseStudy:CaseStudy) {
 		saveContentInfo(node,caseStudy.contentInfo.modifiedBy(loggedInUser))
 		node.setProperty(CaseStudy.Description,session.getNodeByUUID(caseStudy.description.uuid.get))
 		node.setProperty(CaseStudy.Downloads,caseStudy.downloads.map(a => a.uuid.get),PropertyType.REFERENCE)
@@ -28,9 +34,6 @@ class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedIn
 		node.setProperty(CaseStudy.Related,caseStudy.related.map(a => a.uuid.get),PropertyType.REFERENCE)
 		node.setProperty(CaseStudy.StudyType,caseStudy.studyType)
 		node.setProperty(CaseStudy.Tags,caseStudy.tags)
-		session.save
-		node.checkin
-		caseStudy.cp(node.getUUID)
 	}
 	def getCaseStudy(uuid:String):CaseStudy = {
 		val node = session.getNodeByUUID(uuid)
@@ -49,8 +52,16 @@ class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedIn
 	def save(client:Client) = {
 		val node = getNode(ClientRoot,client.name,Client.NodeType)
 		saveContentInfo(node,client.contentInfo.modifiedBy(loggedInUser))
+		client.caseStudies.foreach(study => {
+			val n =
+				if (node.hasNode(study.name)) {
+					node.getNode(study.name)
+				} else {
+					getNode(node,study.name,CaseStudy.NodeType)
+				}
+			writeCaseStudy(n,study)
+		})
 		node.setProperty(Client.Name,client.name)
-		node.setProperty(Client.CaseStudies,client.caseStudies.map(study => study.uuid.get),PropertyType.REFERENCE)
 		session.save
 		node.checkin
 		client.cp(node.getUUID)
