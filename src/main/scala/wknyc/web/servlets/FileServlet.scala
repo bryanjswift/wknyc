@@ -12,11 +12,6 @@ trait FileServlet extends WkServlet {
 			def hasNext = it.hasNext
 			def next = it.next
 		}
-	protected implicit def convertIterator(iter:java.util.Iterator[FileItem]):Iterator[FileItem] =
-		new Iterator[FileItem] {
-			def hasNext = iter.hasNext
-			def next = iter.next
-		}
 	protected val createRelativePath = FileServlet.createRelativePath _
 	protected def writeFile(in:InputStream,out:OutputStream,buffer:Array[Byte]) {
 		var len = in.read(buffer)
@@ -33,8 +28,6 @@ trait FileServlet extends WkServlet {
 }
 
 object FileServlet {
-	lazy val DiskFileItemFactory = new DiskFileItemFactory(2048,new File(createRelativePath(Props("wknyc.upload.temp"))))
-	lazy val ServletFileUpload = new ServletFileUpload(DiskFileItemFactory)
 	lazy val StreamingUpload = new ServletFileUpload()
 	private def createRelativePath(path:String) = {
 		val folders = path.split(java.io.File.separator)

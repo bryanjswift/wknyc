@@ -2,8 +2,7 @@ package wknyc.web.servlets
 
 import java.io.{File,FileOutputStream}
 import javax.servlet.http.{HttpServlet,HttpServletRequest => Request, HttpServletResponse => Response}
-import org.apache.commons.fileupload.{FileItem,FileItemStream}
-import org.apache.commons.fileupload.servlet.ServletFileUpload
+import org.apache.commons.fileupload.FileItemStream
 import org.apache.commons.fileupload.util.Streams
 import velocity.VelocityView
 import wknyc.model.{ContentInfo,Image,ImageAsset,ImageSet,ImageSize}
@@ -16,27 +15,18 @@ class ImageServlet extends HttpServlet with FileServlet {
 		view.render(Map("errors" -> Nil,"uuid" -> None),request,response)
 	}
 	override def doPost(request:Request, response:Response) = {
+		import WkPredef._
 		val asset = getAssetStreaming(request)
-		var uuid:Option[String] = None
-		getSession(request).foreach(session =>
-			session.user.foreach(user => {
+		val uuid = getSession(request).flatMap(session =>
+			session.user.flatMap(user => {
 				val s = Config.Repository.login(user)
-				val dao = new AssetDao(s,user)
-				uuid = dao.save(asset).uuid
+				using(s,new AssetDao(s,user))((dao) => {
+					dao.save(asset).uuid
+				})
 			})
 		)
 		val view = new VelocityView("assets/imageUpload.vm")
 		view.render(Map("errors" -> Nil,"uuid" -> uuid),request,response)
-	}
-	private def getAssetTempFiles(request:Request) = {
-		val list = FileServlet.ServletFileUpload.parseRequest(request).asInstanceOf[java.util.List[FileItem]]
-		val (formFields, fileItems) = list.iterator.duplicate // implicitly converted from java.util.Iterator to Iterator
-		val name = formFields.find(item => item.getFieldName == "name").get.getString
-		val images = for {
-			item <- fileItems
-			if (!item.isFormField)
-		} yield processFile(item)
-		ImageAsset(ContentInfo(Config.Admin),name,ImageSet(images))
 	}
 	private def getAssetStreaming(request:Request) = {
 		val (formFields, fileItems) = FileServlet.StreamingUpload.getItemIterator(request).duplicate
@@ -61,13 +51,5 @@ class ImageServlet extends HttpServlet with FileServlet {
 			in.close
 			out.close
 		}
-	}
-	private def processFile(item:FileItem) = {
-		val path = createRelativePath(Props("wknyc.uploads.images"))
-		val size = ImageSize(item.getFieldName)
-		val savePath = path + File.separator + item.getName
-		val file = new File(savePath)
-		item.write(file)
-		Image(savePath,"","",size)
 	}
 }
