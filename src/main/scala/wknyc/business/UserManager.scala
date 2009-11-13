@@ -1,12 +1,11 @@
 package wknyc.business
 
-import javax.jcr.Session
-import wknyc.Config
 import wknyc.business.validators.{Error,UserValidator,ValidationSuccess}
 import wknyc.model.User
-import wknyc.persistence.{Dao,UserDao}
+import wknyc.persistence.UserDao
 
 object UserManager {
+	import WkPredef._
 	def register[T <: User](user:T,loggedIn:User) = save(user,loggedIn)
 	private def save[T <: User](user:T,loggedIn:User):Response[_ <: T] = {
 		val session = Config.Repository.login(loggedIn,Config.CredentialsWorkspace)
@@ -32,11 +31,4 @@ object UserManager {
 			if (user.password == password) Some(user) else None
 		})
 	}
-	private def using[T,D <: Dao](session:Session,dao:D)(f:(D) => T) =
-		try {
-			f(dao)
-		} finally {
-			dao.close
-			session.logout
-		}
 }
