@@ -27,18 +27,24 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 		* @returns a copy of the asset with it's uuid updated
 		*/
 	def save[T <: Asset](asset:T):T = {
-		val node = asset match {
-			case copy:CopyAsset =>  writeProperties(getNode(CopyRoot,asset.title,CopyAsset.NodeType),copy)
-			case download:DownloadableAsset =>
-				writeProperties(getNode(DownloadableRoot,asset.title,DownloadableAsset.NodeType),download)
-			case image:ImageAsset => writeProperties(getNode(ImageRoot,asset.title,ImageAsset.NodeType),image)
-			case press:PressAsset => writeProperties(getNode(PressRoot,asset.title,PressAsset.NodeType),press)
-			case award:AwardAsset => writeProperties(getNode(AwardRoot,asset.title,AwardAsset.NodeType),award)
-		}
+		val node = writeProperties(asset,None,asset.title)
 		session.save
 		node.checkin
 		asset.cp(node.getUUID).asInstanceOf[T]
 	}
+	private[persistence] def writeProperties[T <: Asset](asset:T,root:Option[Node],name:String):Node =
+		asset match {
+			case copy:CopyAsset =>
+				writeProperties(getNode(root.getOrElse(CopyRoot),name,CopyAsset.NodeType),copy)
+			case download:DownloadableAsset =>
+				writeProperties(getNode(root.getOrElse(DownloadableRoot),name,DownloadableAsset.NodeType),download)
+			case image:ImageAsset =>
+				writeProperties(getNode(root.getOrElse(ImageRoot),name,ImageAsset.NodeType),image)
+			case press:PressAsset =>
+				writeProperties(getNode(root.getOrElse(PressRoot),name,PressAsset.NodeType),press)
+			case award:AwardAsset =>
+				writeProperties(getNode(root.getOrElse(AwardRoot),name,AwardAsset.NodeType),award)
+		}
 	/** Write general Asset properties to a node
 		* @param node to write into
 		* @param asset to be written
@@ -56,6 +62,10 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 		node.setProperty(FileInfo.Path,file.path)
 		node.setProperty(FileInfo.Url,file.url)
 	}
+	/** Write ImageInfo properties to a node
+		* @param node to write into
+		* @param ImageInfo to be written
+		*/
 	private def writeImageProperties(parent:Node,info:ImageInfo) = {
 		val n = getUnversionedNode(parent,info.size.name,Image.NodeType)
 		writeFileInfoProperties(n, info)
