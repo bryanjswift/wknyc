@@ -93,9 +93,11 @@ abstract class Dao(private val session:Session, private val loggedInUser:User) {
 		node.setProperty(Content.ModifiedBy, loggedInUser.uuid.get)
 	}
 	// Convert a NodeIterator to an actual Iterator with generics
-	implicit protected def nodeiterator2iterator(nodeIterator:NodeIterator):Iterator[Node] = new Iterator[Node] {
-		def hasNext = nodeIterator.hasNext
-		def next = nodeIterator.nextNode
+	implicit protected def nodeiterator2iterable(nodeIterator:NodeIterator):Iterable[Node] = new Iterable[Node] {
+		def elements = new Iterator[Node] {
+			def hasNext = nodeIterator.hasNext
+			def next = nodeIterator.nextNode
+		}
 	}
 }
 
