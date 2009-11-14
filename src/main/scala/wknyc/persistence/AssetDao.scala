@@ -152,8 +152,8 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 		DownloadableAsset(
 			getContentInfo(node),
 			node.getProperty(Asset.Title).getString,
-			node.getProperty(FileInfo.Url).getString,
-			node.getProperty(FileInfo.Path).getString
+			node.getProperty(FileInfo.Path).getString,
+			node.getProperty(FileInfo.Url).getString
 		)
 	private def getImage(node:Node) = {
 		import wknyc.model.ImageSize

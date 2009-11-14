@@ -64,7 +64,7 @@ object CopyAsset {
 }
 // Download related asset classes (video, audio, archive, document)
 case class DownloadableAsset(contentInfo:ContentInfo, title:String, path:String, url:String) extends Asset with FileInfo {
-	def cp(uuid:String) = DownloadableAsset(contentInfo.cp(uuid), title, url, path)
+	def cp(uuid:String) = DownloadableAsset(contentInfo.cp(uuid), title, path, url)
 }
 object DownloadableAsset {
 	val NodeType = "wk:downloadAsset"
