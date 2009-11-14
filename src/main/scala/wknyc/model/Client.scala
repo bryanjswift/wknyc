@@ -3,16 +3,18 @@ package wknyc.model
 /** Represent the Case Study concept which is the primary display unit */
 case class CaseStudy(
 	contentInfo:ContentInfo,
-	description:CopyAsset,
-	downloads:List[DownloadableAsset],
-	headline:String,
 	name:String,
-	press:List[PressAsset],
-	related:List[CaseStudy],
+	headline:String,
 	studyType:String,
-	tags:List[String]
+	tags:List[String],
+	related:List[CaseStudy],
+	video:DownloadableAsset,
+	description:CopyAsset,
+	images:Iterable[ImageAsset],
+	downloads:Iterable[DownloadableAsset],
+	press:Iterable[PressAsset]
 ) extends Content {
-	def cp(uuid:String) = CaseStudy(contentInfo.cp(uuid),description,downloads,headline,name,press,related,studyType,tags)
+	def cp(uuid:String) = CaseStudy(contentInfo.cp(uuid),name,headline,studyType,tags,related,video,description,images,downloads,press)
 }
 
 object CaseStudy {
@@ -20,14 +22,16 @@ object CaseStudy {
 	val Description = "description"
 	val Downloads = "downloads"
 	val Headline = "headline"
+	val Images = "images"
 	val Name = "name"
 	val Press = "press"
 	val Related = "related"
 	val StudyType = "studyType"
 	val Tags = "tags"
+	val Video = "video"
 }
 /** Represent a collection of CaseStudy objects */
-case class Client(contentInfo:ContentInfo, name:String, caseStudies:List[CaseStudy]) extends Content {
+case class Client(contentInfo:ContentInfo, name:String, caseStudies:Iterable[CaseStudy]) extends Content {
 	def cp(uuid:String) = Client(contentInfo.cp(uuid), name, caseStudies)
 }
 

@@ -1,7 +1,7 @@
 package wknyc.persistence
 
 import org.specs.Specification
-import wknyc.model.{CaseStudy,Client,ContentInfo,CopyAsset,DownloadableAsset,PressAsset,WkCredentials}
+import wknyc.model.{CaseStudy,Client,ContentInfo,CopyAsset,DownloadableAsset,Image,ImageAsset,ImageSet,PressAsset,TinyThumbnail,WkCredentials}
 
 object ClientDaoSpecs extends Specification {
 	"ClientDao" should {
@@ -12,35 +12,42 @@ object ClientDaoSpecs extends Specification {
 		val userDao = new UserDao(securitySession,Config.Admin)
 		val root = userDao.save(WkCredentials("root@wk.com","root","","",None))
 		val assetDao = new AssetDao(session,root)
-		val copy = assetDao.save(CopyAsset(
+		val copy = CopyAsset(
 				ContentInfo(root),
 				"Title",
 				<p>Just a test</p>
-			))
-		val download = assetDao.save(DownloadableAsset(
+			)
+		val download = DownloadableAsset(
 				ContentInfo(root),
 				"Download Title",
 				"/download/path",
 				"download url"
-			))
-		val press = assetDao.save(PressAsset(
+			)
+		val press = PressAsset(
 				ContentInfo(root),
 				"Press Title",
 				"Press Author",
 				"Press Source Url?",
 				"Press Source Name"
-			))
+			)
+		val imageAsset = ImageAsset(
+				ContentInfo(root),
+				"Test Image",
+				ImageSet(new Image("/path/to/what","http://example.com/path","alt",TinyThumbnail))
+			)
 		val caseStudy =
 			CaseStudy(
 				ContentInfo(root),
-				copy,
-				List(download),
-				"Headline",
 				"name",
-				List(press),
-				List[CaseStudy](),
+				"Headline",
 				"study type",
-				List("tag1","tag2","another tag")
+				List("tag1","tag2","another tag"),
+				List[CaseStudy](),
+				download,
+				copy,
+				List(imageAsset),
+				List(download),
+				List(press)
 			)
 		val dao = new ClientDao(session,root)
 		doAfterSpec {
@@ -53,34 +60,30 @@ object ClientDaoSpecs extends Specification {
 			dao.save(caseStudy).uuid must beSome[String]
 		}
 		"get a CaseStudy" >> {
-			val caseStudy1 = dao.save(caseStudy)
+			val caseStudy1 = dao.save(caseStudy) // save doesn't update cascaded uuids
 			caseStudy1.uuid must beSome[String]
 			val retrieved = dao.getCaseStudy(caseStudy1.uuid.get)
-			caseStudy1 must_== retrieved
+			caseStudy1.uuid must_== retrieved.uuid
 		}
 		"save a Client" >> {
-			val caseStudy1 = dao.save(caseStudy)
-			caseStudy1.uuid must beSome[String]
 			val client =
 				dao.save(Client(
 					ContentInfo(root),
 					"Test Client",
-					List(caseStudy1)
+					List(caseStudy)
 				))
 			client.uuid must beSome[String]
 		}
 		"get a Client" >> {
-			val caseStudy1 = dao.save(caseStudy)
-			caseStudy1.uuid must beSome[String]
 			val client =
 				dao.save(Client(
 					ContentInfo(root),
 					"Test Client",
-					List(caseStudy1)
-				))
+					List(caseStudy)
+				)) // save doesn't update cascaded uuids
 			client.uuid must beSome[String]
 			val retrieved = dao.getClient(client.uuid.get)
-			client must_== retrieved
+			client.uuid must_== retrieved.uuid
 		}
 	}
 }
