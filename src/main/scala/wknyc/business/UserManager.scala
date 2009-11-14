@@ -3,6 +3,7 @@ package wknyc.business
 import wknyc.business.validators.{Error,UserValidator,ValidationSuccess}
 import wknyc.model.User
 import wknyc.persistence.UserDao
+import wknyc.{Config, WkPredef}
 
 object UserManager {
 	import WkPredef._
