@@ -4,11 +4,25 @@ import javax.jcr.{Node,NodeIterator,Session}
 import wknyc.model.{Content,ContentInfo,User}
 
 abstract class Dao(private val session:Session, private val loggedInUser:User) {
+	// Root node for this Dao
 	protected def root = session.getRootNode
+	// Dao with access to user data
 	protected def userDao:UserDao
 	/** Release resources associated with the Dao
 		*/
 	def close
+	/**Delete node with the given UUID
+		* @param uuid of the node to delete
+		*/
+	def delete(uuid:String) = {
+		val node = session.getNodeByUUID(uuid)
+		val parent = node.getParent
+		val versionable = parent.isNodeType("mix:versionable")
+		if (versionable) parent.checkout
+		node.remove
+		parent.save
+		if (versionable) parent.checkin
+	}
 	/** Create/retrieve an unstructured node from the root of the session's workspace
 		* @param name of the node to retrieve
 		* @returns Node with the given name
