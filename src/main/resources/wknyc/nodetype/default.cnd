@@ -17,9 +17,9 @@ mixin
 -tags (string) multiple
 -related (reference) multiple
 +video(wk:asset)=wk:downloadAsset
++description(wk:copyAsset)=wk:copyAsset
 +images(wk:imageAsset)=wk:imageAsset
 multiple
-+description(wk:copyAsset)=wk:copyAsset
 +downloads(wk:downloadAsset)=wk:downloadAsset
 multiple
 +press(wk:pressAsset)=wk:pressAsset
