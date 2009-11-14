@@ -8,6 +8,7 @@ mixin
 
 [wk:client] > nt:base, wk:content
 -name (string) primary mandatory
++caseStudies(nt:unstructured)=nt:unstructured
 // Will likely have child nodes of type wk:caseStudy
 
 [wk:caseStudy] > nt:base, wk:content
@@ -18,12 +19,9 @@ mixin
 -related (reference) multiple
 +video(wk:asset)=wk:downloadAsset
 +description(wk:copyAsset)=wk:copyAsset
-+images(wk:imageAsset)=wk:imageAsset
-multiple
-+downloads(wk:downloadAsset)=wk:downloadAsset
-multiple
-+press(wk:pressAsset)=wk:pressAsset
-multiple
++images(nt:unstructured)=nt:unstructured
++downloads(nt:unstructured)=nt:unstructured
++press(nt:unstructured)=nt:unstructured
 
 [wk:asset] > wk:content
 mixin
