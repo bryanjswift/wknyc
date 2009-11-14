@@ -11,17 +11,17 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 	private lazy val security = Config.Repository.login(Config.Admin, Config.CredentialsWorkspace)
 	protected override lazy val userDao = new UserDao(security,loggedInUser)
 	// Make the root for Asset saving a node called Assets
-	override protected lazy val root = getUnversionedNode(super.root,"Assets")
+	override protected lazy val root = getNode(super.root,"Assets")
 	// Make the root for ImageAsset saving a node called ImageAssets
-	private lazy val ImageRoot = getUnversionedNode("ImageAssets")
+	private lazy val ImageRoot = getNode("ImageAssets")
 	// Get a root node for CopyAsset objects
-	private lazy val CopyRoot = getUnversionedNode("CopyAssets")
+	private lazy val CopyRoot = getNode("CopyAssets")
 	// Get a root node for DownloadAsset objects
-	private lazy val DownloadableRoot = getUnversionedNode("DownloadableAssets")
+	private lazy val DownloadableRoot = getNode("DownloadableAssets")
 	// Get a root node for PressAsset objects
-	private lazy val PressRoot = getUnversionedNode("PressAssets")
+	private lazy val PressRoot = getNode("PressAssets")
 	// Get a root node for AwardAsset objects
-	private lazy val AwardRoot = getUnversionedNode("AwardAssets")
+	private lazy val AwardRoot = getNode("AwardAssets")
 	/** Save the provided asset in it's appropriate location
 		* @param asset to be saved
 		* @returns a copy of the asset with it's uuid updated
@@ -67,7 +67,7 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 		* @param ImageInfo to be written
 		*/
 	private def writeImageProperties(parent:Node,info:ImageInfo) = {
-		val n = getUnversionedNode(parent,info.size.name,Image.NodeType)
+		val n = getNode(parent,info.size.name,Image.NodeType)
 		writeFileInfoProperties(n, info)
 		n.setProperty(Image.Alt, info.alt)
 		n.setProperty(Image.Height, info.height)

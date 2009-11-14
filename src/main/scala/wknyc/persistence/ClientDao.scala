@@ -9,9 +9,9 @@ class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedIn
 	// Only retrieve root once
 	override protected lazy val root = super.root
 	// Root for Case Studies
-	private lazy val CaseStudyRoot = getUnversionedNode("CaseStudys")
+	private lazy val CaseStudyRoot = getNode("CaseStudys")
 	// Root for Clients
-	private lazy val ClientRoot = getUnversionedNode("Clients")
+	private lazy val ClientRoot = getNode("Clients")
 	// Need a way to (read only) access user data
 	private lazy val security = Config.Repository.login(Config.Admin, Config.CredentialsWorkspace)
 	protected override lazy val userDao = new UserDao(security,loggedInUser)
@@ -34,9 +34,9 @@ class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedIn
 		// child nodes
 		assetDao.writeProperties(caseStudy.video,Some(node),CaseStudy.Video)
 		assetDao.writeProperties(caseStudy.description,Some(node),CaseStudy.Description)
-		val images = getUnversionedNode(node,CaseStudy.Images)
-		val downloads = getUnversionedNode(node,CaseStudy.Downloads)
-		val press = getUnversionedNode(node,CaseStudy.Press)
+		val images = getNode(node,CaseStudy.Images)
+		val downloads = getNode(node,CaseStudy.Downloads)
+		val press = getNode(node,CaseStudy.Press)
 		caseStudy.images.foreach(i => assetDao.writeProperties(i,Some(images),i.title))
 		caseStudy.downloads.foreach(d => assetDao.writeProperties(d,Some(downloads),d.title))
 		caseStudy.press.foreach(p => assetDao.writeProperties(p,Some(press),p.title))
@@ -60,7 +60,7 @@ class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedIn
 		val node = getNode(ClientRoot,client.name,Client.NodeType)
 		saveContentInfo(node,client.contentInfo.modifiedBy(loggedInUser))
 		node.setProperty(Client.Name,client.name)
-		val caseStudies = getUnversionedNode(node,Client.CaseStudies)
+		val caseStudies = getNode(node,Client.CaseStudies)
 		client.caseStudies.foreach(study => writeCaseStudy(getNode(caseStudies,study.name,CaseStudy.NodeType),study))
 		session.save
 		node.checkin
