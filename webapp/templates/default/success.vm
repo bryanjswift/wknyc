@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<title>Generic Success</title>
+		<link type="text/css" rel="stylesheet" href="css/main.css" />
+	</head>
+	<body>
+		<h1>Whatever you did, it worked!</h1>
+		<h2>Or at least didn't throw an error.</h2>
+		<p>The HTML success view isn't implemented. Were you looking for a JSON or XML response? If so make sure your headers are set correctly.</p>
+		<script type="text/javascript" src="js/main.js"></script>
+	</body>
+</html>

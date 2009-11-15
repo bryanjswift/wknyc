@@ -12,8 +12,10 @@ class LoginServlet extends HttpServlet with WkServlet {
 		view.render(Map("user" -> null,"errors" -> Nil),request,response)
 	}
 	override def doPost(request:Request, response:Response) = {
-		val username = getParameter(request)("username")
-		val password = getParameter(request)("password")
+		val http = HttpHelper(request,response)
+		val param = http.parameter(_)
+		val username = param("username")
+		val password = param("password")
 		val (context,user) = UserManager.authenticate(username,password) match {
 			case Some(user) =>
 				val opt = Some(user)

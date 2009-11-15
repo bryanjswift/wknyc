@@ -13,7 +13,8 @@ class RegisterServlet extends HttpServlet with WkServlet {
 		view.render(Map("errors" -> Nil),request,response)
 	}
 	override def doPost(request:Request, response:Response) = {
-		val param = getParameter(request)(_)
+		val http = HttpHelper(request,response)
+		val param = http.parameter(_)
 		val creds = WkCredentials(param(Username),param(Password),param(Department),param(Title),None)
 		val result = UserManager.register(creds,Config.Admin)
 		val map = result match {

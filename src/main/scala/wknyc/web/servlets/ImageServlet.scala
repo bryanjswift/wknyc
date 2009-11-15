@@ -9,15 +9,19 @@ import wknyc.model.{ContentInfo,Image,ImageAsset,ImageSet,ImageSize}
 import wknyc.persistence.AssetDao
 
 class ImageServlet extends HttpServlet with FileServlet {
+	override lazy val htmlSuccess = "assets/imageUpload.vm"
+	override lazy val htmlError = htmlSuccess
 	val path = createRelativePath(Props("wknyc.uploads.images"))
 	override def doGet(request:Request, response:Response) = {
-		val view = new VelocityView("assets/imageUpload.vm")
+		val http = HttpHelper(request,response)
+		val view = new VelocityView(http.success)
 		view.render(Map("errors" -> Nil,"uuid" -> None),request,response)
 	}
 	override def doPost(request:Request, response:Response) = {
 		import WkPredef._
+		val http = HttpHelper(request,response)
 		val asset = getAssetStreaming(request)
-		val uuid = getSession(request).flatMap(session =>
+		val uuid = http.session.flatMap(session =>
 			session.user.flatMap(user => {
 				val s = Config.Repository.login(user)
 				using(s,new AssetDao(s,user))((dao) => {
@@ -25,7 +29,7 @@ class ImageServlet extends HttpServlet with FileServlet {
 				})
 			})
 		)
-		val view = new VelocityView("assets/imageUpload.vm")
+		val view = new VelocityView(http.success)
 		view.render(Map("errors" -> Nil,"uuid" -> uuid),request,response)
 	}
 	private def getAssetStreaming(request:Request) = {
