@@ -20,14 +20,12 @@ class ImageServlet extends HttpServlet with FileServlet {
 		import WkPredef._
 		val http = HttpHelper(request,response)
 		val asset = getAssetStreaming(request)
-		val uuid = http.session.flatMap(session =>
-			session.user.flatMap(user => {
+		val uuid:Option[String] = http.user.flatMap(user => {
 				val s = Config.Repository.login(user)
 				using(s,new AssetDao(s,user))((dao) => {
 					dao.save(asset).uuid
 				})
 			})
-		)
 		val view = new VelocityView(http.success)
 		view.render(Map("errors" -> Nil,"uuid" -> uuid),request,response)
 	}

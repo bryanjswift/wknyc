@@ -18,13 +18,13 @@ class LoginServlet extends HttpServlet with WkServlet {
 		val param = http.parameter(_)
 		val (context,user) = UserManager.authenticate(param("username"),param("password")) match {
 			case Some(user) =>
+				val session = request.getSession(true)
 				val opt = Some(user)
+				session.setAttribute(WknycSession.Key,WknycSession(user))
 				(Map("user" -> opt,"errors" -> Nil),opt)
 			case None =>
 				(Map("user" -> None,"errors" -> List("bad login")),None)
 		}
-		val session = request.getSession(true)
-		session.setAttribute(WknycSession.Key,WknycSession(user))
 		val view = new VelocityView(http.success)
 		view.render(context,request,response)
 	}

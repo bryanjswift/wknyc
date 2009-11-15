@@ -1,7 +1,8 @@
 package wknyc.web.servlets
 
-import javax.servlet.http.{HttpServletRequest => Request, HttpServletResponse => Response}
+import javax.servlet.http.{HttpSession, HttpServletRequest => Request, HttpServletResponse => Response}
 import org.apache.commons.fileupload.FileItemStream
+import wknyc.model.User
 
 trait WkServlet {
 	lazy val htmlSuccess = "default/success.vm"
@@ -20,9 +21,21 @@ trait WkServlet {
 			else { value }
 		}
 		val session =
-			request.getSession.getAttribute(WknycSession.Key) match {
-				case null => None
-				case session:WknycSession => Some(session)
+			request.getSession(false) match {
+				case null =>
+					None
+				case session:HttpSession =>
+					session.getAttribute(WknycSession.Key) match {
+						case null => None
+						case session:WknycSession => Some(session)
+					}
+			}
+		val user =
+			session match {
+				case None =>
+					None
+				case Some(s) =>
+					Some(s.user)
 			}
 		lazy val (success,error) =
 			request.getRequestURI match {
