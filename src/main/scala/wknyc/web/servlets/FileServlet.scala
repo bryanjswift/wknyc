@@ -12,7 +12,21 @@ trait FileServlet extends WkServlet {
 			def hasNext = it.hasNext
 			def next = it.next
 		}
-	protected val createRelativePath = FileServlet.createRelativePath _
+	protected def createRelativePath(path:String) = {
+		val folders = path.split(java.io.File.separator)
+		folders.foldLeft("")((old,current) => {
+			if (old == "") {
+				current
+			} else {
+				val path = old + java.io.File.separator + current
+				val file = new java.io.File(path)
+				if (!file.exists) {
+					file.mkdir
+				}
+				path
+			}
+		})
+	}
 	protected def writeFile(in:InputStream,out:OutputStream,buffer:Array[Byte]) {
 		var len = in.read(buffer)
 		writeFile(in,out,buffer,len)
@@ -29,19 +43,4 @@ trait FileServlet extends WkServlet {
 
 object FileServlet {
 	lazy val StreamingUpload = new ServletFileUpload()
-	private def createRelativePath(path:String) = {
-		val folders = path.split(java.io.File.separator)
-		folders.foldLeft("")((old,current) => {
-			if (old == "") {
-				current
-			} else {
-				val path = old + java.io.File.separator + current
-				val file = new java.io.File(path)
-				if (!file.exists) {
-					file.mkdir
-				}
-				path
-			}
-		})
-	}
 }
