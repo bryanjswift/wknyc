@@ -44,7 +44,10 @@ object Content {
 	val ModifiedBy = "modifiedBy"
 }
 /** Trait to be mixed into objects which must maintain a specific orderering */
-trait OrderedContent[T <: OrderedContent[T]] extends Content {
+trait Ordered {
 	def position:Int
-	def siblings:List[T]
+}
+object Ordered {
+	val NodeType = "wk:ordered"
+	val Position = "position"
 }

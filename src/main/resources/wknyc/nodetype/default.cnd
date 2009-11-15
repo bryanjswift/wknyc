@@ -6,6 +6,10 @@ mixin
 -lastModified (date)
 -modifiedBy (string) mandatory
 
+[wk:ordered]
+mixin
+-position (int) mandatory
+
 [wk:client] > nt:base, wk:content
 -name (string) primary mandatory
 +caseStudies(nt:unstructured)=nt:unstructured
