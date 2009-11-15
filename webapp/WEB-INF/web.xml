@@ -35,11 +35,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>login</servlet-name>
-		<url-pattern>/credentials/login</url-pattern>
-<!--
-		<url-pattern>/credentials/login.xml</url-pattern>
-		<url-pattern>/credentials/login.json</url-pattern>
--->
+		<url-pattern>/credentials/login/*</url-pattern>
 	</servlet-mapping>
 <!-- Define wknyc Register Servlet -->
 	<servlet>
@@ -48,11 +44,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>registerUser</servlet-name>
-		<url-pattern>/credentials/register</url-pattern>
-<!--
-		<url-pattern>/credentials/register.xml</url-pattern>
-		<url-pattern>/credentials/register.json</url-pattern>
--->
+		<url-pattern>/credentials/register/*</url-pattern>
 	</servlet-mapping>
 <!-- Define wknyc Image Upload Servlet -->
 	<servlet>
@@ -61,9 +53,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>imageUpload</servlet-name>
-		<url-pattern>/assets/imageUpload</url-pattern>
-		<url-pattern>/assets/imageUpload.xml</url-pattern>
-		<url-pattern>/assets/imageUpload.json</url-pattern>
+		<url-pattern>/assets/imageUpload/*</url-pattern>
 	</servlet-mapping>
 <!-- List welcome files -->
 	<welcome-file-list>

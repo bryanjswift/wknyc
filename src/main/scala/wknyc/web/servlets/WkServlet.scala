@@ -10,8 +10,8 @@ trait WkServlet {
 	lazy val jsonError = "default/jsonError.vm"
 	lazy val xmlSuccess = "default/xmlSuccess.vm"
 	lazy val xmlError = "default/xmlError.vm"
-	private val xmlRE = """(.*)\.xml$""".r
-	private val jsonRE = """(.*)\.json$""".r
+	private val xmlRE = """(.*)xml$""".r
+	private val jsonRE = """(.*)json$""".r
 	protected case class HttpHelper(request:Request,response:Response) {
 		implicit val default = ""
 		def parameter(param:String) = {
