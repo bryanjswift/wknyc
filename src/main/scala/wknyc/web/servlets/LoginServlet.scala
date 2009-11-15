@@ -7,11 +7,13 @@ import wknyc.model.User._
 import wknyc.web.WknycSession
 
 class LoginServlet extends HttpServlet with WkServlet {
-	override def doGet(request:Request, response:Response) = {
-		val view = new VelocityView(LoginServlet.ViewName)
+	override lazy val htmlSuccess = "login.vm"
+	override def doGet(request:Request, response:Response) {
+		val http = HttpHelper(request,response)
+		val view = new VelocityView(http.success)
 		view.render(Map("user" -> null,"errors" -> Nil),request,response)
 	}
-	override def doPost(request:Request, response:Response) = {
+	override def doPost(request:Request, response:Response) {
 		val http = HttpHelper(request,response)
 		val param = http.parameter(_)
 		val username = param("username")
@@ -25,11 +27,8 @@ class LoginServlet extends HttpServlet with WkServlet {
 		}
 		val session = request.getSession(true)
 		session.setAttribute(WknycSession.Key,WknycSession(user))
-		val view = new VelocityView(LoginServlet.ViewName)
+		val view = new VelocityView(http.success)
 		view.render(context,request,response)
 	}
 }
 
-object LoginServlet {
-	val ViewName = "login.vm"
-}

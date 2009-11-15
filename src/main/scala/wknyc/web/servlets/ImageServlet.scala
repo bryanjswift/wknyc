@@ -10,7 +10,6 @@ import wknyc.persistence.AssetDao
 
 class ImageServlet extends HttpServlet with FileServlet {
 	override lazy val htmlSuccess = "assets/imageUpload.vm"
-	override lazy val htmlError = htmlSuccess
 	val path = createRelativePath(Props("wknyc.uploads.images"))
 	override def doGet(request:Request, response:Response) = {
 		val http = HttpHelper(request,response)
