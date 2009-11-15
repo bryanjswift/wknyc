@@ -44,6 +44,8 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 				writeProperties(getNode(root.getOrElse(PressRoot),name,PressAsset.NodeType),press)
 			case award:AwardAsset =>
 				writeProperties(getNode(root.getOrElse(AwardRoot),name,AwardAsset.NodeType),award)
+			case null =>
+				null
 		}
 	/** Write general Asset properties to a node
 		* @param node to write into

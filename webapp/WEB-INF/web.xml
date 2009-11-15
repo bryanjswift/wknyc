@@ -46,6 +46,15 @@
 		<servlet-name>registerUser</servlet-name>
 		<url-pattern>/credentials/register/*</url-pattern>
 	</servlet-mapping>
+<!-- Define wknyc Case Study Creation Servlet -->
+	<servlet>
+		<servlet-name>CaseStudy Basic</servlet-name>
+		<servlet-class>wknyc.web.servlets.CaseStudyServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CaseStudy Basic</servlet-name>
+		<url-pattern>/client/casestudy/*</url-pattern>
+	</servlet-mapping>
 <!-- Define wknyc Image Upload Servlet -->
 	<servlet>
 		<servlet-name>imageUpload</servlet-name>

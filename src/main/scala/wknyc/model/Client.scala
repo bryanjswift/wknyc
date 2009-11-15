@@ -29,6 +29,20 @@ object CaseStudy {
 	val StudyType = "studyType"
 	val Tags = "tags"
 	val Video = "video"
+	def apply(ci:ContentInfo,name:String,headline:String,description:String):CaseStudy =
+		CaseStudy(
+			ci,
+			name,
+			headline,
+			"",
+			List[String](),
+			List[CaseStudy](),
+			null,
+			CopyAsset(ContentInfo(ci.modifiedBy),CaseStudy.Description,scala.xml.XML.loadString(description)),
+			List[ImageAsset](),
+			List[DownloadableAsset](),
+			List[PressAsset]()
+		)
 }
 /** Represent a collection of CaseStudy objects */
 case class Client(contentInfo:ContentInfo, name:String, caseStudies:Iterable[CaseStudy]) extends Content {
