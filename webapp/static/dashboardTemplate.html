@@ -19,7 +19,7 @@
 			<div id="navListContainer">
 				<ul id="navList" class="cms">
 					<li id="dashboard" class="label">
-						<a href="dashboardTemplate.html" class="univers">Dashboard</a>
+						<a class="univers">Dashboard</a>
 					</li>
 					<li id="caseStudies" class="label">
 						<a href="#" class="univers">Case Studies</a>
@@ -39,14 +39,9 @@
 			<!-- end of Navigation -->	
 			
 			<ul id="sectionTabs">
-				<li id="allCaseSection">
+				<li class="on">
 					<div class="left"></div>
-					<a class="univers" href="caseStudiesTemplate.html">Case Studies</a>
-					<div class="right"></div>
-				</li>
-				<li id="awardsSection">
-					<div class="left"></div>
-					<a class="univers" href="#">Award Entries</a>
+					<a class="univers on" href="#">Dashboard</a>
 					<div class="right"></div>
 				</li>
 			</ul>
@@ -135,13 +130,12 @@
 	<script type="text/javascript" src="library/js/cufon-yui.js"></script>
 	<script type="text/javascript" src="library/js/Univers_LT_Std_300.font.js"></script>
 	<!-- Page -->
-	<script type="text/javascript" src="library/js/swfaddress.js"></script>
-	<script type="text/javascript" src="library/js/newCaseStudy.min.js"></script>
+	
 	
     <script type="text/javascript">
     	function pageInit() {
-		    wknyc.section.currentSection = "caseStudies";
-		    wknyc.cms.newCaseStudy.instance = new wknyc.cms.newCaseStudy.NewCaseStudy();
+		    wknyc.section.currentSection = "dashboard";
+		    
     	}
     </script>		
 </body>

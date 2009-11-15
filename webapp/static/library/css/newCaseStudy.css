@@ -1,6 +1,6 @@
 /* Sprite Elements ____________________________________________________________ */
 #newCaseStudyContent > a.cancel,
-#newCaseStudyContent #assets fieldset.capsule a.expand-collapse {
+#newCaseStudyContent #assets_content fieldset.capsule a.expand-collapse {
 	background: transparent url(assets/gui_sprite.png) no-repeat scroll 0 0;
 }
 
@@ -169,69 +169,69 @@
 
 
 /* Basic Info Tab _____________________________________________________________ */
-#newCaseStudyContent #basic_info form fieldset {
+#newCaseStudyContent #basicinfo_content form fieldset {
 	margin-top: 20px;
 	overflow: hidden;
 }
 
-#newCaseStudyContent #basic_info fieldset .popup-wrapper {
+#newCaseStudyContent #basicinfo_content fieldset .popup-wrapper {
 	float: left;
 }
 
-#newCaseStudyContent #basic_info form label {
+#newCaseStudyContent #basicinfo_content form label {
 	width: 226px;
 	display: block;
 	float: left;
 	padding-top: 7px;
 }
 
-#newCaseStudyContent #basic_info form .input-wrap {
+#newCaseStudyContent #basicinfo_content form .input-wrap {
 	float: left;
 }
 
-#newCaseStudyContent #basic_info form input[type=text] {
+#newCaseStudyContent #basicinfo_content form input[type=text] {
 	width: 315px;
 }
 
-#newCaseStudyContent #basic_info form textarea {
+#newCaseStudyContent #basicinfo_content form textarea {
 	width: 460px;
 	min-height: 100px;
 }
 
-#newCaseStudyContent #basic_info .spinbox-wrapper {
+#newCaseStudyContent #basicinfo_content .spinbox-wrapper {
 	float: left;
 }
 
-#newCaseStudyContent #basic_info form fieldset.sortOrder input {
+#newCaseStudyContent #basicinfo_content form fieldset.sortOrder input {
 	width: 17px;
 	text-align: center;
 }
 
-#newCaseStudyContent #basic_info form fieldset.sortOrder > a {
+#newCaseStudyContent #basicinfo_content form fieldset.sortOrder > a {
 	display: none;
 }
 
-#newCaseStudyContent #basic_info form fieldset.launchDate .month,
-#newCaseStudyContent #basic_info form fieldset.launchDate .year {
+#newCaseStudyContent #basicinfo_content form fieldset.launchDate .month,
+#newCaseStudyContent #basicinfo_content form fieldset.launchDate .year {
 	display:inline;
 	width: auto;
 	float: none;
 }
-	#newCaseStudyContent #basic_info form fieldset.launchDate input.month,
-	#newCaseStudyContent #basic_info form fieldset.launchDate input.year {
+	#newCaseStudyContent #basicinfo_content form fieldset.launchDate input.month,
+	#newCaseStudyContent #basicinfo_content form fieldset.launchDate input.year {
 		width: 35px;
 		margin-right: 10px;
 	}
-	#newCaseStudyContent #basic_info form fieldset.launchDate input.month {
+	#newCaseStudyContent #basicinfo_content form fieldset.launchDate input.month {
 		width: 25px;
 	}
-	#newCaseStudyContent #basic_info form fieldset.launchDate label.month,
-	#newCaseStudyContent #basic_info form fieldset.launchDate label.year {
+	#newCaseStudyContent #basicinfo_content form fieldset.launchDate label.month,
+	#newCaseStudyContent #basicinfo_content form fieldset.launchDate label.year {
 		padding-top: 0;
 		top: 7px;
 	}
 
-#newCaseStudyContent #basic_info .skinned-fileinput label {
+#newCaseStudyContent #basicinfo_content .skinned-fileinput label {
 	float: none;
 	padding: 0;
 	width: auto;
@@ -239,56 +239,56 @@
 
 
 /* Assets Tab _________________________________________________________________ */
-#newCaseStudyContent #assets fieldset.capsule .order {
+#newCaseStudyContent #assets_content fieldset.capsule .order {
 	width: 25px;
 }
-	#newCaseStudyContent #assets fieldset.capsule .order input[type=text] {
+	#newCaseStudyContent #assets_content fieldset.capsule .order input[type=text] {
 		text-align: center;
 		width: 19px;
 	}
 
-#newCaseStudyContent #assets fieldset.capsule .title {
+#newCaseStudyContent #assets_content fieldset.capsule .title {
 	width: 300px;
 }
 
-#newCaseStudyContent #assets fieldset.capsule .title input[type=text] {
+#newCaseStudyContent #assets_content fieldset.capsule .title input[type=text] {
 	width: 294px;
 }
 
-#newCaseStudyContent #assets fieldset.capsule .title > label {
+#newCaseStudyContent #assets_content fieldset.capsule .title > label {
 	margin-top: 10px;
 	display: block;
 }
-	#newCaseStudyContent #assets fieldset.capsule .title > label.header:first-child {
+	#newCaseStudyContent #assets_content fieldset.capsule .title > label.header:first-child {
 		margin-top: 0;
 	}
 
-#newCaseStudyContent #assets fieldset.capsule .type {
+#newCaseStudyContent #assets_content fieldset.capsule .type {
 	width: 200px;
 }
-	#newCaseStudyContent #assets fieldset.capsule .type strong {
+	#newCaseStudyContent #assets_content fieldset.capsule .type strong {
 		position: relative;
 		top: 5px;
 	}
 
-#newCaseStudyContent #assets fieldset.capsule .launchDate {
+#newCaseStudyContent #assets_content fieldset.capsule .launchDate {
 	width: 120px;
 }
 
-#newCaseStudyContent #assets fieldset.capsule .launchDate input[type=text] {
+#newCaseStudyContent #assets_content fieldset.capsule .launchDate input[type=text] {
 	text-align: center;
 }
-	#newCaseStudyContent #assets fieldset.capsule .launchDate input.launchDateYear {
+	#newCaseStudyContent #assets_content fieldset.capsule .launchDate input.launchDateYear {
 		width: 35px;
 	}
-	#newCaseStudyContent #assets fieldset.capsule .launchDate input.launchDateMonth {
+	#newCaseStudyContent #assets_content fieldset.capsule .launchDate input.launchDateMonth {
 		width: 25px;
 	}
-	#newCaseStudyContent #assets fieldset.capsule .launchDate input.launchDateDay {
+	#newCaseStudyContent #assets_content fieldset.capsule .launchDate input.launchDateDay {
 		width: 25px;
 	}
 
-#newCaseStudyContent #assets fieldset.capsule .launchDate .input-wrap {
+#newCaseStudyContent #assets_content fieldset.capsule .launchDate .input-wrap {
 	display: inline-block;
 	
 	/* IE7 Awesomeness */
@@ -297,58 +297,58 @@
 	*display: inline !important;
 }
 
-#newCaseStudyContent #assets fieldset.capsule a.expand-collapse {
+#newCaseStudyContent #assets_content fieldset.capsule a.expand-collapse {
 	display: block;
 	text-indent: -3000px;
 	width: 17px;
 	height: 17px;
 	background-position: left -80px;
 }
-	#newCaseStudyContent #assets fieldset.capsule a.expand-collapse.open {
+	#newCaseStudyContent #assets_content fieldset.capsule a.expand-collapse.open {
 		background-position: left -120px;
 	}
-	#newCaseStudyContent #assets fieldset.capsule > a.expand-collapse {
+	#newCaseStudyContent #assets_content fieldset.capsule > a.expand-collapse {
 		position: absolute;
 		top: -20px;
 		right: 30px;
 	}
-	#newCaseStudyContent #assets fieldset.capsule.required > a.expand-collapse {
+	#newCaseStudyContent #assets_content fieldset.capsule.required > a.expand-collapse {
 		top: -29px;
 	}
-	#newCaseStudyContent #assets fieldset.capsule .content a.expand-collapse {
+	#newCaseStudyContent #assets_content fieldset.capsule .content a.expand-collapse {
 		position: absolute;
 		bottom: -21px;
 		right: 30px;
 	}
 
-#newCaseStudyContent #assets fieldset.capsule .content .imgsize {
+#newCaseStudyContent #assets_content fieldset.capsule .content .imgsize {
 	float: left;
 	margin-top: 20px;
 }
-	#newCaseStudyContent #assets fieldset.capsule .content .imgsize:first-child {
+	#newCaseStudyContent #assets_content fieldset.capsule .content .imgsize:first-child {
 		margin-top: 0;
 	}
-	#newCaseStudyContent #assets fieldset.capsule .content .imgsize.full_size {
+	#newCaseStudyContent #assets_content fieldset.capsule .content .imgsize.full_size {
 		float: none;
 	}
-	#newCaseStudyContent #assets fieldset.capsule .content .imgsize.medium_size,
-	#newCaseStudyContent #assets fieldset.capsule .content .imgsize.sidebar_size {
+	#newCaseStudyContent #assets_content fieldset.capsule .content .imgsize.medium_size,
+	#newCaseStudyContent #assets_content fieldset.capsule .content .imgsize.sidebar_size {
 		margin-right: 20px;
 	}
-	#newCaseStudyContent #assets fieldset.capsule .content .imgsize.tiny_size {
+	#newCaseStudyContent #assets_content fieldset.capsule .content .imgsize.tiny_size {
 		margin-bottom: 70px;
 	}
-	#newCaseStudyContent #assets fieldset.capsule .content .imgsize.small_size {
+	#newCaseStudyContent #assets_content fieldset.capsule .content .imgsize.small_size {
 		position: relative;
 		top: 7px;
 	}
 
-#newCaseStudyContent #assets fieldset.capsule .content .imgsize label {
+#newCaseStudyContent #assets_content fieldset.capsule .content .imgsize label {
 	position: static;
 	display: block;
 }
 
-#newCaseStudyContent #assets fieldset.capsule .content .imgsize h3 {
+#newCaseStudyContent #assets_content fieldset.capsule .content .imgsize h3 {
 	color: #ffffff;
 	background: #cccccc;
 	vertical-align: top;
@@ -362,61 +362,61 @@
 	zoom: 1 !important;
 	*display: inline !important;
 }
-	#newCaseStudyContent #assets fieldset.capsule .content .imgsize.large_size h3 {
+	#newCaseStudyContent #assets_content fieldset.capsule .content .imgsize.large_size h3 {
 		width: 634px;
 		height: 275px;
 		padding-top: 260px;
 	}
-	#newCaseStudyContent #assets fieldset.capsule .content .imgsize.medium_size h3 {
+	#newCaseStudyContent #assets_content fieldset.capsule .content .imgsize.medium_size h3 {
 		width: 272px; 
 		height: 117px;
 		padding-top: 110px;
 	}
-	#newCaseStudyContent #assets fieldset.capsule .content .imgsize.sidebar_size h3 {
+	#newCaseStudyContent #assets_content fieldset.capsule .content .imgsize.sidebar_size h3 {
 		width: 133px;
 		height: 64px;
 		padding-top: 25px;
 	}
-	#newCaseStudyContent #assets fieldset.capsule .content .imgsize.small_size h3 {
+	#newCaseStudyContent #assets_content fieldset.capsule .content .imgsize.small_size h3 {
 		width: 104px; 
 		height: 67px;
 		padding-top: 25px;
 	}
-	#newCaseStudyContent #assets fieldset.capsule .content .imgsize.tiny_size h3 {
+	#newCaseStudyContent #assets_content fieldset.capsule .content .imgsize.tiny_size h3 {
 		width: 26px; 
 		height: 26px;
 	}
 
 
 /* Press Tab _________________________________________________________________ */
-#newCaseStudyContent #press fieldset.capsule > div {
+#newCaseStudyContent #press_content fieldset.capsule > div {
 	margin-right: 20px;	
 }
 
-#newCaseStudyContent #press fieldset.capsule .itemName {
+#newCaseStudyContent #press_content fieldset.capsule .itemName {
 	width: 500px;
 	margin-bottom: 10px;
 }
 
-#newCaseStudyContent #press fieldset.capsule .pressDate {
+#newCaseStudyContent #press_content fieldset.capsule .pressDate {
 	width: 120px;
 	margin-bottom: 10px;
 }
 
-#newCaseStudyContent #press fieldset.capsule .pressDate input[type=text] {
+#newCaseStudyContent #press_content fieldset.capsule .pressDate input[type=text] {
 	text-align: center;
 }
-	#newCaseStudyContent #press fieldset.capsule .pressDate input.pressDateYear {
+	#newCaseStudyContent #press_content fieldset.capsule .pressDate input.pressDateYear {
 		width: 35px;
 	}
-	#newCaseStudyContent #press fieldset.capsule .pressDate input.pressDateMonth {
+	#newCaseStudyContent #press_content fieldset.capsule .pressDate input.pressDateMonth {
 		width: 25px;
 	}
-	#newCaseStudyContent #press fieldset.capsule .pressDate input.pressDateDay {
+	#newCaseStudyContent #press_content fieldset.capsule .pressDate input.pressDateDay {
 		width: 25px;
 	}
 
-#newCaseStudyContent #press fieldset.capsule .pressDate .input-wrap {
+#newCaseStudyContent #press_content fieldset.capsule .pressDate .input-wrap {
 	display: inline-block;
 	
 	/* IE7 Awesomeness */
@@ -425,21 +425,21 @@
 	*display: inline !important;
 }
 
-#newCaseStudyContent #press fieldset.capsule .pressUrl {
+#newCaseStudyContent #press_content fieldset.capsule .pressUrl {
 	width: 300px;
 }
 
-#newCaseStudyContent #press fieldset.capsule .itemName .popup {
+#newCaseStudyContent #press_content fieldset.capsule .itemName .popup {
 	top: -34px;
 	left: 120px;
 }
 
-#newCaseStudyContent #press fieldset.capsule .pressDate .popup {
+#newCaseStudyContent #press_content fieldset.capsule .pressDate .popup {
 	top: -4px;
 	left: 120px;
 }
 
-#newCaseStudyContent #press fieldset.capsule .pressDate > div.hidden-field {
+#newCaseStudyContent #press_content fieldset.capsule .pressDate > div.hidden-field {
 	position: absolute;
 	top: 16px;
 	visibility: hidden;

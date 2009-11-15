@@ -2,18 +2,9 @@
  * @author joseph.schmitt
  */
 wknyc.common.gui.SectionTabs = new Class({
-	Implements: Options,
+	Extends: wknyc.common.gui.Tabs,
 	
 	//Class vars
-	options: {},
-	tabsElement: null,
-	displayOn: false,
-	callback: null,
-	
-	//Options
-	options: {
-		callback: null
-	},
 	
 	//Methods
 	/**
@@ -22,68 +13,70 @@ wknyc.common.gui.SectionTabs = new Class({
 	 * usually a UL.
 	 * @param {Object} options - Optional properties, listed above under "Options"
 	 */
-	initialize: function(tabsElement, options){
-		this.setOptions(options);
-		
-		//Assign options to class variables
-		this.tabsElement = tabsElement;
-		this.callback = options.callback;
-		
-		this.createOnStates();
+	initialize: function(tabs, content, options){
+		this.parent(tabs, content, options);
+	},
+	
+	addEvents: function() {
+		var wrapper;
+		this.tabs.getChildren('li').each(function(tab, index, tabslist){
+			tab.store('index', index);
+			tab.addEvent('click', function(e){
+				this.selectTab(tab, false);
+				return false;
+			}.bind(this));
+			
+			/**
+			 * Creates a duplicate item for "on" state so that the font can be rendered
+			 */
+			onState = tab.getElement('a.univers').clone(true, true);
+			onState.inject(tab.getElement('a.univers'), 'after').addClass(this.options.activeClass+' hide');
+		}.bind(this));
 	},
 	
 	/**
-	 * Creates a duplicate item for "on" state so that the font can be rendered
+	 * Selects a tab 
+	 * @param {Object} index
+	 * @param {Object} skipFade
+	 * @param {Object} tab
 	 */
-	createOnStates: function(){
-		var onState, offState, $this = this;
-
-		this.tabsElement.getElements('li').each(function(element){
-			offState = element;
-			offState.addEvent('click', function(){
-				$this.toggleState(this);
-				$this.callback.pass(this.get('id')).call();
-			});
-			
-			onState = element.clone(true, true);
-			onState.addClass('on').inject(offState, 'after').addClass('hide');
-		});
+	selectTab: function(tab, skipFade) {
+		this.toggleState(tab);
+		this.parent(tab, skipFade);
+	},
+	
+	/**
+	 * Turns all other tabs off and turns the passed in tab on.
+	 * @param {Element} tab - LI element 
+	 */
+	toggleState: function(onTab) {
+		//console.log('----------------------------------');
+		this.tabs.getChildren('li').each(function(tab){
+			this.showOnState(tab, false);
+		}.bind(this));
+		
+		this.showOnState(onTab, true);
 	},
 	
 	/**
 	 * Toggles the state of an element between "on" and "off"
-	 * @param {Element} element - LI element 
+	 * @param {Element} tab - LI element 
 	 */
-	toggleState: function(element){
-		//Hides all the "on" state tabs and displays all the "off" state tabs
-		this.tabsElement.getElements('li').each(function(tab){
-			if( tab.hasClass('on') && !tab.hasClass('hide') ) 
-				tab.addClass('hide');
-			
-			if( !tab.hasClass('on') ) tab.removeClass('hide');
-		});
+	showOnState: function(tab, showActive){
+		var offState = tab.getElement('a.univers:not(.'+this.options.activeClass+')');
+		var onState = offState.getNext('a.'+this.options.activeClass);
 		
-		//Displays the "on" state of the submitted element
-		this.showOnState(element, !this.displayOn);
-	},
-	
-	/**
-	 * Determines whether or not to show the "on" state.
-	 * @param {Boolean} showOn - If true, displays the on state. Else, displays the "off" state.
-	 */
-	showOnState: function(element, showOn){
-		element = $(element);
+		//console.log('showOnState');
+		//console.log(offState);
+		//console.log(onState);
 		
-		// if the state is the same as the current state, do nothing
-		if( showOn == this.displayOn ) return false;
-		
-		//Display the on state
-		if( showOn ) {
-			element.addClass('hide').getNext('.on.hide').removeClass('hide');
+		if( showActive ) {
+			onState.removeClass('hide');
+			if( !offState.hasClass('hide') ) offState.addClass('hide');
 		}
-		//Display the off state
 		else {
-			element.removeClass('hide').getNext('.on').addClass('hide');
+			offState.removeClass('hide');
+			if( !onState.hasClass('hide') ) onState.addClass('hide');
 		}
 	}
 });

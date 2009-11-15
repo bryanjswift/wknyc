@@ -254,7 +254,7 @@ float:right;
 	color:#707070;
     font-size:13px;
 }
-	#sectionTabs li.on a { 
+	#sectionTabs li a.on { 
 		font-size:18px;
 		color:#95b69d;
 		cursor: default; 

@@ -5,6 +5,7 @@
  */
 wknyc.cms.newCaseStudy.NewCaseStudy = new Class({
 	//Class vars
+	sectionTabs: null,
 	tabs: null,
 	tabLoadedCallback: null,
 	
@@ -18,13 +19,23 @@ wknyc.cms.newCaseStudy.NewCaseStudy = new Class({
 	},
 	
 	setupAssets: function(){
+		//Section Tab Navigation
+		this.sectionTabs = new wknyc.common.gui.SectionTabs(
+			$('sectionTabs'), 
+			$('newCaseStudyContent').getElement('.contentBody'), {
+				activeClass: 'on'
+			}
+		).addEvent('change', function(){
+			console.log("Tab Change");
+		}.bind(this));
+		
 		//Tab Navigation
 		this.tabs = new wknyc.common.gui.Tabs(
 			$('steps_tabs'), 
 			$('steps_content'), 
 			{
 				useAjax: true,
-				defaultTab: 2
+				useDeepLinking: true
 			}
 		).addEvent('change', this.onTabChange.bind(this));
 		
@@ -60,7 +71,7 @@ wknyc.cms.newCaseStudy.NewCaseStudy = new Class({
 		this.currentTab.submit();
 		
 		/*
-		 * TODO: Stuf ro ajax call to mark the role as saved.
+		 * TODO: Stuff to ajax call to mark the role as saved.
 		 */
 	},
 	
@@ -108,16 +119,16 @@ wknyc.cms.newCaseStudy.NewCaseStudy = new Class({
 	 */
 	setupBasicInfoSection: function() {
 		if( this.currentTab ) this.currentTab.destroy();
-		this.currentTab = new wknyc.cms.newCaseStudy.BasicInfoTab($('basic_info'));
+		this.currentTab = new wknyc.cms.newCaseStudy.BasicInfoTab($('basicinfo_content'));
 	},
 	
 	setupAssetsSection: function() {
 		if( this.currentTab ) this.currentTab.destroy();
-		this.currentTab = new wknyc.cms.newCaseStudy.AssetsTab($('assets'));
+		this.currentTab = new wknyc.cms.newCaseStudy.AssetsTab($('assets_content'));
 	},
 	
 	setupPressSection: function() {
 		if( this.currentTab ) this.currentTab.destroy();
-		this.currentTab = new wknyc.cms.newCaseStudy.PressTab($('press'));
+		this.currentTab = new wknyc.cms.newCaseStudy.PressTab($('press_content'));
 	}
 });

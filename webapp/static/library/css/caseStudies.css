@@ -129,6 +129,13 @@
 	font-size: 12px;
 }
 
+#caseStudiesContent .contentBody > div {
+	display: none;
+}
+	#caseStudiesContent .contentBody > div.on {
+		display: block;
+	}
+
 
 /* Table ______________________________________________________________________ */
 #caseStudiesContent table {

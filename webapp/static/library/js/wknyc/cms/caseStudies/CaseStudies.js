@@ -14,16 +14,15 @@ wknyc.cms.caseStudies.CaseStudies = new Class({
 	 * Class constructor
 	 */
 	initialize: function() {
-		this.sectionTabs = new wknyc.common.gui.SectionTabs($('sectionTabs'),{
-			callback: function(curSection){
-				this.curSection = curSection;
-				
-				if( curSection == 'awardsSection') this.showAwardEntries();
-				else this.showCaseStudies();
-			}.bind(this)
-		});
+		this.sectionTabs = new wknyc.common.gui.SectionTabs(
+			$('sectionTabs'), 
+			$('caseStudiesContent').getElement('.contentBody'), {
+				activeClass: 'on'
+			}
+		).addEvent('change', function(){
+			console.log("Tab Change");
+		}.bind(this));
 		
-		this.sectionTabs.showOnState(this.curSection, true);
 		this.getPageData();
 	},
 	

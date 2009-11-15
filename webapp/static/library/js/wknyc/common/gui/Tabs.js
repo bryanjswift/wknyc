@@ -13,6 +13,8 @@
  * 					is set to true.
  * 	loadDefaultTab:	Boolean for whether or not to automatically load the default tab
  * 					when the class is initialized.
+ * 	useDeepLinking	Boolean for whether or not the tabs should updated the address
+ * 					bar when being selected, enabling Deep Linking.
  * 	activeClass:	Name of the class to add to the currently active tab and content.
  * 	useAjax:		Boolean for whether or not the tabs will be loaded through AJAX
  * 					instead of simply showing/hiding markup.
@@ -36,6 +38,7 @@ wknyc.common.gui.Tabs = new Class({
 		duration: 250,
 		defaultTab: 0,
 		loadDefaultTab: true,
+		useDeepLinking: false,
 		activeClass: 'active',
 		useAjax: false,
 		urlAttribute: 'href'
@@ -45,6 +48,7 @@ wknyc.common.gui.Tabs = new Class({
 	tabs: null,
 	content: null,
 	currentIndex: -1,
+	isFirstLoad: true,
 	
 	/**
 	 * Class constructor
@@ -55,42 +59,85 @@ wknyc.common.gui.Tabs = new Class({
 		this.setOptions(options);
 		
 		this.setupAssets();
+		this.addEvents();
+		
+		if(this.options.useDeepLinking)
+			this.setupDeepLinking();
+		else if(this.options.loadDefaultTab)
+			this.loadDefaultTab();
+		else
+			return;
 	},
 	
 	setupAssets: function() {
 		this.content.getChildren().each(function(item){
 			item.set('styles', {'display': 'none', 'opacity': 0});
 		});
-		
-		this.addEvents();
-		
-		
-		if( this.options.loadDefaultTab) 
-			this.selectTab(this.options.defaultTab, true, this.tabs.getElements('li')[this.options.defaultTab]);
 	},
 	
 	addEvents: function() {
 		this.tabs.getChildren('li').each(function(tab, index, tabslist){
-			
+			tab.store('index', index);
 			tab.addEvent('click', function(e){
-				this.selectTab(index, false, tab);
+				this.selectTab(tab, false);
 				return false;
 			}.bind(this));
 			
 		}.bind(this));
 	},
 	
-	selectTabByIndex: function(index, skipFade) {
-		this.selectTab(index, skipFade, this.tabs.getElements('li')[index]);
+	loadDefaultTab: function() {
+		if (this.isFirstLoad) {
+			this.selectTab(this.tabs.getElements('li')[this.options.defaultTab], true);
+			this.isFirstLoad = false;
+		}
 	},
 	
-	selectTab: function(index, skipFade, tab) {
-		var prevContent = this.content.getElement('.active');
+	setupDeepLinking: function() {
+		SWFAddress.addEventListener(SWFAddressEvent.CHANGE, this.onAddressUpdated.bind(this));
+	},
+	
+	onAddressUpdated: function(event) {
+		var anchor = $(event.path);
 		
-		if( this.tabs.getElement('.active') )
-			this.tabs.getElement('.active').removeClass(this.options.activeClass);
-		if( this.content.getElement('.active') ) 
-			this.content.getElement('.active').removeClass(this.options.activeClass);
+		//Checks for a valid deep link
+		if( anchor ) {
+			var tab = anchor.getParent();
+			this.doSelectTab(tab.retrieve('index'), this.isFirstLoad, tab);
+			this.isFirstLoad = false;
+//			SWFAddress.setTitle("Page Title / " + event.path);
+		}
+		//If the url doesn't match to a valid tab, load the default tab
+		else if( this.isFirstLoad && this.options.loadDefaultTab ) {
+			this.loadDefaultTab();
+		}
+	},
+	
+	selectTabByIndex: function(index, skipFade) {
+		var tab = this.tabs.getElements('li')[index];
+		this.selectTab(tab, skipFade);
+	},
+	
+	/**
+	 * Selects a tab 
+	 * @param {Object} index
+	 * @param {Object} skipFade
+	 * @param {Object} tab
+	 */
+	selectTab: function(tab, skipFade) {
+		if( this.options.useDeepLinking )
+			window.location.hash = "#"+tab.getElement('a').get('id');
+		else
+			this.doSelectTab(tab.retrieve('index'), false, tab);
+	},
+	
+	doSelectTab: function(index, skipFade, tab) {
+		var prevContent = this.content.getElement('.'+this.options.activeClass);
+		
+		if( this.tabs.getChildren('.'+this.options.activeClass) )
+			this.tabs.getChildren('.'+this.options.activeClass).removeClass(this.options.activeClass);
+		if( this.content.getChildren('.'+this.options.activeClass) ) 
+			this.content.getChildren('.'+this.options.activeClass).removeClass(this.options.activeClass);
 		
 		
 		var curTab;
