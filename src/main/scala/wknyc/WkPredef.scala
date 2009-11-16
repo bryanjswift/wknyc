@@ -11,4 +11,6 @@ object WkPredef {
 			dao.close
 			session.logout
 		}
+	val Success = business.Success
+	val Failure = business.Failure
 }

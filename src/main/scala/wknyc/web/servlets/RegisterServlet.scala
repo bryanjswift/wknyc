@@ -3,7 +3,8 @@ package wknyc.web.servlets
 import javax.servlet.http.{HttpServlet,HttpServletRequest => Request, HttpServletResponse => Response}
 import velocity.{VelocityHelper,VelocityView}
 import wknyc.Config
-import wknyc.business.{Failure,Success,UserManager}
+import wknyc.WkPredef._
+import wknyc.business.UserManager
 import wknyc.model.User._
 import wknyc.model.WkCredentials
 

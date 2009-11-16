@@ -3,11 +3,11 @@ package wknyc.business
 // relative to wknyc
 import model.{CaseStudy,User}
 import persistence.ClientDao
-import validators.{CaseStudyValidator,Error,ValidationSuccess}
+import validators.{CaseStudyValidator,Error,ValidationError,ValidationSuccess}
 import WkPredef._
 
 object CaseStudyManager {
-	def save[T <: CaseStudy](study:T,loggedIn:User) = {
+	def save[T <: CaseStudy](study:T,loggedIn:User):Response[CaseStudy] = {
 		val session = Config.Repository.login(loggedIn,Config.ContentWorkspace)
 		val errors = CaseStudyValidator.errors(study)
 		errors match {
@@ -23,4 +23,11 @@ object CaseStudyManager {
 				Failure(errors)
 		}
 	}
+	def save[T <: CaseStudy](study:T,u:Option[User]):Response[CaseStudy] =
+		u match {
+			case Some(user) =>
+				save(study,user)
+			case None =>
+				Failure(List(ValidationError("user","Must be logged in to save a Case Study")))
+		}
 }

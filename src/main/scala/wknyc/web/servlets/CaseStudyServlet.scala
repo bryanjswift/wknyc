@@ -3,6 +3,7 @@ package wknyc.web.servlets
 import java.util.Calendar
 import javax.servlet.http.{HttpServlet,HttpServletRequest => Request, HttpServletResponse => Response}
 import velocity.VelocityView
+import wknyc.WkPredef._
 import wknyc.business.CaseStudyManager
 import wknyc.model.{BasicCaseStudy,ContentInfo,DownloadableAsset}
 
@@ -14,18 +15,17 @@ class CaseStudyServlet extends HttpServlet with WkServlet {
 		view.render(Map("uuid" -> None),request,response)
 	}
 	override def doPost(request:Request, response:Response) {
-		import WkPredef._
 		val http = HttpHelper(request,response)
-		// TODO: not returning a UUID anymore, returning a Some(wknyc.business.Response)
-		// Maybe make an empty ContentInfo instance which can be used as a placeholder and
-		// the save method of CaseStudyManager populates ContentInfo if the user exists
-		// otherwise it returns a Failure Response.
-		val uuid = http.user.flatMap(user => {
-			val casestudy = CaseStudyManager.save(getCaseStudy(http).get,user)
-			Some(casestudy)
-		})
+		val study = getCaseStudy(http)
+		val result = CaseStudyManager.save(study,http.user)
+		val ctx = result match {
+			case Success(creds,message) =>
+				Map("errors" -> result.errors,"caseStudy" -> result.payload)
+			case Failure(errors,message) =>
+				Map("errors" -> errors,"caseStudy" -> study)
+		}
 		val view = new VelocityView(http.success)
-		view.render(Map("uuid" -> uuid),request,response)
+		view.render(ctx,request,response)
 	}
 	private def getCaseStudy(http:HttpHelper) = {
 		val param = http.parameter(_)
@@ -40,16 +40,15 @@ class CaseStudyServlet extends HttpServlet with WkServlet {
 		launch.set(year.toInt,month.toInt,1)
 		val published = param("displayOnSiteRadio") == "true"
 		val position = 0
-		http.user.flatMap(user => Some(
-			BasicCaseStudy(
-				ContentInfo(user),
-				name,
-				headline,
-				description,
-				launch,
-				List[DownloadableAsset](),
-				published,
-				position
-		)))
+		BasicCaseStudy(
+			ContentInfo.Empty,
+			name,
+			headline,
+			description,
+			launch,
+			List[DownloadableAsset](),
+			published,
+			position
+		)
 	}
 }

@@ -6,8 +6,8 @@
 	</head>
 	<body>
 		<h1>Case Study</h1>
-		#if (!$uuid.isEmpty())
-			<p>Successfully saved CaseStudy with uuid: $uuid.get()</p>
+		#if (!$caseStudy.uuid().isEmpty())
+			<p>Successfully saved CaseStudy with uuid: $caseStudy.uuid().get()</p>
 		#end
 		<div id="basic_info">
 			<form method="POST" action="/client/casestudy">
