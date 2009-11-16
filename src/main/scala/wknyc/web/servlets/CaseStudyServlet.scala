@@ -6,7 +6,6 @@ import velocity.VelocityView
 import wknyc.model.{BasicCaseStudy,ContentInfo,DownloadableAsset}
 import wknyc.persistence.ClientDao
 
-@WebServlet{ val name = "CaseStudy" , val urlPatterns = Array("/client/casestudy/*") }
 class CaseStudyServlet extends HttpServlet with WkServlet {
 	override lazy val htmlSuccess = "client/caseStudy-basic.vm"
 	override def doGet(request:Request, response:Response) {
