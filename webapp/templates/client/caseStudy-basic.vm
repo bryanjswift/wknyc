@@ -45,7 +45,7 @@
 					</div>
 				</fieldset>
 				<fieldset class="displayOnSite">
-					<label>Display on site?</label> <input type="radio" id="displayOnSiteRadio-on" name="displayOnSiteRadio"><input type="radio" id="displayOnSiteRadio-off" name="displayOnSiteRadio">
+					<label>Display on site?</label> <input type="radio" id="displayOnSiteRadio-on" name="displayOnSiteRadio" value="true"/><input type="radio" id="displayOnSiteRadio-off" name="displayOnSiteRadio" value="false"/>
 				</fieldset>
 				<fieldset class="hide">
 					<input type="submit" value="Submit">

@@ -69,6 +69,10 @@ case class DownloadableAsset(contentInfo:ContentInfo, title:String, path:String,
 object DownloadableAsset {
 	val NodeType = "wk:downloadAsset"
 }
+// Empty File representation
+case object EmptyFile extends DownloadableAsset(ContentInfo(Config.Admin),"","","") {
+	override def cp(uuid:String) = EmptyFile
+}
 // Press (link to press) asset
 case class PressAsset(contentInfo:ContentInfo, title:String, author:String, source:String, sourceName:String) extends Asset {
 	def cp(uuid:String) = PressAsset(contentInfo.cp(uuid), title, author, source, sourceName)

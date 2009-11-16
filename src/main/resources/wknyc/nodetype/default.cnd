@@ -8,21 +8,20 @@ mixin
 
 [wk:ordered]
 mixin
--position (int) mandatory
+-position (long) mandatory
 
 [wk:client] > nt:base, wk:content
 -name (string) primary mandatory
 +caseStudies(nt:unstructured)=nt:unstructured
 // Will likely have child nodes of type wk:caseStudy
 
-[wk:caseStudy] > nt:base, wk:content
+[wk:caseStudy] > nt:base, wk:content, wk:ordered
 -name (string) primary mandatory
 -headline (string) mandatory
--studyType (string) mandatory
--tags (string) multiple
--related (reference) multiple
+-description (string) mandatory
+-launch (date) mandatory
+-published (boolean) mandatory
 +video(wk:asset)=wk:downloadAsset
-+description(wk:copyAsset)=wk:copyAsset
 +images(nt:unstructured)=nt:unstructured
 +downloads(nt:unstructured)=nt:unstructured
 +press(nt:unstructured)=nt:unstructured

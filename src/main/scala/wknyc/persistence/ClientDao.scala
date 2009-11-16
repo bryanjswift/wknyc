@@ -2,7 +2,7 @@ package wknyc.persistence
 
 import javax.jcr.{Node,PropertyType,Session}
 import wknyc.Config
-import wknyc.model.{CaseStudy,Client,DownloadableAsset,ImageAsset,PressAsset,User}
+import wknyc.model.{AssetCaseStudy,BasicCaseStudy,CaseStudy,Client,DownloadableAsset,EmptyFile,ImageAsset,Ordered,PressAsset,User}
 
 class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUser) {
 	require(session.getWorkspace.getName == Config.ContentWorkspace,"Can only save/get Assets from ContentWorkspace")
@@ -25,35 +25,48 @@ class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedIn
 		caseStudy.cp(node.getUUID)
 	}
 	private def writeCaseStudy(node:Node,caseStudy:CaseStudy) {
+		caseStudy match {
+			case assets:AssetCaseStudy => writeAssetCaseStudy(node,assets)
+			case _ => writeBasicCaseStudy(node,caseStudy)
+		}
+	}
+	private def writeBasicCaseStudy(node:Node,caseStudy:CaseStudy) {
 		saveContentInfo(node,caseStudy.contentInfo.modifiedBy(loggedInUser))
 		node.setProperty(CaseStudy.Name,caseStudy.name)
 		node.setProperty(CaseStudy.Headline,caseStudy.headline)
-		node.setProperty(CaseStudy.StudyType,caseStudy.studyType)
-		node.setProperty(CaseStudy.Tags,caseStudy.tags)
-		node.setProperty(CaseStudy.Related,caseStudy.related.map(a => a.uuid.get),PropertyType.REFERENCE)
+		node.setProperty(CaseStudy.Description,caseStudy.description)
+		node.setProperty(CaseStudy.Launch,caseStudy.launch)
+		node.setProperty(CaseStudy.Published,caseStudy.published)
+		node.setProperty(Ordered.Position,caseStudy.position)
 		// child nodes
-		assetDao.writeProperties(caseStudy.video,Some(node),CaseStudy.Video)
-		assetDao.writeProperties(caseStudy.description,Some(node),CaseStudy.Description)
 		val images = getNode(node,CaseStudy.Images)
 		val downloads = getNode(node,CaseStudy.Downloads)
 		val press = getNode(node,CaseStudy.Press)
-		caseStudy.images.foreach(i => assetDao.writeProperties(i,Some(images),i.title))
 		caseStudy.downloads.foreach(d => assetDao.writeProperties(d,Some(downloads),d.title))
+	}
+	private def writeAssetCaseStudy(node:Node,caseStudy:AssetCaseStudy) {
+		writeBasicCaseStudy(node,caseStudy)
+		val images = getNode(node,CaseStudy.Images)
+		val press = getNode(node,CaseStudy.Press)
+		assetDao.writeProperties(caseStudy.video,Some(node),CaseStudy.Video)
+		caseStudy.images.foreach(i => assetDao.writeProperties(i,Some(images),i.title))
 		caseStudy.press.foreach(p => assetDao.writeProperties(p,Some(press),p.title))
 	}
 	def getCaseStudy(uuid:String):CaseStudy = getCaseStudy(session.getNodeByUUID(uuid))
 	private def getCaseStudy(node:Node):CaseStudy =
-		CaseStudy(
-			getContentInfo(node),
-			node.getProperty(CaseStudy.Name).getString,
-			node.getProperty(CaseStudy.Headline).getString,
-			node.getProperty(CaseStudy.StudyType).getString,
-			node.getProperty(CaseStudy.Tags).getValues.map(v => v.getString),
-			node.getProperty(CaseStudy.Related).getValues.map(v => getCaseStudy(v.getString)),
-			assetDao.getDownloadableAsset(node.getNode(CaseStudy.Video)),
-			assetDao.getCopyAsset(node.getNode(CaseStudy.Description)),
+		AssetCaseStudy(
+			BasicCaseStudy(
+				getContentInfo(node),
+				node.getProperty(CaseStudy.Name).getString,
+				node.getProperty(CaseStudy.Headline).getString,
+				node.getProperty(CaseStudy.Description).getString,
+				node.getProperty(CaseStudy.Launch).getDate,
+				node.getNode(CaseStudy.Downloads).getNodes.map(n => assetDao.getDownloadableAsset(n)),
+				node.getProperty(CaseStudy.Published).getBoolean,
+				node.getProperty(Ordered.Position).getLong
+			),
+			if (node.hasNode(CaseStudy.Video)) { assetDao.getDownloadableAsset(node.getNode(CaseStudy.Video)) } else { EmptyFile },
 			node.getNode(CaseStudy.Images).getNodes.map(n => assetDao.getImageAsset(n)),
-			node.getNode(CaseStudy.Downloads).getNodes.map(n => assetDao.getDownloadableAsset(n)),
 			node.getNode(CaseStudy.Press).getNodes.map(n => assetDao.getPressAsset(n))
 		)
 	def save(client:Client) = {

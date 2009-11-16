@@ -1,7 +1,8 @@
 package wknyc.persistence
 
+import java.util.Calendar
 import org.specs.Specification
-import wknyc.model.{CaseStudy,Client,ContentInfo,CopyAsset,DownloadableAsset,Image,ImageAsset,ImageSet,PressAsset,TinyThumbnail,WkCredentials}
+import wknyc.model.{BasicCaseStudy,Client,ContentInfo,CopyAsset,DownloadableAsset,Image,ImageAsset,ImageSet,PressAsset,TinyThumbnail,WkCredentials}
 
 object ClientDaoSpecs extends Specification {
 	"ClientDao" should {
@@ -36,18 +37,15 @@ object ClientDaoSpecs extends Specification {
 				ImageSet(new Image("/path/to/what","http://example.com/path","alt",TinyThumbnail))
 			)
 		val caseStudy =
-			CaseStudy(
+			BasicCaseStudy(
 				ContentInfo(root),
 				"name",
 				"Headline",
-				"study type",
-				List("tag1","tag2","another tag"),
-				List[CaseStudy](),
-				download,
-				copy,
-				List(imageAsset),
+				"Description",
+				Calendar.getInstance,
 				List(download),
-				List(press)
+				true,
+				0
 			)
 		val dao = new ClientDao(session,root)
 		doAfterSpec {

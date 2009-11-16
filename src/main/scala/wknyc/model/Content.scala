@@ -45,7 +45,7 @@ object Content {
 }
 /** Trait to be mixed into objects which must maintain a specific orderering */
 trait Ordered {
-	def position:Int
+	def position:Long
 }
 object Ordered {
 	val NodeType = "wk:ordered"

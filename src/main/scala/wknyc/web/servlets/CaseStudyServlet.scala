@@ -1,8 +1,9 @@
 package wknyc.web.servlets
 
+import java.util.Calendar
 import javax.servlet.http.{HttpServlet,HttpServletRequest => Request, HttpServletResponse => Response}
 import velocity.VelocityView
-import wknyc.model.{CaseStudy,ContentInfo}
+import wknyc.model.{BasicCaseStudy,ContentInfo,DownloadableAsset}
 import wknyc.persistence.ClientDao
 
 @WebServlet{ val name = "CaseStudy" , val urlPatterns = Array("/client/casestudy/*") }
@@ -33,7 +34,20 @@ class CaseStudyServlet extends HttpServlet with WkServlet {
 		val order = param("orderpicker")
 		val month = param("launchDateMonth")
 		val year = param("launchDateYear")
-		val display = param("displayOnSiteRadio")
-		http.user.flatMap(user => Some(CaseStudy(ContentInfo(user),name,headline,description)))
+		val launch = Calendar.getInstance
+		launch.set(year.toInt,month.toInt,1)
+		val published = param("displayOnSiteRadio") == "true"
+		val position = 0
+		http.user.flatMap(user => Some(
+			BasicCaseStudy(
+				ContentInfo(user),
+				name,
+				headline,
+				description,
+				launch,
+				List[DownloadableAsset](),
+				published,
+				position
+		)))
 	}
 }
