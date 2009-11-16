@@ -16,6 +16,10 @@ class CaseStudyServlet extends HttpServlet with WkServlet {
 	override def doPost(request:Request, response:Response) {
 		import WkPredef._
 		val http = HttpHelper(request,response)
+		// TODO: not returning a UUID anymore, returning a Some(wknyc.business.Response)
+		// Maybe make an empty ContentInfo instance which can be used as a placeholder and
+		// the save method of CaseStudyManager populates ContentInfo if the user exists
+		// otherwise it returns a Failure Response.
 		val uuid = http.user.flatMap(user => {
 			val casestudy = CaseStudyManager.save(getCaseStudy(http).get,user)
 			Some(casestudy)
