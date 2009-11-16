@@ -60,14 +60,14 @@ abstract class Dao(private val session:Session, private val loggedInUser:User) {
 		*/
 	protected def getContentInfo(node:Node) =
 		new ContentInfo(
-			node.getProperty(Content.DateCreated).getDate,
-			node.getProperty(Content.LastModified).getDate,
+			node.getProperty(Content.Created).getDate,
+			node.getProperty(Content.Modified).getDate,
 			userDao.get(node.getProperty(Content.ModifiedBy).getString),
 			Some(node.getUUID)
 		)
 	protected def saveContentInfo(node:Node,content:ContentInfo) = {
-		node.setProperty(Content.DateCreated,content.dateCreated)
-		node.setProperty(Content.LastModified,content.lastModified)
+		node.setProperty(Content.Created,content.created)
+		node.setProperty(Content.Modified,content.modified)
 		node.setProperty(Content.ModifiedBy, loggedInUser.uuid.get)
 	}
 	// Convert a NodeIterator to an actual Iterator with generics

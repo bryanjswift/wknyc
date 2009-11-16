@@ -2,8 +2,8 @@
 
 [wk:content] > mix:referenceable, mix:versionable
 mixin
--dateCreated (date) mandatory
--lastModified (date)
+-created (date) mandatory
+-modified (date)
 -modifiedBy (string) mandatory
 
 [wk:ordered]
