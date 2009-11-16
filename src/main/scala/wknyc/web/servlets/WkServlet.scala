@@ -37,6 +37,7 @@ trait WkServlet {
 				case Some(s) =>
 					Some(s.user)
 			}
+		// Define success and error views depending on the RequestURI
 		lazy val (success,error) =
 			request.getRequestURI match {
 				case xmlRE(e) =>
