@@ -10,8 +10,7 @@ object UserManager {
 	def register[T <: User](user:T,loggedIn:User) = save(user,loggedIn)
 	private def save[T <: User](user:T,loggedIn:User):Response[_ <: T] = {
 		val session = Config.Repository.login(loggedIn,Config.CredentialsWorkspace)
-		val results = UserValidator.validate(user)
-		val errors = results.filter(result => !result.isInstanceOf[ValidationSuccess])
+		val errors = UserValidator.errors(user)
 		errors match {
 			case Nil =>
 				using(session,new UserDao(session,loggedIn))((dao) =>
