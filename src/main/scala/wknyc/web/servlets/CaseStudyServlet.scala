@@ -3,8 +3,8 @@ package wknyc.web.servlets
 import java.util.Calendar
 import javax.servlet.http.{HttpServlet,HttpServletRequest => Request, HttpServletResponse => Response}
 import velocity.VelocityView
+import wknyc.business.CaseStudyManager
 import wknyc.model.{BasicCaseStudy,ContentInfo,DownloadableAsset}
-import wknyc.persistence.ClientDao
 
 class CaseStudyServlet extends HttpServlet with WkServlet {
 	override lazy val htmlSuccess = "client/caseStudy-basic.vm"
@@ -17,8 +17,7 @@ class CaseStudyServlet extends HttpServlet with WkServlet {
 		import WkPredef._
 		val http = HttpHelper(request,response)
 		val uuid = http.user.flatMap(user => {
-			val session = Config.Repository.login(user)
-			val casestudy = using(session,new ClientDao(session,user))(_.save(getCaseStudy(http).get).uuid)
+			val casestudy = CaseStudyManager.save(getCaseStudy(http).get,user)
 			Some(casestudy)
 		})
 		val view = new VelocityView(http.success)
