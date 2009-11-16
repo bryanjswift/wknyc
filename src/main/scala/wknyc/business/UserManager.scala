@@ -14,7 +14,7 @@ object UserManager {
 		val errors = results.filter(result => !result.isInstanceOf[ValidationSuccess])
 		errors match {
 			case Nil =>
-				using(session,new UserDao(session,Config.Admin))((dao) =>
+				using(session,new UserDao(session,loggedIn))((dao) =>
 					try {
 						Success(dao.save(user))
 					} catch {
