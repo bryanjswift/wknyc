@@ -13,7 +13,6 @@ mixin
 [wk:client] > nt:base, wk:content
 -name (string) primary mandatory
 +caseStudies(nt:unstructured)=nt:unstructured
-// Will likely have child nodes of type wk:caseStudy
 
 [wk:caseStudy] > nt:base, wk:content, wk:ordered
 -name (string) primary mandatory
