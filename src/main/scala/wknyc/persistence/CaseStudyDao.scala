@@ -2,18 +2,16 @@ package wknyc.persistence
 
 import javax.jcr.{Node,Session}
 import wknyc.Config
-import wknyc.model.{AssetCaseStudy,BasicCaseStudy,CaseStudy,EmptyFile,Ordered,User}
+import wknyc.model.{AssetCaseStudy,BasicCaseStudy,CaseStudy,Client,EmptyFile,Ordered,User}
 
 class CaseStudyDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUser) {
 	require(session.getWorkspace.getName == Config.ContentWorkspace,"Can only save/get Assets from ContentWorkspace")
 	// Only retrieve root once
 	override protected lazy val root = super.root
-	// Root for Case Studies
-	private lazy val CaseStudyRoot = getNode("CaseStudys")
 	// Need a way to (read only) access user data
-	private lazy val security = Config.Repository.login(Config.Admin, Config.CredentialsWorkspace)
+	private lazy val security = Config.Repository.login(loggedInUser, Config.CredentialsWorkspace)
 	protected override lazy val userDao = new UserDao(security,loggedInUser)
-	// Need a way to (read only) access asset data
+	// Need a way to read/write access asset data
 	private lazy val assetDao = new AssetDao(session,loggedInUser)
 	def get(uuid:String):AssetCaseStudy = get(session.getNodeByUUID(uuid))
 	private[persistence] def get(node:Node):AssetCaseStudy =
@@ -28,9 +26,21 @@ class CaseStudyDao(session:Session, loggedInUser:User) extends Dao(session,logge
 				node.getProperty(CaseStudy.Published).getBoolean,
 				node.getProperty(Ordered.Position).getLong
 			),
-			if (node.hasNode(CaseStudy.Video)) { assetDao.getDownloadableAsset(node.getNode(CaseStudy.Video)) } else { EmptyFile },
+			if (node.hasNode(CaseStudy.Video)) { assetDao.getDownloadableAsset(node.getNode(CaseStudy.Video)) }
+			else { EmptyFile },
 			node.getNode(CaseStudy.Images).getNodes.map(n => assetDao.getImageAsset(n)),
 			node.getNode(CaseStudy.Press).getNodes.map(n => assetDao.getPressAsset(n))
+		)
+	/** TODO: Dirty nastiness to avoid dependency on ClientDao
+		* Get Client data with or without CaseStudy data
+		* @param node from whence the data shall be retrieved
+		* @param studies - whether or not to load CaseStudy data
+		*/
+	private def getClient(node:Node) =
+		Client(
+			getContentInfo(node),
+			node.getProperty(Client.Name).getString,
+			Nil
 		)
 	/** Persist the CaseStudy to the repository
 		* If caseStudy.client has not been persisted this will throw an Exception

@@ -2,7 +2,7 @@ package wknyc.persistence
 
 import javax.jcr.{Node,Session}
 import wknyc.Config
-import wknyc.model.{CaseStudy,Client,User}
+import wknyc.model.{Client,User}
 
 class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUser) {
 	require(session.getWorkspace.getName == Config.ContentWorkspace,"Can only save/get Assets from ContentWorkspace")
@@ -11,19 +11,21 @@ class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedIn
 	// Root for Clients
 	private lazy val ClientRoot = getNode("Clients")
 	// Need a way to (read only) access user data
-	private lazy val security = Config.Repository.login(Config.Admin, Config.CredentialsWorkspace)
+	private lazy val security = Config.Repository.login(loggedInUser, Config.CredentialsWorkspace)
 	protected override lazy val userDao = new UserDao(security,loggedInUser)
-	// Need a way to (read only) access asset data
-	private lazy val assetDao = new AssetDao(session,loggedInUser)
 	// Need a way to read/write CaseStudy data
 	private lazy val caseStudyDao = new CaseStudyDao(session,loggedInUser)
 	def get(uuid:String):Client = get(session.getNodeByUUID(uuid))
 	private def get(node:Node):Client = get(node,false)
-	private def get(node:Node,z:Boolean):Client =
+	/** Get Client data with or without CaseStudy data
+		* @param node from whence the data shall be retrieved
+		* @param studies - whether or not to load CaseStudy data
+		*/
+	private def get(node:Node,studies:Boolean):Client =
 		Client(
 			getContentInfo(node),
 			node.getProperty(Client.Name).getString,
-			if (z) Nil else node.getNode(Client.CaseStudies).getNodes.map(n => caseStudyDao.get(n))
+			if (studies) Nil else node.getNode(Client.CaseStudies).getNodes.map(n => caseStudyDao.get(n))
 		)
 	def list =
 		ClientRoot.getNodes.map(n => get(n,true))
@@ -42,7 +44,6 @@ class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedIn
 	// Release resources
 	override def close {
 		caseStudyDao.close
-		assetDao.close
 		security.logout
 		userDao.close
 	}
