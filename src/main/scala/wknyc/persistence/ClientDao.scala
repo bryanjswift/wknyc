@@ -1,15 +1,13 @@
 package wknyc.persistence
 
-import javax.jcr.{Node,PropertyType,Session}
+import javax.jcr.{Node,Session}
 import wknyc.Config
-import wknyc.model.{AssetCaseStudy,BasicCaseStudy,CaseStudy,Client,DownloadableAsset,EmptyFile,ImageAsset,Ordered,PressAsset,User}
+import wknyc.model.{CaseStudy,Client,User}
 
 class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUser) {
 	require(session.getWorkspace.getName == Config.ContentWorkspace,"Can only save/get Assets from ContentWorkspace")
 	// Only retrieve root once
 	override protected lazy val root = super.root
-	// Root for Case Studies
-	private lazy val CaseStudyRoot = getNode("CaseStudys")
 	// Root for Clients
 	private lazy val ClientRoot = getNode("Clients")
 	// Need a way to (read only) access user data
@@ -17,79 +15,33 @@ class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedIn
 	protected override lazy val userDao = new UserDao(security,loggedInUser)
 	// Need a way to (read only) access asset data
 	private lazy val assetDao = new AssetDao(session,loggedInUser)
-	def save(caseStudy:CaseStudy) = {
-		val node = getNode(CaseStudyRoot,caseStudy.name,CaseStudy.NodeType)
-		writeCaseStudy(node,caseStudy)
-		session.save
-		node.checkin
-		caseStudy.cp(node.getUUID)
-	}
-	private def writeCaseStudy(node:Node,caseStudy:CaseStudy) {
-		caseStudy match {
-			case assets:AssetCaseStudy => writeAssetCaseStudy(node,assets)
-			case _ => writeBasicCaseStudy(node,caseStudy)
-		}
-	}
-	private def writeBasicCaseStudy(node:Node,caseStudy:CaseStudy) {
-		saveContentInfo(node,caseStudy.contentInfo.modifiedBy(loggedInUser))
-		node.setProperty(CaseStudy.Name,caseStudy.name)
-		node.setProperty(CaseStudy.Headline,caseStudy.headline)
-		node.setProperty(CaseStudy.Description,caseStudy.description)
-		node.setProperty(CaseStudy.Launch,caseStudy.launch)
-		node.setProperty(CaseStudy.Published,caseStudy.published)
-		node.setProperty(Ordered.Position,caseStudy.position)
-		// child nodes
-		val images = getNode(node,CaseStudy.Images)
-		val downloads = getNode(node,CaseStudy.Downloads)
-		val press = getNode(node,CaseStudy.Press)
-		caseStudy.downloads.foreach(d => assetDao.writeProperties(d,Some(downloads),d.title))
-	}
-	private def writeAssetCaseStudy(node:Node,caseStudy:AssetCaseStudy) {
-		writeBasicCaseStudy(node,caseStudy)
-		val images = getNode(node,CaseStudy.Images)
-		val press = getNode(node,CaseStudy.Press)
-		assetDao.writeProperties(caseStudy.video,Some(node),CaseStudy.Video)
-		caseStudy.images.foreach(i => assetDao.writeProperties(i,Some(images),i.title))
-		caseStudy.press.foreach(p => assetDao.writeProperties(p,Some(press),p.title))
-	}
-	def getCaseStudy(uuid:String):CaseStudy = getCaseStudy(session.getNodeByUUID(uuid))
-	private def getCaseStudy(node:Node):CaseStudy =
-		AssetCaseStudy(
-			BasicCaseStudy(
-				getContentInfo(node),
-				node.getProperty(CaseStudy.Name).getString,
-				node.getProperty(CaseStudy.Headline).getString,
-				node.getProperty(CaseStudy.Description).getString,
-				node.getProperty(CaseStudy.Launch).getDate,
-				node.getNode(CaseStudy.Downloads).getNodes.map(n => assetDao.getDownloadableAsset(n)),
-				node.getProperty(CaseStudy.Published).getBoolean,
-				node.getProperty(Ordered.Position).getLong
-			),
-			if (node.hasNode(CaseStudy.Video)) { assetDao.getDownloadableAsset(node.getNode(CaseStudy.Video)) } else { EmptyFile },
-			node.getNode(CaseStudy.Images).getNodes.map(n => assetDao.getImageAsset(n)),
-			node.getNode(CaseStudy.Press).getNodes.map(n => assetDao.getPressAsset(n))
+	// Need a way to read/write CaseStudy data
+	private lazy val caseStudyDao = new CaseStudyDao(session,loggedInUser)
+	def get(uuid:String):Client = get(session.getNodeByUUID(uuid))
+	private def get(node:Node):Client = get(node,false)
+	private def get(node:Node,z:Boolean):Client =
+		Client(
+			getContentInfo(node),
+			node.getProperty(Client.Name).getString,
+			if (z) Nil else node.getNode(Client.CaseStudies).getNodes.map(n => caseStudyDao.get(n))
 		)
+	def list =
+		ClientRoot.getNodes.map(n => get(n,true))
 	def save(client:Client) = {
 		val node = getNode(ClientRoot,client.name,Client.NodeType)
 		saveContentInfo(node,client.contentInfo.modifiedBy(loggedInUser))
 		node.setProperty(Client.Name,client.name)
 		val caseStudies = getNode(node,Client.CaseStudies)
-		client.caseStudies.foreach(study => writeCaseStudy(getNode(caseStudies,study.name,CaseStudy.NodeType),study))
+		client.caseStudies.foreach(study => {
+			caseStudyDao.writeCaseStudy(getNode(caseStudies,study.name,CaseStudy.NodeType),study)
+		})
 		session.save
 		node.checkin
 		client.cp(node.getUUID)
 	}
-	def getClient(uuid:String):Client = {
-		val node = session.getNodeByUUID(uuid)
-		val caseStudies = node.getNode(Client.CaseStudies)
-		Client(
-			getContentInfo(node),
-			node.getProperty(Client.Name).getString,
-			caseStudies.getNodes.map(n => getCaseStudy(n))
-		)
-	}
 	// Release resources
-	override def close = {
+	override def close {
+		caseStudyDao.close
 		assetDao.close
 		security.logout
 		userDao.close

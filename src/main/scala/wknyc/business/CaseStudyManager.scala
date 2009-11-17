@@ -2,7 +2,7 @@ package wknyc.business
 
 // relative to wknyc
 import model.{CaseStudy,User}
-import persistence.ClientDao
+import persistence.CaseStudyDao
 import validators.{CaseStudyValidator,Error,ValidationError,ValidationSuccess}
 import WkPredef._
 
@@ -12,7 +12,7 @@ object CaseStudyManager {
 		val errors = CaseStudyValidator.errors(study)
 		errors match {
 			case Nil =>
-				using(session,new ClientDao(session,loggedIn))(dao =>
+				using(session,new CaseStudyDao(session,loggedIn))(dao =>
 					try {
 						Success(dao.save(study))
 					} catch {

@@ -47,25 +47,27 @@ object ClientDaoSpecs extends Specification {
 				true,
 				0
 			)
-		val dao = new ClientDao(session,root)
+		val cDao = new ClientDao(session,root)
+		val csDao = new CaseStudyDao(session,root)
 		doAfterSpec {
-			dao.close
+			cDao.close
+			csDao.close
 			assetDao.close
 			securitySession.logout
 			session.logout
 		}
 		"save a CaseStudy" >> {
-			dao.save(caseStudy).uuid must beSome[String]
+			csDao.save(caseStudy).uuid must beSome[String]
 		}
 		"get a CaseStudy" >> {
-			val caseStudy1 = dao.save(caseStudy) // save doesn't update cascaded uuids
+			val caseStudy1 = csDao.save(caseStudy) // save doesn't update cascaded uuids
 			caseStudy1.uuid must beSome[String]
-			val retrieved = dao.getCaseStudy(caseStudy1.uuid.get)
+			val retrieved = csDao.get(caseStudy1.uuid.get)
 			caseStudy1.uuid must_== retrieved.uuid
 		}
 		"save a Client" >> {
 			val client =
-				dao.save(Client(
+				cDao.save(Client(
 					ContentInfo(root),
 					"Test Client",
 					List(caseStudy)
@@ -74,13 +76,13 @@ object ClientDaoSpecs extends Specification {
 		}
 		"get a Client" >> {
 			val client =
-				dao.save(Client(
+				cDao.save(Client(
 					ContentInfo(root),
 					"Test Client",
 					List(caseStudy)
 				)) // save doesn't update cascaded uuids
 			client.uuid must beSome[String]
-			val retrieved = dao.getClient(client.uuid.get)
+			val retrieved = cDao.get(client.uuid.get)
 			client.uuid must_== retrieved.uuid
 		}
 	}
