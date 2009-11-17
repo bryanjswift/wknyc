@@ -15,7 +15,30 @@ class CaseStudyDao(session:Session, loggedInUser:User) extends Dao(session,logge
 	protected override lazy val userDao = new UserDao(security,loggedInUser)
 	// Need a way to (read only) access asset data
 	private lazy val assetDao = new AssetDao(session,loggedInUser)
+	def get(uuid:String):AssetCaseStudy = get(session.getNodeByUUID(uuid))
+	private[persistence] def get(node:Node):AssetCaseStudy =
+		AssetCaseStudy(
+			BasicCaseStudy(
+				getContentInfo(node),
+				node.getProperty(CaseStudy.Name).getString,
+				node.getProperty(CaseStudy.Headline).getString,
+				node.getProperty(CaseStudy.Description).getString,
+				node.getProperty(CaseStudy.Launch).getDate,
+				node.getNode(CaseStudy.Downloads).getNodes.map(n => assetDao.getDownloadableAsset(n)),
+				node.getProperty(CaseStudy.Published).getBoolean,
+				node.getProperty(Ordered.Position).getLong
+			),
+			if (node.hasNode(CaseStudy.Video)) { assetDao.getDownloadableAsset(node.getNode(CaseStudy.Video)) } else { EmptyFile },
+			node.getNode(CaseStudy.Images).getNodes.map(n => assetDao.getImageAsset(n)),
+			node.getNode(CaseStudy.Press).getNodes.map(n => assetDao.getPressAsset(n))
+		)
+	/** Persist the CaseStudy to the repository
+		* If caseStudy.client has not been persisted this will throw an Exception
+		* @param caseStudy - instance of CaseStudy trait to save
+		* @returns caseStudy with uuid updated
+		*/
 	def save(caseStudy:CaseStudy) = {
+		//val client = session.getNodeByUUID(caseStudy.client.uuid.get)
 		val node = getNode(CaseStudyRoot,caseStudy.name,CaseStudy.NodeType)
 		writeCaseStudy(node,caseStudy)
 		session.save
@@ -50,23 +73,6 @@ class CaseStudyDao(session:Session, loggedInUser:User) extends Dao(session,logge
 		caseStudy.images.foreach(i => assetDao.writeProperties(i,Some(images),i.title))
 		caseStudy.press.foreach(p => assetDao.writeProperties(p,Some(press),p.title))
 	}
-	def get(uuid:String):AssetCaseStudy = get(session.getNodeByUUID(uuid))
-	private[persistence] def get(node:Node):AssetCaseStudy =
-		AssetCaseStudy(
-			BasicCaseStudy(
-				getContentInfo(node),
-				node.getProperty(CaseStudy.Name).getString,
-				node.getProperty(CaseStudy.Headline).getString,
-				node.getProperty(CaseStudy.Description).getString,
-				node.getProperty(CaseStudy.Launch).getDate,
-				node.getNode(CaseStudy.Downloads).getNodes.map(n => assetDao.getDownloadableAsset(n)),
-				node.getProperty(CaseStudy.Published).getBoolean,
-				node.getProperty(Ordered.Position).getLong
-			),
-			if (node.hasNode(CaseStudy.Video)) { assetDao.getDownloadableAsset(node.getNode(CaseStudy.Video)) } else { EmptyFile },
-			node.getNode(CaseStudy.Images).getNodes.map(n => assetDao.getImageAsset(n)),
-			node.getNode(CaseStudy.Press).getNodes.map(n => assetDao.getPressAsset(n))
-		)
 	// Release resources
 	override def close {
 		assetDao.close
