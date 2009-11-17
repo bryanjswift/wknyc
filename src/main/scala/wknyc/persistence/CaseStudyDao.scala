@@ -18,6 +18,7 @@ class CaseStudyDao(session:Session, loggedInUser:User) extends Dao(session,logge
 		AssetCaseStudy(
 			BasicCaseStudy(
 				getContentInfo(node),
+				getClient(node.getProperty(CaseStudy.Client).getNode), // get client without list of studies
 				node.getProperty(CaseStudy.Name).getString,
 				node.getProperty(CaseStudy.Headline).getString,
 				node.getProperty(CaseStudy.Description).getString,
@@ -48,21 +49,25 @@ class CaseStudyDao(session:Session, loggedInUser:User) extends Dao(session,logge
 		* @returns caseStudy with uuid updated
 		*/
 	def save(caseStudy:CaseStudy) = {
-		//val client = session.getNodeByUUID(caseStudy.client.uuid.get)
-		val node = getNode(CaseStudyRoot,caseStudy.name,CaseStudy.NodeType)
-		writeCaseStudy(node,caseStudy)
-		session.save
-		node.checkin
+		val client = session.getNodeByUUID(caseStudy.client.uuid.get)
+		client.checkout
+		val caseStudies = getNode(client,Client.CaseStudies)
+		val node = writeCaseStudy(caseStudies,client,caseStudy)
+		client.save
+		client.checkin
 		caseStudy.cp(node.getUUID)
 	}
-	private[persistence] def writeCaseStudy(node:Node,caseStudy:CaseStudy) {
+	private[persistence] def writeCaseStudy(parent:Node,client:Node,caseStudy:CaseStudy) = {
+		val node = getNode(parent,caseStudy.name,CaseStudy.NodeType)
 		caseStudy match {
-			case assets:AssetCaseStudy => writeAssetCaseStudy(node,assets)
-			case _ => writeBasicCaseStudy(node,caseStudy)
+			case assets:AssetCaseStudy => writeAssetCaseStudy(node,client,assets)
+			case _ => writeBasicCaseStudy(node,client,caseStudy)
 		}
+		node
 	}
-	private def writeBasicCaseStudy(node:Node,caseStudy:CaseStudy) {
+	private def writeBasicCaseStudy(node:Node,client:Node,caseStudy:CaseStudy) {
 		saveContentInfo(node,caseStudy.contentInfo.modifiedBy(loggedInUser))
+		node.setProperty(CaseStudy.Client,client)
 		node.setProperty(CaseStudy.Name,caseStudy.name)
 		node.setProperty(CaseStudy.Headline,caseStudy.headline)
 		node.setProperty(CaseStudy.Description,caseStudy.description)
@@ -75,8 +80,8 @@ class CaseStudyDao(session:Session, loggedInUser:User) extends Dao(session,logge
 		val press = getNode(node,CaseStudy.Press)
 		caseStudy.downloads.foreach(d => assetDao.writeProperties(d,Some(downloads),d.title))
 	}
-	private def writeAssetCaseStudy(node:Node,caseStudy:AssetCaseStudy) {
-		writeBasicCaseStudy(node,caseStudy)
+	private def writeAssetCaseStudy(node:Node,client:Node,caseStudy:AssetCaseStudy) {
+		writeBasicCaseStudy(node,client,caseStudy)
 		val images = getNode(node,CaseStudy.Images)
 		val press = getNode(node,CaseStudy.Press)
 		assetDao.writeProperties(caseStudy.video,Some(node),CaseStudy.Video)

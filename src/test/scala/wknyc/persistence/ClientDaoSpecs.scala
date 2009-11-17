@@ -2,7 +2,7 @@ package wknyc.persistence
 
 import java.util.Calendar
 import org.specs.Specification
-import wknyc.model.{BasicCaseStudy,CaseStudy,Client,ContentInfo,DownloadableAsset,WkCredentials}
+import wknyc.model.{BasicCaseStudy,CaseStudy,Client,ContentInfo,DownloadableAsset => DA,WkCredentials}
 
 object ClientDaoSpecs extends Specification {
 	"ClientDao" should {
@@ -14,14 +14,7 @@ object ClientDaoSpecs extends Specification {
 		val root = userDao.save(WkCredentials("root@wk.com","root","","",None))
 		val caseStudy =
 			BasicCaseStudy(
-				ContentInfo(root),
-				"name",
-				"Headline",
-				"Description",
-				Calendar.getInstance,
-				List[DownloadableAsset](),
-				true,
-				0
+				ContentInfo(root),null,"name","Headline","Description",Calendar.getInstance,List[DA](),true,0
 			)
 		val cDao = new ClientDao(session,root)
 		doAfterSpec {

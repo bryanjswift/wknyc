@@ -42,6 +42,7 @@ class CaseStudyServlet extends HttpServlet with WkServlet {
 		val position = 0
 		BasicCaseStudy(
 			ContentInfo.Empty,
+			null,
 			name,
 			headline,
 			description,

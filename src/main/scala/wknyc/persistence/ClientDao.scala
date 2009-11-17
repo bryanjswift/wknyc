@@ -35,7 +35,7 @@ class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedIn
 		node.setProperty(Client.Name,client.name)
 		val caseStudies = getNode(node,Client.CaseStudies)
 		client.caseStudies.foreach(study => {
-			caseStudyDao.writeCaseStudy(getNode(caseStudies,study.name,CaseStudy.NodeType),study)
+			caseStudyDao.writeCaseStudy(caseStudies,node,study)
 		})
 		session.save
 		node.checkin

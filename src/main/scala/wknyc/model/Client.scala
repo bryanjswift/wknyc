@@ -3,6 +3,7 @@ package wknyc.model
 import java.util.Calendar
 
 trait CaseStudy extends Content with Ordered {
+	def client:Client
 	def name:String
 	def headline:String
 	def description:String
@@ -14,6 +15,7 @@ trait CaseStudy extends Content with Ordered {
 
 object CaseStudy {
 	val NodeType = "wk:caseStudy"
+	val Client = "client"
 	val Name = "name"
 	val Headline = "headline"
 	val Description = "description"
@@ -31,6 +33,7 @@ object CaseStudy {
 
 case class BasicCaseStudy(
 	contentInfo:ContentInfo,
+	client:Client,
 	name:String,
 	headline:String,
 	description:String,
@@ -40,7 +43,7 @@ case class BasicCaseStudy(
 	position:Long
 ) extends CaseStudy {
 	def cp(uuid:String) =
-		BasicCaseStudy(contentInfo.cp(uuid),name,headline,description,launch,downloads,published,position)
+		BasicCaseStudy(contentInfo.cp(uuid),client,name,headline,description,launch,downloads,published,position)
 }
 
 case class AssetCaseStudy(
@@ -50,6 +53,7 @@ case class AssetCaseStudy(
 	press:Iterable[PressAsset]
 ) extends CaseStudy {
 	val contentInfo = basic.contentInfo
+	val client = basic.client
 	val name = basic.name
 	val headline = basic.headline
 	val description = basic.description

@@ -16,6 +16,7 @@ mixin
 
 [wk:caseStudy] > nt:base, wk:content, wk:ordered
 -name (string) primary mandatory
+-client (reference) mandatory
 -headline (string) mandatory
 -description (string) mandatory
 -launch (date) mandatory
