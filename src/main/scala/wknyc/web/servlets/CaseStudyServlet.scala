@@ -4,7 +4,7 @@ import java.util.Calendar
 import javax.servlet.http.{HttpServlet,HttpServletRequest => Request, HttpServletResponse => Response}
 import velocity.VelocityView
 import wknyc.WkPredef._
-import wknyc.business.CaseStudyManager
+import wknyc.business.{CaseStudyManager,ClientManager}
 import wknyc.model.{BasicCaseStudy,ContentInfo,DownloadableAsset}
 
 class CaseStudyServlet extends HttpServlet with WkServlet {
@@ -42,7 +42,7 @@ class CaseStudyServlet extends HttpServlet with WkServlet {
 		val position = 0
 		BasicCaseStudy(
 			ContentInfo.Empty,
-			null,
+			ClientManager.getByName(client,http.user),
 			name,
 			headline,
 			description,
