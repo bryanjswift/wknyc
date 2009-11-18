@@ -8,11 +8,9 @@ object AssetDaoSpecs extends Specification {
 	"AssetDao" should {
 		shareVariables()
 		setSequential()
-		val securitySession = Config.Repository.login(Config.Admin,Config.CredentialsWorkspace)
-		val session = Config.Repository.login(Config.Admin,Config.ContentWorkspace)
-		val userDao = new UserDao(securitySession,Config.Admin)
+		val userDao = new UserDao(Config.Admin)
 		val root = userDao.save(WkCredentials("root@wk.com","root","","",None))
-		val dao:AssetDao = new AssetDao(session,root)
+		val dao = new AssetDao(root)
 		val imageAsset = ImageAsset(
 				ContentInfo(root),
 				"Test Image",
@@ -37,9 +35,8 @@ object AssetDaoSpecs extends Specification {
 				"Example Name"
 			)
 		doAfterSpec {
+			userDao.close
 			dao.close
-			securitySession.logout
-			session.logout
 		}
 		"save an ImageAsset" >> {
 			dao.save(imageAsset).uuid must beSome[String]

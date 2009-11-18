@@ -25,7 +25,7 @@ class ImageServlet extends HttpServlet with FileServlet with Manager {
 		val asset = getAssetStreaming(request)
 		val uuid:Option[String] = http.user.flatMap(user => {
 				val s = Config.Repository.login(user)
-				using(s,new AssetDao(s,user))((dao) => {
+				using(s,new AssetDao(user))((dao) => {
 					dao.save(asset).uuid
 				})
 			})

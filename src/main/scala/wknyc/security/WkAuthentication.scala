@@ -14,6 +14,7 @@ class WkAuthentication(private val systemSession:Session) extends Authentication
 		if (canHandle(credentials)) {
 			val creds = credentials.asInstanceOf[WkCredentials]
 			creds.uuid match {
+				case Config.Admin.uuid => creds.eq(Config.Admin)
 				case Some(uuid) =>
 					try {
 						val credsNode = systemSession.getNodeByUUID(uuid)

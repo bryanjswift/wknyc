@@ -3,7 +3,8 @@ package wknyc.persistence
 import javax.jcr.{Node,NodeIterator,Session}
 import wknyc.model.{Content,ContentInfo,User}
 
-abstract class Dao(private val session:Session, private val loggedInUser:User) {
+abstract class Dao(private val loggedInUser:User) {
+	protected def session:Session
 	// Root node for this Dao
 	protected def root = session.getRootNode
 	// Dao with access to user data
@@ -62,7 +63,12 @@ abstract class Dao(private val session:Session, private val loggedInUser:User) {
 		new ContentInfo(
 			node.getProperty(Content.Created).getDate,
 			node.getProperty(Content.Modified).getDate,
-			userDao.get(node.getProperty(Content.ModifiedBy).getString),
+			try {
+				userDao.get(node.getProperty(Content.ModifiedBy).getString)
+			} catch {
+				case e:Exception if (e.getMessage.indexOf(Config.Admin.uuid.get) != -1) => Config.Admin
+				case e:Exception => throw e
+			},
 			Some(node.getUUID)
 		)
 	protected def saveContentInfo(node:Node,content:ContentInfo) = {

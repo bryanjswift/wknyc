@@ -14,7 +14,7 @@ object UserManager extends Manager {
 		val errors = UserValidator.errors(user)
 		errors match {
 			case Nil =>
-				using(session,new UserDao(session,loggedIn))((dao) =>
+				using(session,new UserDao(loggedIn))((dao) =>
 					try {
 						Success(dao.save(user))
 					} catch {
@@ -27,7 +27,7 @@ object UserManager extends Manager {
 	}
 	def authenticate(username:String,password:String):Option[User] = {
 		val session = Config.Repository.login(Config.Admin,Config.CredentialsWorkspace)
-		using(session,new UserDao(session,Config.Admin))((dao) => {
+		using(session,new UserDao(Config.Admin))((dao) => {
 			val user = dao.get(username)
 			if (user.password == password) Some(user) else None
 		})

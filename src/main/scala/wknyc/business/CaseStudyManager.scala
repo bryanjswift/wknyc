@@ -13,7 +13,7 @@ object CaseStudyManager extends Manager {
 		val errors = CaseStudyValidator.errors(study)
 		errors match {
 			case Nil =>
-				using(session,new CaseStudyDao(session,loggedIn))(dao =>
+				using(session,new CaseStudyDao(loggedIn))(dao =>
 					try {
 						Success(dao.save(study))
 					} catch {

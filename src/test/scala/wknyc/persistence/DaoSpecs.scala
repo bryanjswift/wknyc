@@ -5,17 +5,17 @@ import org.specs.Specification
 import wknyc.model.User
 
 object DaoSpecs extends Specification {
-	private class MockDao(session:Session,user:User) extends Dao(session,user) {
-		private val securitySession = Config.Repository.login(user,Config.CredentialsWorkspace)
-		val userDao = new UserDao(securitySession,user)
+	private class MockDao(user:User) extends Dao(user) {
+		protected val session = Config.Repository.login(user,Config.ContentWorkspace)
+		val userDao = new UserDao(user)
 		def close {
-			securitySession.logout
+			session.logout
 			userDao.close
 		}
 	}
 	"Dao instances" should {
 		val session = Config.Repository.login(Config.Admin,Config.ContentWorkspace)
-		val dao = new MockDao(session,Config.Admin)
+		val dao = new MockDao(Config.Admin)
 		doAfter {
 			dao.close
 			session.logout

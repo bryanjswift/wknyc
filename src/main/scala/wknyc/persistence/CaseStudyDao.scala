@@ -4,15 +4,14 @@ import javax.jcr.{Node,Session}
 import wknyc.Config
 import wknyc.model.{AssetCaseStudy,BasicCaseStudy,CaseStudy,Client,EmptyFile,Ordered,User}
 
-class CaseStudyDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUser) {
-	require(session.getWorkspace.getName == Config.ContentWorkspace,"Can only save/get Assets from ContentWorkspace")
+class CaseStudyDao(loggedInUser:User) extends Dao(loggedInUser) {
+	protected val session = Config.Repository.login(loggedInUser,Config.ContentWorkspace)
 	// Only retrieve root once
 	override protected lazy val root = super.root
 	// Need a way to (read only) access user data
-	private lazy val security = Config.Repository.login(loggedInUser, Config.CredentialsWorkspace)
-	protected override lazy val userDao = new UserDao(security,loggedInUser)
+	protected override lazy val userDao = new UserDao(loggedInUser)
 	// Need a way to read/write access asset data
-	private lazy val assetDao = new AssetDao(session,loggedInUser)
+	private lazy val assetDao = new AssetDao(loggedInUser)
 	def get(uuid:String):AssetCaseStudy = get(session.getNodeByUUID(uuid))
 	private[persistence] def get(node:Node):AssetCaseStudy =
 		AssetCaseStudy(
@@ -91,7 +90,7 @@ class CaseStudyDao(session:Session, loggedInUser:User) extends Dao(session,logge
 	// Release resources
 	override def close {
 		assetDao.close
-		security.logout
+		session.logout
 		userDao.close
 	}
 }

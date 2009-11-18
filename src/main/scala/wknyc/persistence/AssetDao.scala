@@ -5,11 +5,10 @@ import scala.xml.XML
 import wknyc.Config
 import wknyc.model.{Asset,AwardAsset,Content,ContentInfo,CopyAsset,DownloadableAsset,FileInfo,Image,ImageInfo,ImageAsset,PressAsset,User}
 
-class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUser) {
-	require(session.getWorkspace.getName == Config.ContentWorkspace,"Can only save/get Assets from ContentWorkspace")
+class AssetDao(loggedInUser:User) extends Dao(loggedInUser) {
+	protected val session = Config.Repository.login(loggedInUser,Config.ContentWorkspace)
 	// Need a way to (read only) access user data
-	private lazy val security = Config.Repository.login(Config.Admin, Config.CredentialsWorkspace)
-	protected override lazy val userDao = new UserDao(security,loggedInUser)
+	protected override lazy val userDao = new UserDao(loggedInUser)
 	// Make the root for Asset saving a node called Assets
 	override protected lazy val root = getNode(super.root,"Assets")
 	// Make the root for ImageAsset saving a node called ImageAssets
@@ -187,7 +186,7 @@ class AssetDao(session:Session, loggedInUser:User) extends Dao(session,loggedInU
 		)
 	// Release resources
 	override def close = {
-		security.logout
+		session.logout
 		userDao.close
 	}
 }

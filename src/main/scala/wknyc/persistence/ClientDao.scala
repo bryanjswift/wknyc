@@ -4,17 +4,16 @@ import javax.jcr.{Node,Session}
 import wknyc.Config
 import wknyc.model.{Client,User}
 
-class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUser) {
-	require(session.getWorkspace.getName == Config.ContentWorkspace,"Can only save/get Assets from ContentWorkspace")
+class ClientDao(loggedInUser:User) extends Dao(loggedInUser) {
+	protected val session = Config.Repository.login(loggedInUser,Config.ContentWorkspace)
 	// Only retrieve root once
 	override protected lazy val root = super.root
 	// Root for Clients
 	private lazy val ClientRoot = getNode("Clients")
 	// Need a way to (read only) access user data
-	private lazy val security = Config.Repository.login(loggedInUser, Config.CredentialsWorkspace)
-	protected override lazy val userDao = new UserDao(security,loggedInUser)
+	protected override lazy val userDao = new UserDao(loggedInUser)
 	// Need a way to read/write CaseStudy data
-	private lazy val caseStudyDao = new CaseStudyDao(session,loggedInUser)
+	private lazy val caseStudyDao = new CaseStudyDao(loggedInUser)
 	def get(uuid:String):Client = get(session.getNodeByUUID(uuid))
 	private def get(node:Node):Client = get(node,false)
 	/** Get Client data with or without CaseStudy data
@@ -44,7 +43,7 @@ class ClientDao(session:Session, loggedInUser:User) extends Dao(session,loggedIn
 	// Release resources
 	override def close {
 		caseStudyDao.close
-		security.logout
+		session.logout
 		userDao.close
 	}
 	// Implicitly convert List to Array so .toArray isn't everywhere

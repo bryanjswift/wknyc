@@ -8,8 +8,8 @@ import wknyc.model.{Content,ContentInfo,Employee,PersonalInfo,SocialNetwork,User
 	* @param session is used to access the repository but is not modified (logged out)
 	* @param loggedInUser is used to set lastModifiedUser of content being saved
 	*/
-class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUser) {
-	require(session.getWorkspace.getName == Config.CredentialsWorkspace,"Can only save/get Users from CredentialsWorkspace")
+class UserDao(loggedInUser:User) extends Dao(loggedInUser) {
+	protected val session = Config.Repository.login(loggedInUser,Config.CredentialsWorkspace)
 	// Only retrieve root once
 	override protected lazy val root = super.root
 	// Make userDao refer to this
@@ -96,11 +96,12 @@ class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUs
 		* @returns Employee or User built from node retrieved
 		*/
 	def get(s:String):User = {
-		val node = if (root.hasNode(s)) {
-			root.getNode(s)
-		} else {
-			session.getNodeByUUID(s)
-		}
+		val node =
+			if (root.hasNode(s)) {
+				root.getNode(s)
+			} else {
+				session.getNodeByUUID(s)
+			}
 		getByNode(node)
 	}
 	/** Get appropriate object based on primary node type of given node
@@ -141,5 +142,7 @@ class UserDao(session:Session, loggedInUser:User) extends Dao(session,loggedInUs
 			Some(node.getUUID)
 		)
 	// Release resources
-	override def close = { }
+	override def close = {
+		session.logout
+	}
 }

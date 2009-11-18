@@ -8,19 +8,16 @@ object ClientDaoSpecs extends Specification {
 	"ClientDao" should {
 		shareVariables()
 		setSequential()
-		val securitySession = Config.Repository.login(Config.Admin,Config.CredentialsWorkspace)
-		val session = Config.Repository.login(Config.Admin,Config.ContentWorkspace)
-		val userDao = new UserDao(securitySession,Config.Admin)
+		val userDao = new UserDao(Config.Admin)
 		val root = userDao.save(WkCredentials("root@wk.com","root","","",None))
 		val caseStudy =
 			BasicCaseStudy(
 				ContentInfo(root),null,"name","Headline","Description",Calendar.getInstance,List[DA](),true,0
 			)
-		val cDao = new ClientDao(session,root)
+		val cDao = new ClientDao(root)
 		doAfterSpec {
+			userDao.close
 			cDao.close
-			securitySession.logout
-			session.logout
 		}
 		"save a Client without CaseStudy instances" >> {
 			val client =

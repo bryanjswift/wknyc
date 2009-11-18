@@ -10,7 +10,7 @@ object Config {
 	lazy val Repository = new WkRepository()
 	lazy val CredentialsWorkspace = "security"
 	lazy val ContentWorkspace = "content"
-	lazy val Admin = WkCredentials("repositoryAdmin@wk.com","Jus1 4 dummy pa5sw0r6","Administration","Administrator",None)
+	lazy val Admin = WkCredentials("repositoryAdmin@wk.com","g0du5er","Admin","Admin",Some("Config.Admin.UUID"))
 	lazy val ClassLoader = getClass.getClassLoader
 	private val systemProps = List("org.apache.jackrabbit.repository.home","org.apache.jackrabbit.repository.conf")
 	systemProps.foreach(key => System.setProperty(key,Props(key)))
