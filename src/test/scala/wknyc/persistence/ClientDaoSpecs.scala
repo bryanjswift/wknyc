@@ -41,12 +41,17 @@ object ClientDaoSpecs extends Specification {
 			val client =
 				cDao.save(Client(
 					ContentInfo(root),
-					"Test Client",
+					"Test Client 3",
 					List(caseStudy)
 				)) // save doesn't update cascaded uuids of CaseStudy instances or members
 			client.uuid must beSome[String]
 			val retrieved = cDao.get(client.uuid.get)
 			client.uuid must_== retrieved.uuid
+		}
+		"list Clients" >> {
+			val all = cDao.list.toList
+			all.size must beGreaterThan(0)
+			all mustExist((client:Client) => client.name == "Test Client")
 		}
 	}
 }
