@@ -5,12 +5,10 @@ import wknyc.model.User
 import wknyc.persistence.Dao
 
 trait Manager {
-	type D <: Dao
-	def using[T](session:Session,dao:D)(f:(D) => T):T =
+	def using[T,D <: Dao](dao:D)(f:(D) => T) =
 		try {
 			f(dao)
 		} finally {
 			dao.close
-			session.logout
 		}
 }

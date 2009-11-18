@@ -1,19 +1,17 @@
 package wknyc.business
 
 // relative to wknyc
+import WkPredef._
 import model.{CaseStudy,User}
 import persistence.CaseStudyDao
-import validators.{CaseStudyValidator,Error,ValidationError,ValidationSuccess}
-import WkPredef._
+import validators.{CaseStudyValidator,Error,ValidationError,ValidationResult}
 
 object CaseStudyManager extends Manager {
-	type D = CaseStudyDao
 	def save[T <: CaseStudy](study:T,loggedIn:User):Response[CaseStudy] = {
-		val session = Config.Repository.login(loggedIn,Config.ContentWorkspace)
 		val errors = CaseStudyValidator.errors(study)
 		errors match {
 			case Nil =>
-				using(session,new CaseStudyDao(loggedIn))(dao =>
+				using(new CaseStudyDao(loggedIn))(dao =>
 					try {
 						Success(dao.save(study))
 					} catch {
