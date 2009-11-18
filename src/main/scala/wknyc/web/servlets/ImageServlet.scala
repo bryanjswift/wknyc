@@ -5,10 +5,13 @@ import javax.servlet.http.{HttpServlet,HttpServletRequest => Request, HttpServle
 import org.apache.commons.fileupload.FileItemStream
 import org.apache.commons.fileupload.util.Streams
 import velocity.VelocityView
+import wknyc.business.Manager
 import wknyc.model.{ContentInfo,Image,ImageAsset,ImageSet,ImageSize}
 import wknyc.persistence.AssetDao
 
-class ImageServlet extends HttpServlet with FileServlet {
+// TODO: Should not mixin Manager
+class ImageServlet extends HttpServlet with FileServlet with Manager {
+	type D = AssetDao
 	override lazy val htmlSuccess = "assets/imageUpload.vm"
 	val path = createRelativePath(Props("wknyc.uploads.images"))
 	override def doGet(request:Request, response:Response) = {

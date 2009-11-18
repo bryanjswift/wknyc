@@ -6,7 +6,8 @@ import persistence.CaseStudyDao
 import validators.{CaseStudyValidator,Error,ValidationError,ValidationSuccess}
 import WkPredef._
 
-object CaseStudyManager {
+object CaseStudyManager extends Manager {
+	type D = CaseStudyDao
 	def save[T <: CaseStudy](study:T,loggedIn:User):Response[CaseStudy] = {
 		val session = Config.Repository.login(loggedIn,Config.ContentWorkspace)
 		val errors = CaseStudyValidator.errors(study)

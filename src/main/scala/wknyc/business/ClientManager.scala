@@ -1,7 +1,13 @@
 package wknyc.business
 
+import wknyc.WkPredef._
 import wknyc.model.{Client,User}
+import wknyc.persistence.ClientDao
 
-object ClientManager {
-	def getByName(name:String,loggedIn:Option[User]):Client = null
+object ClientManager extends Manager {
+	type D = ClientDao
+	def get(uuid:String) = {
+		val session = Config.Repository.login(Config.Admin,Config.ContentWorkspace)
+		using(session,new ClientDao(session,Config.Admin)) { _.get(uuid) }
+	}
 }

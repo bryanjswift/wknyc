@@ -1,12 +1,13 @@
 package wknyc.business
 
+import WkPredef._
 import wknyc.business.validators.{Error,UserValidator,ValidationSuccess}
 import wknyc.model.User
 import wknyc.persistence.UserDao
 import wknyc.{Config, WkPredef}
 
-object UserManager {
-	import WkPredef._
+object UserManager extends Manager {
+	type D = UserDao
 	def register[T <: User](user:T,loggedIn:User) = save(user,loggedIn)
 	private def save[T <: User](user:T,loggedIn:User):Response[_ <: T] = {
 		val session = Config.Repository.login(loggedIn,Config.CredentialsWorkspace)
