@@ -6,51 +6,57 @@
 	</head>
 	<body>
 		<h1>Case Study</h1>
-		#if (!$caseStudy.uuid().isEmpty())
+		#if (!$get && $caseStudy.isDefined())
+			#set($caseStudy = $caseStudy.get())
 			<p>Successfully saved CaseStudy with uuid: $caseStudy.uuid().get()</p>
 		#end
-		<div id="basic_info">
-			<form method="POST" action="/client/casestudy">
-				<fieldset class="name">
-					<label>Case Study Name*</label> <input id="nameField" class="required" name="nameField" type="text" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num">
-				</fieldset>
-				<fieldset class="shortDesc">
-					<label>Case Short Description*</label> <input id="shortDescField" class="required" name="shortDescField" type="text" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num">
-				</fieldset>
-				<fieldset class="longDesc">
-					<label>Case Study Long Description*</label> 
-					<textarea id="longDescField" class="required" name="longDescField" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num"></textarea>
-				</fieldset>
-				<fieldset class="client">
-					<label>Client*</label>
-					<select id="clientSelect" class="required" name="clientSelect" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num">
-						<option>
-							Delta
-						</option>
-						<option>
-							Nike
-						</option>
-					</select>
-				</fieldset>
-				<fieldset class="sortOrder">
-					<label>Sort Order*</label> <a class="top" href="#">Up</a> <input id="orderpicker" class="required" name="orderpicker" maxlength="2" type="text" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num"> <a class="bottom" href="#">Down</a>
-				</fieldset>
-				<fieldset class="launchDate">
-					<label>Campaign Launch Date</label> <label class="prefill month">MM</label> <input id="launchDateMonth" name="launchDateMonth" class="month minLength:2 validate-integer" maxlength="2" type="text" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num"> <label class="prefill year">YYYY</label> <input id="launchDateYear" name="launchDateYear" class="year minLength:4 validate-integer" maxlength="4" type="text" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num">
-				</fieldset>
-				<fieldset>
-					<label>Case Study Download</label>
-					<div class="skinned-fileinput">
-						<input type="file" name="select_PDF" id="select_PDF"> <a class="file_upload plus" href="#">select PDF</a>
-					</div>
-				</fieldset>
-				<fieldset class="displayOnSite">
-					<label>Display on site?</label> <input type="radio" id="displayOnSiteRadio-on" name="displayOnSiteRadio" value="true"/><input type="radio" id="displayOnSiteRadio-off" name="displayOnSiteRadio" value="false"/>
-				</fieldset>
-				<fieldset class="hide">
-					<input type="submit" value="Submit">
-				</fieldset>
-			</form>
-		</div>
+		#if ($get && $caseStudy.isDefined())
+			<p>UUID: $caseStudy.uuid().get()</p>
+			<p>Name: $caseStudy.name()</p>
+		#else
+			<div id="basic_info">
+				<form method="POST" action="/client/casestudy">
+					<fieldset class="name">
+						<label>Case Study Name*</label> <input id="nameField" class="required" name="nameField" type="text" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num">
+					</fieldset>
+					<fieldset class="shortDesc">
+						<label>Case Short Description*</label> <input id="shortDescField" class="required" name="shortDescField" type="text" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num">
+					</fieldset>
+					<fieldset class="longDesc">
+						<label>Case Study Long Description*</label> 
+						<textarea id="longDescField" class="required" name="longDescField" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num"></textarea>
+					</fieldset>
+					<fieldset class="client">
+						<label>Client*</label>
+						<select id="clientSelect" class="required" name="clientSelect" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num">
+							<option>
+								Delta
+							</option>
+							<option>
+								Nike
+							</option>
+						</select>
+					</fieldset>
+					<fieldset class="sortOrder">
+						<label>Sort Order*</label> <a class="top" href="#">Up</a> <input id="orderpicker" class="required" name="orderpicker" maxlength="2" type="text" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num"> <a class="bottom" href="#">Down</a>
+					</fieldset>
+					<fieldset class="launchDate">
+						<label>Campaign Launch Date</label> <label class="prefill month">MM</label> <input id="launchDateMonth" name="launchDateMonth" class="month minLength:2 validate-integer" maxlength="2" type="text" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num"> <label class="prefill year">YYYY</label> <input id="launchDateYear" name="launchDateYear" class="year minLength:4 validate-integer" maxlength="4" type="text" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num">
+					</fieldset>
+					<fieldset>
+						<label>Case Study Download</label>
+						<div class="skinned-fileinput">
+							<input type="file" name="select_PDF" id="select_PDF"> <a class="file_upload plus" href="#">select PDF</a>
+						</div>
+					</fieldset>
+					<fieldset class="displayOnSite">
+						<label>Display on site?</label> <input type="radio" id="displayOnSiteRadio-on" name="displayOnSiteRadio" value="true"/><input type="radio" id="displayOnSiteRadio-off" name="displayOnSiteRadio" value="false"/>
+					</fieldset>
+					<fieldset class="hide">
+						<input type="submit" value="Submit">
+					</fieldset>
+				</form>
+			</div>
+		#end
 	</body>
 </html>
