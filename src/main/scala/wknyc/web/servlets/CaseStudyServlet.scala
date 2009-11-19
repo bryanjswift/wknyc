@@ -11,8 +11,17 @@ class CaseStudyServlet extends HttpServlet with WkServlet {
 	override lazy val htmlSuccess = "client/caseStudy-basic.vm"
 	override def doGet(request:Request, response:Response) {
 		val http = HttpHelper(request,response)
+		val study =
+			if (http.parameter("id") == "") {
+				None
+			} else {
+				CaseStudyManager.get(http.parameter("id"),http.user) match {
+					case Success(study,message) => Some(study)
+					case Failure(_,_) => None
+				}
+			}
 		val view = new VelocityView(http.success)
-		view.render(Map("uuid" -> None),request,response)
+		view.render(Map("uuid" -> None,"caseStudy" -> study,"get" -> true),request,response)
 	}
 	override def doPost(request:Request, response:Response) {
 		val http = HttpHelper(request,response)
@@ -20,9 +29,9 @@ class CaseStudyServlet extends HttpServlet with WkServlet {
 		val result = CaseStudyManager.save(study,http.user)
 		val ctx = result match {
 			case Success(creds,message) =>
-				Map("errors" -> result.errors,"caseStudy" -> result.payload)
+				Map("errors" -> result.errors,"caseStudy" -> Some(result.payload))
 			case Failure(errors,message) =>
-				Map("errors" -> errors,"caseStudy" -> study)
+				Map("errors" -> errors,"caseStudy" -> Some(study),"get" -> false)
 		}
 		val view = new VelocityView(http.success)
 		view.render(ctx,request,response)
