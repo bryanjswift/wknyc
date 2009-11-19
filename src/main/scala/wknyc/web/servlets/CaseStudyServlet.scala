@@ -28,8 +28,8 @@ class CaseStudyServlet extends HttpServlet with WkServlet {
 		val study = getCaseStudy(http)
 		val result = CaseStudyManager.save(study,http.user)
 		val ctx = result match {
-			case Success(creds,message) =>
-				Map("errors" -> result.errors,"caseStudy" -> Some(result.payload))
+			case Success(caseStudy,message) =>
+				Map("errors" -> result.errors,"caseStudy" -> Some(caseStudy),"get" -> false)
 			case Failure(errors,message) =>
 				Map("errors" -> errors,"caseStudy" -> Some(study),"get" -> false)
 		}
