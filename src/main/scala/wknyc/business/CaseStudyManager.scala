@@ -7,6 +7,14 @@ import persistence.CaseStudyDao
 import validators.{CaseStudyValidator,Error,ValidationError,ValidationResult}
 
 object CaseStudyManager extends Manager {
+	def get(uuid:String,user:Option[User]) =
+		using(new CaseStudyDao(user.getOrElse(Config.Admin)))(dao =>
+			try {
+				Success(dao.get(uuid))
+			} catch {
+				case e:Exception => Failure(List(Error(e)),"Unable to retrieve CaseStudy " + uuid)
+			}
+		)
 	def save[T <: CaseStudy](study:T,loggedIn:User):Response[CaseStudy] = {
 		val errors = CaseStudyValidator.errors(study)
 		errors match {
