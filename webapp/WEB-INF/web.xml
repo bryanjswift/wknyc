@@ -55,6 +55,15 @@
 		<servlet-name>CaseStudy Basic</servlet-name>
 		<url-pattern>/client/casestudy/*</url-pattern>
 	</servlet-mapping>
+<!-- Define wknyc Client Creation Servlet -->
+	<servlet>
+		<servlet-name>Client Basic</servlet-name>
+		<servlet-class>wknyc.web.servlets.ClientServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Client Basic</servlet-name>
+		<url-pattern>/client/client/*</url-pattern>
+	</servlet-mapping>
 <!-- Define wknyc Image Upload Servlet -->
 	<servlet>
 		<servlet-name>imageUpload</servlet-name>
