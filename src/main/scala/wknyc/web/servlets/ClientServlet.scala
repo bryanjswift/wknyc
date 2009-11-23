@@ -19,9 +19,9 @@ class ClientServlet extends HttpServlet with WkServlet {
 		val result = ClientManager.save(client,http.user)
 		val ctx = result match {
 			case Success(payload,message) =>
-				Map("errors" -> result.errors,"caseStudy" -> Some(payload),"get" -> false,"uuid" -> payload.uuid)
+				Map("errors" -> result.errors,"client" -> Some(payload),"get" -> false,"uuid" -> payload.uuid)
 			case Failure(errors,message) =>
-				Map("errors" -> errors,"caseStudy" -> Some(client),"get" -> false,"uuid" -> client.uuid)
+				Map("errors" -> errors,"client" -> Some(client),"get" -> false,"uuid" -> client.uuid)
 		}
 		val view = new VelocityView(http.success)
 		view.render(ctx,request,response)
