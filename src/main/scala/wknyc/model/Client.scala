@@ -68,6 +68,7 @@ case class AssetCaseStudy(
 /** Represent a collection of CaseStudy objects */
 case class Client(contentInfo:ContentInfo, name:String, caseStudies:Iterable[CaseStudy]) extends Content {
 	def cp(uuid:String) = Client(contentInfo.cp(uuid), name, caseStudies)
+	def cp(info:ContentInfo) = Client(info,name,caseStudies)
 }
 
 object Client {
