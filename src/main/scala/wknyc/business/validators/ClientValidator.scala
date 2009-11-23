@@ -10,6 +10,8 @@ object ClientValidator extends Validator {
 		}
 	// Type Validation
 	private def validateClient(client:Client) = ( // this is one statement
-		Nil
+		validateName(client.name)
+		:: Nil
 	)
+	private def validateName(name:String) = required(name,Client.Name)
 }
