@@ -11,6 +11,7 @@ trait Validator {
 	protected def notValidated(field:String) = ValidationSuccess(field)
 	protected def required(value:String,field:String) =
 		value match {
+			case null => ValidationError(field,String.format("%s can not be null.",field))
 			case "" => ValidationError(field,String.format("%s can not be empty.",field))
 			case _ => ValidationSuccess(field)
 		}
