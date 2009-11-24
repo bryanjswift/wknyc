@@ -27,7 +27,8 @@ object ContentInfo {
 		val now = Calendar.getInstance
 		new ContentInfo(now, now, user, None)
 	}
-	object Empty extends ContentInfo(null,null,null,None)
+	// If Empty ever gets saved things will break
+	object Empty extends ContentInfo(Calendar.getInstance,null,Config.Admin,None)
 }
 /** Trait to be mixed into objects to allow direct access to data stored in ContentInfo
 	* without having to extend ContentInfo */
