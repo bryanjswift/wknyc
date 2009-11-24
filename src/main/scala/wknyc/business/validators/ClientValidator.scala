@@ -6,6 +6,7 @@ object ClientValidator extends Validator {
 	def validate(target:AnyRef) =
 		target match {
 			case client:Client => validateClient(client)
+			case null => throw new IllegalArgumentException("client may not be null")
 			case _ => throw new IllegalArgumentException(String.format("%s is not a known Client type",target.getClass.getName))
 		}
 	// Type Validation
