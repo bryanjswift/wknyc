@@ -16,13 +16,13 @@ object CaseStudyValidatorSpecs extends Specification {
 		"return Failure if name invalid" >> {
 			val results =
 				CaseStudyValidator.validate(
-					BasicCaseStudy(
+					CaseStudy(
 						ContentInfo(Config.Admin),
 						client,
 						"Case Study",
+						Calendar.getInstance,
 						"Headline",
 						"Description",
-						Calendar.getInstance,
 						Nil,
 						false,
 						1

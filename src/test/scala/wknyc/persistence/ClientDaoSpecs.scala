@@ -11,9 +11,7 @@ object ClientDaoSpecs extends Specification {
 		val userDao = new UserDao(Config.Admin)
 		val root = userDao.save(WkCredentials("root@wk.com","root","","",None))
 		val caseStudy =
-			BasicCaseStudy(
-				ContentInfo(root),null,"name","Headline","Description",Calendar.getInstance,List[DA](),true,0
-			)
+			CaseStudy(ContentInfo(root),null,"name",Calendar.getInstance,"Headline","Description",List[DA](),true,0)
 		val cDao = new ClientDao(root)
 		doAfterSpec {
 			userDao.close

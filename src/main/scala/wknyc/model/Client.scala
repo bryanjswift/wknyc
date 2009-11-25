@@ -13,8 +13,14 @@ trait CaseStudy extends Content with Ordered {
 	def video:DownloadableAsset
 	def images:Iterable[ImageAsset]
 	def press:Iterable[PressAsset]
-	def cp(uuid:String):CaseStudy
-	def cp(info:ContentInfo):CaseStudy
+	def cp(uuid:String):CaseStudy = cp(contentInfo.cp(uuid))
+	def cp(info:ContentInfo):CaseStudy = 
+		AssetCaseStudy(
+			BasicCaseStudy(BaseCaseStudy(info,client,name,launch),headline,description,downloads,published,position),
+			video,
+			images,
+			press
+		)
 }
 
 object CaseStudy {
@@ -33,31 +39,60 @@ object CaseStudy {
 	val Related = "related"
 	val StudyType = "studyType"
 	val Tags = "tags"
-	def apply(info:ContentInfo,client:Client,name:String) =
-		BasicCaseStudy(info,client,name,"","",null,Nil,false,0)
+	def apply(info:ContentInfo,client:Client,name:String):CaseStudy =
+		apply(info,client,name,Calendar.getInstance)
+	def apply(info:ContentInfo,client:Client,name:String,launch:Calendar):CaseStudy =
+		BaseCaseStudy(info,client,name,launch)
+	def apply(
+		info:ContentInfo,client:Client,name:String,launch:Calendar,headline:String,description:String,
+		downloads:Iterable[DownloadableAsset],published:Boolean,position:Long):CaseStudy =
+			BasicCaseStudy(BaseCaseStudy(info,client,name,launch),headline,description,downloads,published,position)
+	def apply(
+		info:ContentInfo,client:Client,name:String,launch:Calendar,headline:String,description:String,
+		downloads:Iterable[DownloadableAsset],published:Boolean,position:Long,video:DownloadableAsset,
+		images:Iterable[ImageAsset],press:Iterable[PressAsset]):CaseStudy =
+			AssetCaseStudy(
+				BasicCaseStudy(BaseCaseStudy(info,client,name,launch),headline,description,downloads,published,position),
+				video,
+				images,
+				press
+			)
 }
 
-case class BasicCaseStudy(
+private case class BaseCaseStudy(
 	contentInfo:ContentInfo,
 	client:Client,
 	name:String,
+	launch:Calendar
+) extends CaseStudy {
+	val headline = ""
+	val description = ""
+	val downloads = Nil
+	val published = false
+	val position = 0L
+	val video = EmptyFile
+	val images = Nil
+	val press = Nil
+}
+
+private case class BasicCaseStudy(
+	base:BaseCaseStudy,
 	headline:String,
 	description:String,
-	launch:Calendar,
 	downloads:Iterable[DownloadableAsset],
 	published:Boolean,
 	position:Long
 ) extends CaseStudy {
-	val video = EmptyFile
-	val images = Nil
-	val press = Nil
-	def cp(uuid:String) =
-		BasicCaseStudy(contentInfo.cp(uuid),client,name,headline,description,launch,downloads,published,position)
-	def cp(info:ContentInfo) =
-		BasicCaseStudy(info,client,name,headline,description,launch,downloads,published,position)
+	val contentInfo = base.contentInfo
+	val client = base.client
+	val name = base.name
+	val launch = base.launch
+	val video = base.video
+	val images = base.images
+	val press = base.press
 }
 
-case class AssetCaseStudy(
+private case class AssetCaseStudy(
 	basic:BasicCaseStudy,
 	video:DownloadableAsset,
 	images:Iterable[ImageAsset],
@@ -72,10 +107,6 @@ case class AssetCaseStudy(
 	val downloads = basic.downloads
 	val published = basic.published
 	val position = basic.position
-	def cp(uuid:String) =
-		AssetCaseStudy(basic.cp(uuid),video,images,press)
-	def cp(info:ContentInfo) =
-		AssetCaseStudy(basic.cp(info),video,images,press)
 }
 
 /** Represent a collection of CaseStudy objects */

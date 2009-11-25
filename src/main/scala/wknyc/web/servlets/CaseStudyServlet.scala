@@ -5,7 +5,7 @@ import javax.servlet.http.{HttpServlet,HttpServletRequest => Request, HttpServle
 import velocity.VelocityView
 import wknyc.WkPredef._
 import wknyc.business.{CaseStudyManager,ClientManager}
-import wknyc.model.{BasicCaseStudy,ContentInfo,DownloadableAsset}
+import wknyc.model.{CaseStudy,ContentInfo,DownloadableAsset}
 
 class CaseStudyServlet extends HttpServlet with WkServlet {
 	override lazy val htmlSuccess = "client/caseStudy-basic.vm"
@@ -16,7 +16,7 @@ class CaseStudyServlet extends HttpServlet with WkServlet {
 				None
 			} else {
 				CaseStudyManager.get(http.parameter("id"),http.user) match {
-					case Success(study,message) => Some(study)
+					case Success(caseStudy,message) => Some(caseStudy)
 					case Failure(_,_) => None
 				}
 			}
@@ -49,13 +49,13 @@ class CaseStudyServlet extends HttpServlet with WkServlet {
 		launch.set(year.toInt,month.toInt,1)
 		val published = param("displayOnSiteRadio") == "true"
 		val position = 0
-		BasicCaseStudy(
+		CaseStudy(
 			ContentInfo.Empty,
 			ClientManager.get(client),
 			name,
+			launch,
 			headline,
 			description,
-			launch,
 			List[DownloadableAsset](),
 			published,
 			position
