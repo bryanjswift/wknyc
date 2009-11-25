@@ -33,6 +33,8 @@ object CaseStudy {
 	val Related = "related"
 	val StudyType = "studyType"
 	val Tags = "tags"
+	def apply(info:ContentInfo,client:Client,name:String) =
+		BasicCaseStudy(info,client,name,"","",null,Nil,false,0)
 }
 
 case class BasicCaseStudy(
