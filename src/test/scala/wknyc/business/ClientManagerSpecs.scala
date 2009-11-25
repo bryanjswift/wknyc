@@ -23,5 +23,16 @@ object ClientManagerSpecs extends Specification {
 			response.errors.size mustBe 0
 			response.payload.uuid must beSome[String]
 		}
+		"provide a list of clients" >> {
+			// open session so repository doesn't shut down during test
+			val session = Config.Repository.login(Config.Admin,Config.ContentWorkspace)
+			var list = ClientManager.list.toList
+			list.size mustBe 0
+			ClientManager.save(validClient,Some(Config.Admin))
+			list = ClientManager.list.toList
+			list.size mustBe 1
+			// logout so repository can shut down
+			session.logout
+		}
 	}
 }
