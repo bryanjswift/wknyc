@@ -12,11 +12,11 @@ object ClientValidatorSpecs extends Specification {
 			ClientValidator.validate(null) must throwA[IllegalArgumentException]
 		}
 		"return zero errors if Client.name is not null and not empty" >> {
-			val results = ClientValidator.validate(Client(ContentInfo(Config.Admin),"T",List[CaseStudy]()))
+			val results = ClientValidator.validate(Client(ContentInfo(Config.Admin),"T",Nil))
 			results mustContain(ValidationSuccess(Client.Name))
 		}
 		"return an error for name if Client.name is empty" >> {
-			val results = ClientValidator.validate(Client(ContentInfo(Config.Admin),"",List[CaseStudy]()))
+			val results = ClientValidator.validate(Client(ContentInfo(Config.Admin),"",Nil))
 			results mustContain(ValidationError(Client.Name,String.format("%s can not be empty.",Client.Name)))
 		}
 	}

@@ -13,21 +13,9 @@ object CaseStudyValidatorSpecs extends Specification {
 		"throw IllegalArgumentException if validating null" >> {
 			CaseStudyValidator.validate(null) must throwA[IllegalArgumentException]
 		}
-		"return Failure if name invalid" >> {
+		"return Success if name valid" >> {
 			val results =
-				CaseStudyValidator.validate(
-					CaseStudy(
-						ContentInfo(Config.Admin),
-						client,
-						"Case Study",
-						Calendar.getInstance,
-						"Headline",
-						"Description",
-						Nil,
-						false,
-						1
-					)
-				)
+				CaseStudyValidator.validate(CaseStudy(ContentInfo(Config.Admin),client,"Case Study"))
 			results mustContain(ValidationSuccess(CaseStudy.Name))
 		}
 	}
