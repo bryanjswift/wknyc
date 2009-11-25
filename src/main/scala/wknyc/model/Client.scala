@@ -10,6 +10,9 @@ trait CaseStudy extends Content with Ordered {
 	def launch:Calendar
 	def downloads:Iterable[DownloadableAsset]
 	def published:Boolean
+	def video:DownloadableAsset
+	def images:Iterable[ImageAsset]
+	def press:Iterable[PressAsset]
 	def cp(uuid:String):CaseStudy
 	def cp(info:ContentInfo):CaseStudy
 }
@@ -43,6 +46,9 @@ case class BasicCaseStudy(
 	published:Boolean,
 	position:Long
 ) extends CaseStudy {
+	val video = EmptyFile
+	val images = Nil
+	val press = Nil
 	def cp(uuid:String) =
 		BasicCaseStudy(contentInfo.cp(uuid),client,name,headline,description,launch,downloads,published,position)
 	def cp(info:ContentInfo) =
