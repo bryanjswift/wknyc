@@ -4,7 +4,7 @@ import org.specs.Specification
 import wknyc.Config
 import wknyc.model.{CaseStudy,Client,ContentInfo}
 
-object ClientManagerSpecs extends Specification {
+object ClientManagerSpecs extends Specification with Sessioned {
 	val invalidClient = Client(ContentInfo(Config.Admin),"",List[CaseStudy]())
 	val validClient = Client(ContentInfo(Config.Admin),"Test Client",List[CaseStudy]())
 	"ClientManager.save" should {
@@ -23,16 +23,41 @@ object ClientManagerSpecs extends Specification {
 			response.errors.size mustBe 0
 			response.payload.uuid must beSome[String]
 		}
+	}
+	"ClientManager.list" should {
 		"provide a list of clients" >> {
-			// open session so repository doesn't shut down during test
-			val session = Config.Repository.login(Config.Admin,Config.ContentWorkspace)
-			var list = ClientManager.list.toList
-			list.size mustBe 0
-			ClientManager.save(validClient,Some(Config.Admin))
-			list = ClientManager.list.toList
-			list.size mustBe 1
-			// logout so repository can shut down
-			session.logout
+			sessioned {
+				var list = ClientManager.list.toList
+				list.size mustBe 0
+				ClientManager.save(validClient,Some(Config.Admin))
+				list = ClientManager.list.toList
+				list.size mustBe 1
+			}
+		}
+	}
+	"ClientManager.get" should {
+		"retrieve a Client by uuid if uuid exists" >> {
+			sessioned {
+				val saved = ClientManager.save(validClient,Some(Config.Admin)).payload
+				val retrieved = ClientManager.get(saved.uuid.get)
+				saved.name must_== retrieved.name
+				saved.uuid must_== retrieved.uuid
+				saved.caseStudies must haveTheSameElementsAs(retrieved.caseStudies)
+			}
+		}
+	}
+	"ClientManager.getByName" should {
+		"retrieve a Some(Client) by name existing" >> {
+			sessioned {
+				val saved = ClientManager.save(validClient,Some(Config.Admin)).payload
+				val retrieved = ClientManager.getByName(validClient.name)
+				retrieved must beSome[Client]
+				saved must_== retrieved.get
+			}
+		}
+		"retrieve a None if no Client by name" >> {
+			val retrieved = ClientManager.getByName("Tester")
+			retrieved must beNone
 		}
 	}
 }
