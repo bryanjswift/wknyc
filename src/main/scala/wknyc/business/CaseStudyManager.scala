@@ -2,7 +2,7 @@ package wknyc.business
 
 // relative to wknyc
 import WkPredef._
-import model.{CaseStudy,User}
+import model.{CaseStudy,ContentInfo,User}
 import persistence.CaseStudyDao
 import validators.{CaseStudyValidator,Error,ValidationError,ValidationResult}
 
@@ -15,7 +15,12 @@ object CaseStudyManager extends Manager {
 				case e:Exception => Failure(List(Error(e)),"Unable to retrieve CaseStudy " + uuid)
 			}
 		)
-	def save[T <: CaseStudy](study:T,loggedIn:User):Response[CaseStudy] = {
+	def save[T <: CaseStudy](caseStudy:T,loggedIn:User):Response[CaseStudy] = {
+		val study =
+			if (caseStudy.contentInfo == ContentInfo.Empty)
+				caseStudy.cp(ContentInfo(loggedIn))
+			else
+				caseStudy
 		val errors = CaseStudyValidator.errors(study)
 		errors match {
 			case Nil =>

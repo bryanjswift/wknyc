@@ -11,6 +11,7 @@ trait CaseStudy extends Content with Ordered {
 	def downloads:Iterable[DownloadableAsset]
 	def published:Boolean
 	def cp(uuid:String):CaseStudy
+	def cp(info:ContentInfo):CaseStudy
 }
 
 object CaseStudy {
@@ -44,6 +45,8 @@ case class BasicCaseStudy(
 ) extends CaseStudy {
 	def cp(uuid:String) =
 		BasicCaseStudy(contentInfo.cp(uuid),client,name,headline,description,launch,downloads,published,position)
+	def cp(info:ContentInfo) =
+		BasicCaseStudy(info,client,name,headline,description,launch,downloads,published,position)
 }
 
 case class AssetCaseStudy(
@@ -63,6 +66,8 @@ case class AssetCaseStudy(
 	val position = basic.position
 	def cp(uuid:String) =
 		AssetCaseStudy(basic.cp(uuid),video,images,press)
+	def cp(info:ContentInfo) =
+		AssetCaseStudy(basic.cp(info),video,images,press)
 }
 
 /** Represent a collection of CaseStudy objects */
