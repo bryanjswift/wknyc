@@ -7,6 +7,7 @@ object CaseStudyValidator extends Validator {
 	def validate(target:AnyRef) =
 		target match {
 			case study:CaseStudy => validateCaseStudy(study)
+			case null => throw new IllegalArgumentException("CaseStudy may not be null")
 			case _ => throw new IllegalArgumentException(String.format("%s is not a known CaseStudy type",target.getClass.getName))
 		}
 	// Type Validation
