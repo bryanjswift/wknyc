@@ -53,7 +53,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>CaseStudy Basic</servlet-name>
-		<url-pattern>/client/casestudy/*</url-pattern>
+		<url-pattern>/casestudy/*</url-pattern>
 	</servlet-mapping>
 <!-- Define wknyc Client Creation Servlet -->
 	<servlet>
@@ -62,7 +62,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Client Basic</servlet-name>
-		<url-pattern>/client/client/*</url-pattern>
+		<url-pattern>/client/*</url-pattern>
 	</servlet-mapping>
 <!-- Define wknyc Image Upload Servlet -->
 	<servlet>

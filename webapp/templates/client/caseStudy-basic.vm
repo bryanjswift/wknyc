@@ -15,7 +15,7 @@
 			<p>Name: $caseStudy.name()</p>
 		#else
 			<div id="basic_info">
-				<form method="POST" action="/client/casestudy">
+				<form method="POST" action="/casestudy">
 					<fieldset class="name">
 						<label>Case Study Name*</label> <input id="nameField" class="required" name="nameField" type="text" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num">
 					</fieldset>
