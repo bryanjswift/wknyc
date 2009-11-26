@@ -29,7 +29,9 @@ object CaseStudyValidator extends Validator {
 		video match {
 			case null => ValidationError(Video,String.format("%s is required when Art Complete",Video))
 		}
-	private def validateImages(images:Iterable[ImageAsset]) = ValidationSuccess(Images)
+	private def validateImages(images:Iterable[ImageAsset]) = 
+		if (images.elements.hasNext) ValidationSuccess(Images)
+		else ValidationError(Images,"There must be at least one image when Art Complete")
 	// Validate by status
 	private def validateCopyComplete(study:CaseStudy) = ( // this is one statement
 		validateHeadline(study.headline)
