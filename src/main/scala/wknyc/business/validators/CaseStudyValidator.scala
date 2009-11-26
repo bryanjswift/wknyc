@@ -1,5 +1,6 @@
 package wknyc.business.validators
 
+import java.util.Calendar
 import wknyc.model.{CaseStudy,Client,DownloadableAsset => Download,ImageAsset}
 
 object CaseStudyValidator extends Validator {
@@ -10,11 +11,10 @@ object CaseStudyValidator extends Validator {
 			case _ => throw new IllegalArgumentException(String.format("%s is not a known CaseStudy type",target.getClass.getName))
 		}
 	// Type Validation
-	private def validateCaseStudy(study:CaseStudy) = ( // this is one statement
-		validateName(study.name)
-		:: validateClient(study.client)
-		:: Nil
-	)
+	private def validateCaseStudy(study:CaseStudy) =
+		study.status match {
+			case _ => validateNew(study)
+		}
 	// Field Validation
 	private def validateName(name:String) = required(name,CaseStudy.Name)
 	private def validateClient(client:Client) =
@@ -32,7 +32,17 @@ object CaseStudyValidator extends Validator {
 	private def validateImages(images:Iterable[ImageAsset]) = 
 		if (images.elements.hasNext) ValidationSuccess(CaseStudy.Images)
 		else ValidationError(CaseStudy.Images,"There must be at least one image when Art Complete")
+	private def validateLaunch(launch:Calendar) =
+		launch match {
+			case null => ValidationError(CaseStudy.Launch,String.format("%s is required",CaseStudy.Launch))
+			case _ => ValidationSuccess(CaseStudy.Launch)
+		}
 	// Validate by status
+	private def validateNew(study:CaseStudy) =
+		(validateName(study.name)
+		:: validateClient(study.client)
+		:: Nil)
+	private def validateNormal(study:CaseStudy) = validateNew(study)
 	private def validateCopyComplete(study:CaseStudy) =
 		(validateHeadline(study.headline)
 		:: validateDescription(study.description)
@@ -43,5 +53,10 @@ object CaseStudyValidator extends Validator {
 		:: Nil)
 	private def validateComplete(study:CaseStudy) =
 		(validateArtComplete(study)
+		::: validateCopyComplete(study))
+	private def validatePublished(study:CaseStudy) =
+		(validateLaunch(study.launch)
+		:: Nil
+		::: validateArtComplete(study)
 		::: validateCopyComplete(study))
 }
