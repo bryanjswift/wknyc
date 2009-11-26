@@ -20,6 +20,8 @@ class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) with CleanW
 	// Velocity
 	val velocity = "org.apache.velocity" % "velocity" % "1.6.2"
 	val simpleVelocity = "bryanjswift" % "simple-velocity" % "0.2.1"
+	// Spring
+	val spring = "org.springframework" % "spring-webmvc" % "2.5"
 	// MySql
 	val mysql = "mysql" % "mysql-connector-java" % "5.1.10"
 
