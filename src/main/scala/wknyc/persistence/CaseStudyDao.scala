@@ -2,7 +2,7 @@ package wknyc.persistence
 
 import javax.jcr.{Node,Session}
 import wknyc.Config
-import wknyc.model.{CaseStudy,Client,EmptyFile,Ordered,User}
+import wknyc.model.{CaseStudy,CaseStudyStatus,Client,EmptyFile,Ordered,User}
 
 class CaseStudyDao(loggedInUser:User) extends Dao(loggedInUser) {
 	protected val session = Config.Repository.login(loggedInUser,Config.ContentWorkspace)
@@ -22,7 +22,7 @@ class CaseStudyDao(loggedInUser:User) extends Dao(loggedInUser) {
 			node.getProperty(CaseStudy.Headline).getString,
 			node.getProperty(CaseStudy.Description).getString,
 			node.getNode(CaseStudy.Downloads).getNodes.map(n => assetDao.getDownloadableAsset(n)),
-			node.getProperty(CaseStudy.Published).getBoolean,
+			CaseStudyStatus(node.getProperty(CaseStudy.Status).getLong),
 			node.getProperty(Ordered.Position).getLong,
 			if (node.hasNode(CaseStudy.Video)) { assetDao.getDownloadableAsset(node.getNode(CaseStudy.Video)) }
 			else { EmptyFile },
@@ -62,7 +62,7 @@ class CaseStudyDao(loggedInUser:User) extends Dao(loggedInUser) {
 		node.setProperty(CaseStudy.Headline,caseStudy.headline)
 		node.setProperty(CaseStudy.Description,caseStudy.description)
 		node.setProperty(CaseStudy.Launch,caseStudy.launch)
-		node.setProperty(CaseStudy.Published,caseStudy.published)
+		node.setProperty(CaseStudy.Status,caseStudy.status.id)
 		node.setProperty(Ordered.Position,caseStudy.position)
 		// child nodes
 		val images = getNode(node,CaseStudy.Images)

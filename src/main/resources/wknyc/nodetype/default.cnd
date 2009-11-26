@@ -20,7 +20,7 @@ mixin
 -headline (string) mandatory
 -description (string) mandatory
 -launch (date) mandatory
--published (boolean) mandatory
+-status (long) mandatory
 +video(wk:asset)=wk:downloadAsset
 +images(nt:unstructured)=nt:unstructured
 +downloads(nt:unstructured)=nt:unstructured

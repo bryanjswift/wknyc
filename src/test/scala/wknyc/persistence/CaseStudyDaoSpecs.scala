@@ -3,6 +3,7 @@ package wknyc.persistence
 import java.util.Calendar
 import org.specs.Specification
 import wknyc.model.{CaseStudy,Client,ContentInfo,DownloadableAsset,Image,ImageAsset,ImageSet,PressAsset,TinyThumbnail,WkCredentials}
+import wknyc.model.CaseStudyStatus._
 
 object CaseStudyDaoSpecs extends Specification {
 	"CaseStudyDao" should {
@@ -22,10 +23,10 @@ object CaseStudyDaoSpecs extends Specification {
 		val c = new ClientDao(root)
 		val csDao = new CaseStudyDao(root)
 		val invalidCaseStudy =
-			CaseStudy(ContentInfo(root),client,"name",Calendar.getInstance,"Headline","Description",List(download),true,0)
+			CaseStudy(ContentInfo(root),client,"name",Calendar.getInstance,"Headline","Description",List(download),New,0)
 		val caseStudy =
 			CaseStudy(
-				ContentInfo(root),c.save(client),"name",Calendar.getInstance,"Headline","Description",List(download),true,0
+				ContentInfo(root),c.save(client),"name",Calendar.getInstance,"Headline","Description",List(download),New,0
 			)
 		doAfterSpec {
 			assetDao.close

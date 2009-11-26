@@ -1,6 +1,7 @@
 package wknyc.model
 
 import java.util.Calendar
+import wknyc.model.{CaseStudyStatus => Status}
 
 sealed trait CaseStudy extends Content with Ordered {
 	def client:Client
@@ -9,14 +10,14 @@ sealed trait CaseStudy extends Content with Ordered {
 	def description:String
 	def launch:Calendar
 	def downloads:Iterable[DownloadableAsset]
-	def published:Boolean
+	def status:Status
 	def video:DownloadableAsset
 	def images:Iterable[ImageAsset]
 	def press:Iterable[PressAsset]
 	def cp(uuid:String):CaseStudy = cp(contentInfo.cp(uuid))
 	def cp(info:ContentInfo):CaseStudy = 
 		AssetCaseStudy(
-			BasicCaseStudy(BaseCaseStudy(info,client,name,launch),headline,description,downloads,published,position),
+			BasicCaseStudy(BaseCaseStudy(info,client,name,launch),headline,description,downloads,status,position),
 			video,
 			images,
 			press
@@ -31,7 +32,7 @@ object CaseStudy {
 	val Description = "description"
 	val Launch = "launch"
 	val Downloads = "downloads"
-	val Published = "published"
+	val Status = "status"
 	val Video = "video"
 	val Images = "images"
 	val Press = "press"
@@ -45,14 +46,14 @@ object CaseStudy {
 		BaseCaseStudy(info,client,name,launch)
 	def apply(
 		info:ContentInfo,client:Client,name:String,launch:Calendar,headline:String,description:String,
-		downloads:Iterable[DownloadableAsset],published:Boolean,position:Long):CaseStudy =
-			BasicCaseStudy(BaseCaseStudy(info,client,name,launch),headline,description,downloads,published,position)
+		downloads:Iterable[DownloadableAsset],status:Status,position:Long):CaseStudy =
+			BasicCaseStudy(BaseCaseStudy(info,client,name,launch),headline,description,downloads,status,position)
 	def apply(
 		info:ContentInfo,client:Client,name:String,launch:Calendar,headline:String,description:String,
-		downloads:Iterable[DownloadableAsset],published:Boolean,position:Long,video:DownloadableAsset,
+		downloads:Iterable[DownloadableAsset],status:Status,position:Long,video:DownloadableAsset,
 		images:Iterable[ImageAsset],press:Iterable[PressAsset]):CaseStudy =
 			AssetCaseStudy(
-				BasicCaseStudy(BaseCaseStudy(info,client,name,launch),headline,description,downloads,published,position),
+				BasicCaseStudy(BaseCaseStudy(info,client,name,launch),headline,description,downloads,status,position),
 				video,
 				images,
 				press
@@ -68,7 +69,7 @@ private case class BaseCaseStudy(
 	val headline = ""
 	val description = ""
 	val downloads = Nil
-	val published = false
+	val status = Status.New
 	val position = 0L
 	val video = EmptyFile
 	val images = Nil
@@ -80,7 +81,7 @@ private case class BasicCaseStudy(
 	headline:String,
 	description:String,
 	downloads:Iterable[DownloadableAsset],
-	published:Boolean,
+	status:Status,
 	position:Long
 ) extends CaseStudy {
 	val contentInfo = base.contentInfo
@@ -105,6 +106,6 @@ private case class AssetCaseStudy(
 	val description = basic.description
 	val launch = basic.launch
 	val downloads = basic.downloads
-	val published = basic.published
+	val status = basic.status
 	val position = basic.position
 }
