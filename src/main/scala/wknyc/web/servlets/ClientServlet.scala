@@ -1,13 +1,13 @@
 package wknyc.web.servlets
 
 import javax.servlet.http.{HttpServlet,HttpServletRequest => Request, HttpServletResponse => Response}
-import org.apache.commons.logging.LogFactory
 import velocity.VelocityView
 import wknyc.WkPredef._
 import wknyc.business.ClientManager
 import wknyc.model.{CaseStudy,Client,ContentInfo}
 
 class ClientServlet extends HttpServlet with WkServlet {
+	protected val pathRE = """(/\w+)""".r
 	override lazy val htmlSuccess = "client/client.vm"
 	override def doGet(request:Request, response:Response) {
 		val http = HttpHelper(request,response)
