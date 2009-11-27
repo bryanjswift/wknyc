@@ -6,16 +6,16 @@ import wknyc.WkPredef._
 import wknyc.business.ClientManager
 import wknyc.model.{CaseStudy,Client,ContentInfo}
 
-class ClientServlet extends HttpServlet with WkServlet {
+class ClientServlet extends HttpServlet with MappingServlet with WkServlet {
 	override lazy val htmlSuccess = "client/client.vm"
 	override def doGet(request:Request, response:Response) {
 		val http = HttpHelper(request,response)
-		val (path,context) = http.path match {
-			case "/client/list" => ("client/client-list.vm",Map("clients" -> ClientManager.list))
-			case _ => (http.success,Map("uuid" -> None))
+		val (path,context) = view(http.path) match {
+			case Some(viewPath) => (viewPath,Map("clients" -> ClientManager.list))
+			case None => (http.success,Map("uuid" -> None))
 		}
-		val view = new VelocityView(path)
-		view.render(context,request,response)
+		val velocity = new VelocityView(path)
+		velocity.render(context,request,response)
 	}
 	override def doPost(request:Request, response:Response) {
 		val http = HttpHelper(request,response)

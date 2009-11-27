@@ -59,6 +59,14 @@
 	<servlet>
 		<servlet-name>Client Basic</servlet-name>
 		<servlet-class>wknyc.web.servlets.ClientServlet</servlet-class>
+		<init-param>
+			<param-name>/client/list</param-name>
+			<param-value>client/client-list.vm</param-value>
+		</init-param>
+		<init-param>
+			<param-name>_</param-name>
+			<param-value>client/client.vm</param-value>
+		</init-param>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Client Basic</servlet-name>
