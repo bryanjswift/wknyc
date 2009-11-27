@@ -1,9 +1,10 @@
 package wknyc.business
 
 // relative to wknyc
-import WkPredef._
-import model.{CaseStudy,ContentInfo,User}
-import persistence.CaseStudyDao
+import wknyc.Config
+import wknyc.WkPredef._
+import wknyc.model.{CaseStudy,ContentInfo,User}
+import wknyc.persistence.CaseStudyDao
 import validators.{CaseStudyValidator,Error,ValidationError,ValidationResult}
 
 object CaseStudyManager extends Manager {

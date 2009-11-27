@@ -1,6 +1,7 @@
 package wknyc.web.servlets
 
 import javax.servlet.{GenericServlet,ServletConfig,ServletContext,ServletRequest => Request,ServletResponse => Response}
+import wknyc.Config
 
 class RepositoryStartupServlet extends GenericServlet {
 	private var session = Config.Repository.login(Config.Admin,Config.CredentialsWorkspace)
