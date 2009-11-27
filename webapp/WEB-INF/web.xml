@@ -64,7 +64,7 @@
 			<param-value>client/client-list.vm</param-value>
 		</init-param>
 		<init-param>
-			<param-name>_</param-name>
+			<param-name>/client/edit</param-name>
 			<param-value>client/client.vm</param-value>
 		</init-param>
 	</servlet>

@@ -10,11 +10,14 @@ class ClientServlet extends HttpServlet with MappingServlet with WkServlet {
 	override lazy val html = "client/client.vm"
 	override def doGet(request:Request, response:Response) {
 		val http = HttpHelper(request,response)
-		val (path,context) = view(http.path) match {
-			case Some(viewPath) => (viewPath,Map("clients" -> ClientManager.list))
-			case None => (http.view,Map("uuid" -> None))
+		val info = view(http.path).getOrElse(ViewData(http.path,http.view,""))
+		log.info(String.format("doGet for %s {%s}",info.view,info.data))
+		val context = info.path match {
+			case "/client/list" => Map("clients" -> ClientManager.list)
+			case "/client/edit" => Map("client" -> ClientManager.get(info.data))
+			case _ => Map("uuid" -> None)
 		}
-		val velocity = new VelocityView(path)
+		val velocity = new VelocityView(info.view)
 		velocity.render(context,request,response)
 	}
 	override def doPost(request:Request, response:Response) {
