@@ -1,5 +1,6 @@
 package wknyc.business
 
+import wknyc.Config
 import wknyc.WkPredef._
 import wknyc.model.{Client,ContentInfo,User}
 import wknyc.persistence.ClientDao
