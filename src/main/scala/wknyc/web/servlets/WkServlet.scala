@@ -16,13 +16,13 @@ trait WkServlet {
 	private val uriRE = new Regex("(.*?)(xml|html|json)?$","uri","format")
 	implicit val default = ""
 	protected case class HttpHelper(request:Request,response:Response) {
-		log.info(String.format("Creating HttpHelper for URI: %s",request.getRequestURI))
 		private val uriMatch = uriRE.findFirstMatchIn(request.getRequestURI).get // pretty impossible to not match this RE
 		val path = uriMatch.group("uri")
 		val format = uriMatch.group("format") match {
 			case null => "html"
 			case s:String => s
 		}
+		log.info(String.format("Creating HttpHelper for URI: %s with format %s",path,format))
 		def parameter(param:String)(implicit default:String) = {
 			val value = request.getParameter(param)
 			if (value == default || value == null) { default }
