@@ -11,11 +11,11 @@ import wknyc.persistence.AssetDao
 
 // TODO: Should not mixin Manager
 class ImageServlet extends HttpServlet with FileServlet with Manager {
-	override lazy val htmlSuccess = "assets/imageUpload.vm"
+	override lazy val html = "assets/imageUpload.vm"
 	val path = createRelativePath(Props("wknyc.uploads.images"))
 	override def doGet(request:Request, response:Response) = {
 		val http = HttpHelper(request,response)
-		val view = new VelocityView(http.success)
+		val view = new VelocityView(http.view)
 		view.render(Map("errors" -> Nil,"uuid" -> None),request,response)
 	}
 	override def doPost(request:Request, response:Response) = {
@@ -27,7 +27,7 @@ class ImageServlet extends HttpServlet with FileServlet with Manager {
 					dao.save(asset).uuid
 				})
 			})
-		val view = new VelocityView(http.success)
+		val view = new VelocityView(http.view)
 		view.render(Map("errors" -> Nil,"uuid" -> uuid),request,response)
 	}
 	private def getAssetStreaming(request:Request) = {

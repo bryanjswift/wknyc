@@ -8,7 +8,7 @@ import wknyc.business.{CaseStudyManager,ClientManager}
 import wknyc.model.{CaseStudy,CaseStudyStatus,ContentInfo}
 
 class CaseStudyServlet extends HttpServlet with WkServlet {
-	override lazy val htmlSuccess = "client/caseStudy-basic.vm"
+	override lazy val html = "client/caseStudy-basic.vm"
 	override def doGet(request:Request, response:Response) {
 		val http = HttpHelper(request,response)
 		val study =
@@ -20,7 +20,7 @@ class CaseStudyServlet extends HttpServlet with WkServlet {
 					case Failure(_,_) => None
 				}
 			}
-		val view = new VelocityView(http.success)
+		val view = new VelocityView(http.view)
 		view.render(Map("uuid" -> None,"caseStudy" -> study,"get" -> true),request,response)
 	}
 	override def doPost(request:Request, response:Response) {
@@ -33,7 +33,7 @@ class CaseStudyServlet extends HttpServlet with WkServlet {
 			case Failure(errors,message) =>
 				Map("errors" -> errors,"caseStudy" -> Some(study),"get" -> false)
 		}
-		val view = new VelocityView(http.success)
+		val view = new VelocityView(http.view)
 		view.render(ctx,request,response)
 	}
 	private def getCaseStudy(http:HttpHelper) = {

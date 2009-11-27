@@ -7,12 +7,12 @@ import wknyc.business.ClientManager
 import wknyc.model.{CaseStudy,Client,ContentInfo}
 
 class ClientServlet extends HttpServlet with MappingServlet with WkServlet {
-	override lazy val htmlSuccess = "client/client.vm"
+	override lazy val html = "client/client.vm"
 	override def doGet(request:Request, response:Response) {
 		val http = HttpHelper(request,response)
 		val (path,context) = view(http.path) match {
 			case Some(viewPath) => (viewPath,Map("clients" -> ClientManager.list))
-			case None => (http.success,Map("uuid" -> None))
+			case None => (http.view,Map("uuid" -> None))
 		}
 		val velocity = new VelocityView(path)
 		velocity.render(context,request,response)
@@ -27,7 +27,7 @@ class ClientServlet extends HttpServlet with MappingServlet with WkServlet {
 			case Failure(errors,message) =>
 				Map("errors" -> errors,"client" -> Some(client),"get" -> false,"uuid" -> client.uuid)
 		}
-		val view = new VelocityView(http.success)
+		val view = new VelocityView(http.view)
 		view.render(ctx,request,response)
 	}
 	private def getClient(http:HttpHelper) =

@@ -1,4 +1,0 @@
-<Response>
-	<BadNews>Your request generated an error view.</BadNews>
-	<WorseNews>XML view is not implemented so it is hard to say what that error was.</WorseNews>
-</Response>

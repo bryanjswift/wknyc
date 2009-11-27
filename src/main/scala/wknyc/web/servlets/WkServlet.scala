@@ -7,12 +7,9 @@ import wknyc.web.WknycSession
 
 trait WkServlet {
 	protected lazy val log = LogFactory.getLog(getClass)
-	lazy val htmlSuccess = "default/success.vm"
-	lazy val htmlError = "default/error.vm"
-	lazy val jsonSuccess = "default/jsonSuccess.vm"
-	lazy val jsonError = "default/jsonError.vm"
-	lazy val xmlSuccess = "default/xmlSuccess.vm"
-	lazy val xmlError = "default/xmlError.vm"
+	lazy val html = "default/html.vm"
+	lazy val json = "default/json.vm"
+	lazy val xml = "default/xml.vm"
 	private val uriRE = new Regex("(.*?)(xml|html|json)?$","uri","format")
 	implicit val default = ""
 	protected case class HttpHelper(request:Request,response:Response) {
@@ -45,11 +42,11 @@ trait WkServlet {
 					Some(s.user)
 			}
 		// Define success and error views depending on the format extracted from RequestURI
-		lazy val (success,error) =
+		lazy val view =
 			format match {
-				case "xml" => (xmlSuccess,xmlError)
-				case "json" => (jsonSuccess,jsonError)
-				case _ => (htmlSuccess,htmlError)
+				case "xml" => xml
+				case "json" => json
+				case _ => html
 			}
 	}
 }
