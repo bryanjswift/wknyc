@@ -10,7 +10,7 @@ import wknyc.model.{ContentInfo,Image,ImageAsset,ImageSet,ImageSize}
 import wknyc.persistence.AssetDao
 
 // TODO: Should not mixin Manager
-class ImageServlet extends HttpServlet with FileServlet with Manager {
+class ImageServlet extends HttpServlet with FileServlet with WkServlet with Manager {
 	override lazy val html = "assets/imageUpload.vm"
 	val path = createRelativePath(Props("wknyc.uploads.images"))
 	override def doGet(request:Request, response:Response) = {

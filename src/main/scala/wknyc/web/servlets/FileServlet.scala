@@ -6,7 +6,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory
 import org.apache.commons.fileupload.servlet.ServletFileUpload
 import wknyc.model.{Image,ImageSize}
 
-trait FileServlet extends WkServlet {
+trait FileServlet {
 	protected implicit def convertIterator(it:FileItemIterator):Iterator[FileItemStream] =
 		new Iterator[FileItemStream] {
 			def hasNext = it.hasNext
