@@ -4,7 +4,7 @@ import javax.servlet.http.{HttpServlet,HttpServletRequest => Request, HttpServle
 import velocity.VelocityView
 import wknyc.WkPredef._
 import wknyc.business.ClientManager
-import wknyc.model.{CaseStudy,Client,ContentInfo}
+import wknyc.model.{Client,ContentInfo}
 
 class ClientServlet extends HttpServlet with WkServlet {
 	override lazy val html = "client/client.vm"
@@ -35,7 +35,6 @@ class ClientServlet extends HttpServlet with WkServlet {
 	}
 	private def getClient(http:HttpHelper) =
 		if (http.parameter("uuid") != "") {
-			// set new fields on it
 			val c = ClientManager.get(http.parameter("uuid"))
 			Client(
 				c.contentInfo.modifiedBy(http.user.get),
@@ -46,7 +45,7 @@ class ClientServlet extends HttpServlet with WkServlet {
 			Client(
 				ContentInfo.Empty,
 				http.parameter("name"),
-				List[CaseStudy]()
+				Nil
 			)
 		}
 }
