@@ -29,7 +29,10 @@ class ClientDao(loggedInUser:User) extends Dao(loggedInUser) {
 	def list =
 		ClientRoot.getNodes.map(n => get(n,true))
 	def save(client:Client) = {
-		val node = getNode(ClientRoot,client.name,Client.NodeType)
+		val node = client.uuid match {
+			case None => getNode(ClientRoot,client.name,Client.NodeType)
+			case Some(uuid) => checkout(uuid)
+		}
 		saveContentInfo(node,client.contentInfo.modifiedBy(loggedInUser))
 		node.setProperty(Client.Name,client.name)
 		val caseStudies = getNode(node,Client.CaseStudies)

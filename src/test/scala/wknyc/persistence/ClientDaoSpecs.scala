@@ -52,5 +52,25 @@ object ClientDaoSpecs extends Specification {
 			all.size must beGreaterThan(0)
 			all mustExist((client:Client) => client.name == "Test Client")
 		}
+		"update the name of an existing Client" >> {
+			val client =
+				cDao.save(Client(
+					ContentInfo(root),
+					"Test Client",
+					List(caseStudy)
+				))
+			val updatedClient =
+				cDao.save(Client(
+					client.contentInfo.modifiedBy(root),
+					"Updated Client",
+					Nil
+				))
+			updatedClient.uuid must beSome[String]
+			updatedClient.uuid must_== client.uuid
+			val retrieved = cDao.get(updatedClient.uuid.get)
+			retrieved.uuid must_== updatedClient.uuid
+			retrieved.caseStudies.toList.size must_== 1
+			retrieved.name must_== "Updated Client"
+		}
 	}
 }
