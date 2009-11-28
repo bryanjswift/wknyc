@@ -1,6 +1,6 @@
 package wknyc.persistence
 
-import javax.jcr.{Node,NodeIterator,Session}
+import javax.jcr.{Node,NodeIterator,Property,PropertyIterator,Session}
 import wknyc.Config
 import wknyc.model.{Content,ContentInfo,User}
 
@@ -95,11 +95,18 @@ abstract class Dao(private val loggedInUser:User) {
 		node.checkout
 		node
 	}
-	// Convert a NodeIterator to an actual Iterator with generics
+	// Convert a NodeIterator to a Scala Iterable[Node]
 	implicit protected def nodeiterator2iterable(nodeIterator:NodeIterator):Iterable[Node] = new Iterable[Node] {
 		def elements = new Iterator[Node] {
 			def hasNext = nodeIterator.hasNext
 			def next = nodeIterator.nextNode
+		}
+	}
+	// Convert a PropertyIterator to a Scala Iterable[Property]
+	implicit protected def propertyiterator2iterable(iter:PropertyIterator):Iterable[Property] = new Iterable[Property] {
+		def elements = new Iterator[Property] {
+			def hasNext = iter.hasNext
+			def next = iter.nextProperty
 		}
 	}
 }
