@@ -1,6 +1,7 @@
 package wknyc.model
 
 import java.util.Calendar
+import wknyc.Config
 
 /** Class to hold universal content information */
 class ContentInfo(val created:Calendar, val modified:Calendar, val modifiedBy:User, val uuid:Option[String]) {
