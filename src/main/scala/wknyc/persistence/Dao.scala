@@ -79,6 +79,7 @@ abstract class Dao(private val loggedInUser:User) {
 			try {
 				userDao.get(node.getProperty(Content.ModifiedBy).getString)
 			} catch {
+				// if message contains Config.Admin.uuid then created Config.Admin so Assign the user correctly
 				case e:Exception if (e.getMessage.indexOf(Config.Admin.uuid.get) != -1) => Config.Admin
 				case e:Exception => throw e
 			},
