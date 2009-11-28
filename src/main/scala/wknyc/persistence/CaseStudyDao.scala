@@ -8,6 +8,8 @@ class CaseStudyDao(loggedInUser:User) extends Dao(loggedInUser) {
 	protected val session = Config.Repository.login(loggedInUser,Config.ContentWorkspace)
 	// Only retrieve root once
 	override protected lazy val root = super.root
+	// Root for CaseStudys
+	private lazy val CaseStudyRoot = getNode("CaseStudys")
 	// Need a way to (read only) access user data
 	protected override lazy val userDao = new UserDao(loggedInUser)
 	// Need a way to read/write access asset data
