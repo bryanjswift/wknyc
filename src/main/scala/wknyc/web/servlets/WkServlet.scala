@@ -13,13 +13,12 @@ trait WkServlet {
 	lazy val json = "default/json.vm"
 	lazy val xml = "default/xml.vm"
 	private val uriRE = new Regex("(.*?)(xml|html|json)?$","uri","format")
-	private val trimRE = "/$".r
 	private val dataRE = new Regex("(.*?)/([^/]*)$","path","data")
 	implicit val default = ""
 	protected case class HttpHelper(request:Request,response:Response) {
 		// pretty impossible to not match this RE
 		private val uriMatch = uriRE.findFirstMatchIn(request.getRequestURI).get
-		private val uri = trimRE.replaceFirstIn(uriMatch.group("uri"),"")
+		private val uri = trim(uriMatch.group("uri"))
 		private val format = uriMatch.group("format") match {
 			case null => "html"
 			case s:String => s
@@ -55,7 +54,7 @@ trait WkServlet {
 				case s:String => ViewData(uri,"",Some(s))
 				case null => {
 					val pathData = dataRE.findFirstMatchIn(uri).get
-					val path = trimRE.replaceFirstIn(pathData.group("path"),"")
+					val path = trim(pathData.group("path"))
 					val data = pathData.group("data")
 					config.getInitParameter(path + "/" + format) match {
 						case s:String => ViewData(path,data,Some(s))
@@ -64,6 +63,12 @@ trait WkServlet {
 				}
 			}
 		}
+		private def trim(str:String) =
+			if (str.last == '/') {
+				str.substring(0,str.length - 1)
+			} else {
+				str
+			}
 		def parameter(param:String)(implicit default:String) = {
 			val value = request.getParameter(param)
 			if (value == default || value == null) { default }
