@@ -1,30 +1,33 @@
 package wknyc.web.servlets
 
+import javax.servlet.Servlet
 import javax.servlet.http.{HttpSession, HttpServletRequest => Request, HttpServletResponse => Response}
 import org.apache.commons.logging.LogFactory
 import scala.util.matching.Regex
 import wknyc.web.WknycSession
 
 trait WkServlet {
+	self: Servlet =>
 	protected lazy val log = LogFactory.getLog(getClass)
 	lazy val html = "default/html.vm"
 	lazy val json = "default/json.vm"
 	lazy val xml = "default/xml.vm"
 	private val uriRE = new Regex("(.*?)(xml|html|json)?$","uri","format")
+	private val trimRE = "/$".r
+	private val dataRE = new Regex("(.*?)/([^/]*)$","path","data")
 	implicit val default = ""
 	protected case class HttpHelper(request:Request,response:Response) {
-		private val uriMatch = uriRE.findFirstMatchIn(request.getRequestURI).get // pretty impossible to not match this RE
-		val path = uriMatch.group("uri")
-		val format = uriMatch.group("format") match {
+		// pretty impossible to not match this RE
+		private val uriMatch = uriRE.findFirstMatchIn(request.getRequestURI).get
+		private val uri = trimRE.replaceFirstIn(uriMatch.group("uri"),"")
+		private val format = uriMatch.group("format") match {
 			case null => "html"
 			case s:String => s
 		}
-		log.info(String.format("Creating HttpHelper for URI: %s with format %s",path,format))
-		def parameter(param:String)(implicit default:String) = {
-			val value = request.getParameter(param)
-			if (value == default || value == null) { default }
-			else { value }
-		}
+		private val viewData = pathAndData(uri,format)
+		val path = viewData.path
+		val data = viewData.data
+		log.info(String.format("Creating HttpHelper for %s with {%s} in %s",path,data,format))
 		val session =
 			request.getSession(false) match {
 				case null => None
@@ -34,19 +37,39 @@ trait WkServlet {
 						case session:WknycSession => Some(session)
 					}
 			}
-		val user =
-			session match {
-				case None =>
-					None
-				case Some(s) =>
-					Some(s.user)
+		val user = session match {
+			case None => None
+			case Some(s) => Some(s.user)
+		}
+		val localHtml = if (format == "html") { viewData.view } else { None }
+		val localJson = if (format == "json") { viewData.view } else { None }
+		val localXml = if (format == "xml") { viewData.view } else { None }
+		lazy val view = format match {
+			case "xml" => localXml.getOrElse(xml)
+			case "json" => localJson.getOrElse(json)
+			case _ => localHtml.getOrElse(html)
+		}
+		private def pathAndData(uri:String,format:String) = {
+			val config = getServletConfig
+			config.getInitParameter(uri + "/" + format) match {
+				case s:String => ViewData(uri,"",Some(s))
+				case null => {
+					val pathData = dataRE.findFirstMatchIn(uri).get
+					val path = trimRE.replaceFirstIn(pathData.group("path"),"")
+					val data = pathData.group("data")
+					config.getInitParameter(path + "/" + format) match {
+						case s:String => ViewData(path,data,Some(s))
+						case null => ViewData(uri,"",None)
+					}
+				}
 			}
-		// Define success and error views depending on the format extracted from RequestURI
-		lazy val view =
-			format match {
-				case "xml" => xml
-				case "json" => json
-				case _ => html
-			}
+		}
+		def parameter(param:String)(implicit default:String) = {
+			val value = request.getParameter(param)
+			if (value == default || value == null) { default }
+			else { value }
+		}
 	}
 }
+
+case class ViewData(path:String, data:String, view:Option[String])
