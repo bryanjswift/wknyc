@@ -20,17 +20,17 @@ object CaseStudyDaoSpecs extends Specification {
 				ImageSet(new Image("/path/to/what","http://example.com/path","alt",TinyThumbnail))
 			)
 		val client = Client(ContentInfo(root),"Case Study Client",Nil)
-		val c = new ClientDao(root)
+		val cDao = new ClientDao(root)
 		val csDao = new CaseStudyDao(root)
 		val invalidCaseStudy =
 			CaseStudy(ContentInfo(root),client,"name",Calendar.getInstance,"Headline","Description",List(download),New,0)
 		val caseStudy =
 			CaseStudy(
-				ContentInfo(root),c.save(client),"name",Calendar.getInstance,"Headline","Description",List(download),New,0
+				ContentInfo(root),cDao.save(client),"name",Calendar.getInstance,"Headline","Description",List(download),New,0
 			)
 		doAfterSpec {
 			assetDao.close
-			c.close
+			cDao.close
 			csDao.close
 			userDao.close
 		}
@@ -46,6 +46,17 @@ object CaseStudyDaoSpecs extends Specification {
 			caseStudy1.uuid must beSome[String]
 			val retrieved = csDao.get(caseStudy1.uuid.get)
 			caseStudy1.uuid must_== retrieved.uuid
+		}
+		"update an existing CaseStudy" >> {
+			val cs1 = csDao.save(caseStudy)
+			val cs2 = csDao.save(CaseStudy(
+				cs1.contentInfo.modifiedBy(root),cs1.client,"new name",cs1.launch,cs1.headline,cs1.description,cs1.downloads,New,0
+			))
+			cs2.uuid must beSome[String]
+			cs2.uuid must_== cs1.uuid
+			val retrieved = csDao.get(cs1.uuid.get)
+			cs1.uuid must_== retrieved.uuid
+			retrieved.name must_== "new name"
 		}
 	}
 }
