@@ -30,7 +30,7 @@ class CaseStudyDao(loggedInUser:User) extends Dao(loggedInUser) {
 			node.getNode(CaseStudy.Press).getNodes.map(n => assetDao.getPressAsset(n))
 		)
 	/** TODO: Dirty nastiness to avoid dependency on ClientDao
-		* Get Client data with or without CaseStudy data
+		* Get Client data without CaseStudy data
 		* @param node from whence the data shall be retrieved
 		* @param studies - whether or not to load CaseStudy data
 		*/
@@ -55,7 +55,7 @@ class CaseStudyDao(loggedInUser:User) extends Dao(loggedInUser) {
 		caseStudy.cp(node.getUUID)
 	}
 	private[persistence] def writeCaseStudy(parent:Node,client:Node,caseStudy:CaseStudy) = {
-		val node = getNode(parent,caseStudy.name,CaseStudy.NodeType)
+		val node = getNode(parent,caseStudy.name,CaseStudy.NodeType,caseStudy)
 		saveContentInfo(node,caseStudy.contentInfo.modifiedBy(loggedInUser))
 		node.setProperty(CaseStudy.Client,client)
 		node.setProperty(CaseStudy.Name,caseStudy.name)

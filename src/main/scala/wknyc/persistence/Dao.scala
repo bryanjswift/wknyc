@@ -1,6 +1,7 @@
 package wknyc.persistence
 
 import javax.jcr.{Node,NodeIterator,Session}
+import wknyc.Config
 import wknyc.model.{Content,ContentInfo,User}
 
 abstract class Dao(private val loggedInUser:User) {
@@ -55,12 +56,24 @@ abstract class Dao(private val loggedInUser:User) {
 		} else {
 			parent.addNode(name, nt)
 		}
+	/** Create/retrieve a referenceable and versionable node from uuid if it exists
+		* @param parent node to search from
+		* @param name of the node to retrieve
+		* @param nt - type of node to retrieve
+		* @param content - check for an existing uuid before creating a new node
+		* @returns Node with content.uuid or given name (as path)
+		*/
+	protected def getNode(parent:Node,name:String,nt:String,content:Content):Node =
+		content.uuid match {
+			case Some(uuid) => checkout(uuid)
+			case None => getNode(parent,name,nt)
+		}
 	/** Retrieve ContentInfo for a given node
 		* @param node to get ContentInfo from
 		* @returns ContentInfo populated from node
 		*/
 	protected def getContentInfo(node:Node) =
-		new ContentInfo(
+		ContentInfo(
 			node.getProperty(Content.Created).getDate,
 			node.getProperty(Content.Modified).getDate,
 			try {
