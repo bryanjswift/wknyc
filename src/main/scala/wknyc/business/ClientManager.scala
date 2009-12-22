@@ -4,7 +4,7 @@ import wknyc.Config
 import wknyc.WkPredef._
 import wknyc.model.{Client,ContentInfo,User}
 import wknyc.persistence.ClientDao
-import validators.{ClientValidator,Error,ValidationError,ValidationResult}
+import wknyc.business.validators.{ClientValidator,Error,ValidationError,ValidationResult}
 
 object ClientManager extends Manager {
 	def get(uuid:String) = using(new ClientDao(Config.Admin)) { _.get(uuid) }

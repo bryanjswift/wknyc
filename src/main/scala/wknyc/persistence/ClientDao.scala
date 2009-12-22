@@ -46,8 +46,4 @@ class ClientDao(loggedInUser:User) extends Dao(loggedInUser) {
 		session.logout
 		userDao.close
 	}
-	// Implicitly convert List to Array so .toArray isn't everywhere
-	private implicit def list2array[T](l:List[T]):Array[T] = l.toArray
-	// Implicitly convert Array to List so .toList isn't everywhere
-	private implicit def array2list[T](a:Array[T]):List[T] = a.toList
 }

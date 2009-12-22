@@ -1,13 +1,13 @@
 package wknyc.business
 
-// relative to wknyc
 import wknyc.Config
 import wknyc.WkPredef._
 import wknyc.model.{CaseStudy,ContentInfo,User}
 import wknyc.persistence.CaseStudyDao
-import validators.{CaseStudyValidator,Error,ValidationError,ValidationResult}
+import wknyc.business.validators.{CaseStudyValidator,Error,ValidationError,ValidationResult}
 
 object CaseStudyManager extends Manager {
+	//def get(uuid:String,user:Option[User]) = using(new CaseStudyDao(user.getOrElse(Config.Admin))) { _.get(uuid) }
 	def get(uuid:String,user:Option[User]) =
 		using(new CaseStudyDao(user.getOrElse(Config.Admin)))(dao =>
 			try {
