@@ -16,6 +16,7 @@ object CaseStudyManager extends Manager {
 				case e:Exception => Failure(List(Error(e)),"Unable to retrieve CaseStudy " + uuid)
 			}
 		)
+	def list = using(new CaseStudyDao(Config.Admin)) { _.list }
 	def save[T <: CaseStudy](caseStudy:T,loggedIn:User):Response[CaseStudy] = {
 		val study =
 			if (caseStudy.contentInfo == ContentInfo.Empty)
