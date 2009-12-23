@@ -22,6 +22,13 @@ sealed trait CaseStudy extends Content with Ordered {
 			images,
 			press
 		)
+	def cp(c:Client):CaseStudy =
+		AssetCaseStudy(
+			BasicCaseStudy(BaseCaseStudy(contentInfo,c,name,launch),headline,description,downloads,status,position),
+			video,
+			images,
+			press
+		)
 }
 
 object CaseStudy {

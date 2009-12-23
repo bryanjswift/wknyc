@@ -24,21 +24,23 @@ class ClientDao(loggedInUser:User) extends Dao(loggedInUser) {
 		Client(
 			getContentInfo(node),
 			node.getProperty(Client.Name).getString,
-			if (studies) Nil else node.getNode(Client.CaseStudies).getNodes.map(n => caseStudyDao.get(n))
+			if (studies) Nil else getCaseStudies(node)
 		)
+	private def getCaseStudies(node:Node) =
+		node.getReferences.map(prop => caseStudyDao.get(prop.getParent))
 	def list =
 		ClientRoot.getNodes.map(n => get(n,true))
 	def save(client:Client) = {
 		val node = getNode(ClientRoot,client.name,Client.NodeType,client)
 		saveContentInfo(node,client.contentInfo.modifiedBy(loggedInUser))
 		node.setProperty(Client.Name,client.name)
-		val caseStudies = getNode(node,Client.CaseStudies)
-		client.caseStudies.foreach(study => {
-			caseStudyDao.writeCaseStudy(caseStudies,node,study)
-		})
 		session.save
+		val updatedClient = client.cp(node.getUUID) 
+		client.caseStudies.foreach(study => {
+			caseStudyDao.save(study.cp(updatedClient))
+		})
 		node.checkin
-		client.cp(node.getUUID)
+		updatedClient
 	}
 	// Release resources
 	override def close {

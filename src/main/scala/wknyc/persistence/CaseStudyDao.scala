@@ -49,15 +49,13 @@ class CaseStudyDao(loggedInUser:User) extends Dao(loggedInUser) {
 		*/
 	def save(caseStudy:CaseStudy) = {
 		val client = session.getNodeByUUID(caseStudy.client.uuid.get)
-		client.checkout
-		val caseStudies = getNode(client,Client.CaseStudies)
-		val node = writeCaseStudy(caseStudies,client,caseStudy)
-		client.save
-		client.checkin
+		val node = writeCaseStudy(client,caseStudy)
+		session.save
+		node.checkin
 		caseStudy.cp(node.getUUID)
 	}
-	private[persistence] def writeCaseStudy(parent:Node,client:Node,caseStudy:CaseStudy) = {
-		val node = getNode(parent,caseStudy.name,CaseStudy.NodeType,caseStudy)
+	private def writeCaseStudy(client:Node,caseStudy:CaseStudy) = {
+		val node = getNode(CaseStudyRoot,caseStudy.name,CaseStudy.NodeType,caseStudy)
 		saveContentInfo(node,caseStudy.contentInfo.modifiedBy(loggedInUser))
 		node.setProperty(CaseStudy.Client,client)
 		node.setProperty(CaseStudy.Name,caseStudy.name)
