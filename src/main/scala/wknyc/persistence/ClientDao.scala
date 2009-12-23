@@ -43,7 +43,7 @@ class ClientDao(loggedInUser:User) extends Dao(loggedInUser) {
 		updatedClient
 	}
 	// Release resources
-	override def close {
+	def close {
 		caseStudyDao.close
 		session.logout
 		userDao.close

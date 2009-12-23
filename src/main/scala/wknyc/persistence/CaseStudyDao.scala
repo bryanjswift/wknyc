@@ -48,14 +48,14 @@ class CaseStudyDao(loggedInUser:User) extends Dao(loggedInUser) {
 		* @returns caseStudy with uuid updated
 		*/
 	def save(caseStudy:CaseStudy) = {
-		val client = session.getNodeByUUID(caseStudy.client.uuid.get)
-		val node = writeCaseStudy(client,caseStudy)
+		val node = getNode(CaseStudyRoot,caseStudy.name,CaseStudy.NodeType,caseStudy)
+		writeCaseStudy(node,caseStudy)
 		session.save
 		node.checkin
 		caseStudy.cp(node.getUUID)
 	}
-	private def writeCaseStudy(client:Node,caseStudy:CaseStudy) = {
-		val node = getNode(CaseStudyRoot,caseStudy.name,CaseStudy.NodeType,caseStudy)
+	private def writeCaseStudy(node:Node,caseStudy:CaseStudy) {
+		val client = session.getNodeByUUID(caseStudy.client.uuid.get)
 		saveContentInfo(node,caseStudy.contentInfo.modifiedBy(loggedInUser))
 		node.setProperty(CaseStudy.Client,client)
 		node.setProperty(CaseStudy.Name,caseStudy.name)
@@ -72,10 +72,9 @@ class CaseStudyDao(loggedInUser:User) extends Dao(loggedInUser) {
 		caseStudy.downloads.foreach(d => assetDao.writeProperties(d,Some(downloads),d.title))
 		caseStudy.images.foreach(i => assetDao.writeProperties(i,Some(images),i.title))
 		caseStudy.press.foreach(p => assetDao.writeProperties(p,Some(press),p.title))
-		node
 	}
 	// Release resources
-	override def close {
+	def close {
 		assetDao.close
 		session.logout
 		userDao.close
