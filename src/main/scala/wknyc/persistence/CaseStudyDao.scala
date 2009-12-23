@@ -31,8 +31,7 @@ class CaseStudyDao(loggedInUser:User) extends Dao(loggedInUser) {
 			node.getNode(CaseStudy.Downloads).getNodes.map(n => assetDao.getDownloadableAsset(n)),
 			CaseStudyStatus(node.getProperty(CaseStudy.Status).getLong),
 			node.getProperty(Ordered.Position).getLong,
-			if (node.hasNode(CaseStudy.Video)) { assetDao.getDownloadableAsset(node.getNode(CaseStudy.Video)) }
-			else { EmptyFile },
+			if (node.hasNode(CaseStudy.Video)) { assetDao.getDownloadableAsset(node.getNode(CaseStudy.Video)) } else { EmptyFile },
 			node.getNode(CaseStudy.Images).getNodes.map(n => assetDao.getImageAsset(n)),
 			node.getNode(CaseStudy.Press).getNodes.map(n => assetDao.getPressAsset(n))
 		)
@@ -53,12 +52,15 @@ class CaseStudyDao(loggedInUser:User) extends Dao(loggedInUser) {
 		* @returns caseStudy with uuid updated
 		*/
 	def save(caseStudy:CaseStudy) = {
+		// behaves correctly even if node is renamed because once node is saved gets by UUID
 		val node = getNode(CaseStudyRoot,caseStudy.name,CaseStudy.NodeType,caseStudy)
 		writeCaseStudy(node,caseStudy)
 		session.save
 		node.checkin
 		caseStudy.cp(node.getUUID)
 	}
+	def list =
+		CaseStudyRoot.getNodes.map(n => get(n))
 	private def writeCaseStudy(node:Node,caseStudy:CaseStudy) {
 		val client = session.getNodeByUUID(caseStudy.client.uuid.get)
 		saveContentInfo(node,caseStudy.contentInfo.modifiedBy(loggedInUser))

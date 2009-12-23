@@ -40,6 +40,11 @@ object CaseStudyDaoSpecs extends Specification {
 		"save a valid CaseStudy" >> {
 			csDao.save(caseStudy).uuid must beSome[String]
 		}
+		"list CaseStudys" >> {
+			val all = csDao.list.toList
+			all.size must beGreaterThan(0)
+			all mustExist((cs:CaseStudy) => cs.name == "name")
+		}
 		// TODO: save saving asset case study
 		"get a CaseStudy" >> {
 			val caseStudy1 = csDao.save(caseStudy) // save doesn't update cascaded uuids
