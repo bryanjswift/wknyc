@@ -15,6 +15,11 @@ class CaseStudyDao(loggedInUser:User) extends Dao(loggedInUser) {
 	// Need a way to read/write access asset data
 	private lazy val assetDao = new AssetDao(loggedInUser)
 	def get(uuid:String):CaseStudy = get(session.getNodeByUUID(uuid))
+	/** Create CaseStudy instance from a given node
+		* Used by other Dao implementations beside this one
+	 	* @param node - to extract data from
+	 	* @returns - CaseStudy instance containing data from node
+	 	*/
 	private[persistence] def get(node:Node):CaseStudy =
 		CaseStudy(
 			getContentInfo(node),
