@@ -46,6 +46,6 @@ class WknycProject(info:ProjectInfo) extends DefaultWebProject(info) with CleanW
 	// compile with all debugging information - so command line debugger can be used
 	override def compileOptions = super.compileOptions ++ List(CompileOption("-g:vars"))
 	// include everything except webapp/assets
-	override def scanDirectories = (webappPath * DirectoryFilter +++ webappPath * "*.*" --- webappPath * "assets").get.toList
+	override def scanDirectories = (temporaryWarPath * DirectoryFilter +++ temporaryWarPath * "*.*" --- temporaryWarPath * "assets").get.toList
 }
 
