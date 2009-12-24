@@ -1,0 +1,11 @@
+{
+	studies: [
+	#foreach ($study in $studies)
+		{
+			name: $study.name(),
+			description: $study.description()
+		}
+		#if ($studies.size() != $velocityCount) , #end
+	#end
+	]
+}
