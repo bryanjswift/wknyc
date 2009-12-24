@@ -28,4 +28,9 @@ object CaseStudyManagerSpecs extends Specification with Sessioned {
 			}
 		}
 	}
+	"CaseStudyManager.list" should {
+		"list nothing before any CaseStudys are saved" >> {
+			CaseStudyManager.list.toList.size must_== 0
+		}
+	}
 }
