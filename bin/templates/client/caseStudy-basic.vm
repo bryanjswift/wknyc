@@ -29,12 +29,9 @@
 					<fieldset class="client">
 						<label>Client*</label>
 						<select id="clientSelect" class="required" name="clientSelect" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num">
-							<option>
-								Delta
-							</option>
-							<option>
-								Nike
-							</option>
+							#foreach ($client in $clients)
+								<option value="$client.uuid().get()">$client.name()</option>
+							#end
 						</select>
 					</fieldset>
 					<fieldset class="sortOrder">
@@ -50,7 +47,9 @@
 						</div>
 					</fieldset>
 					<fieldset class="displayOnSite">
-						<label>Display on site?</label> <input type="radio" id="displayOnSiteRadio-on" name="displayOnSiteRadio" value="true"/><input type="radio" id="displayOnSiteRadio-off" name="displayOnSiteRadio" value="false"/>
+						<label>Display on site?</label>
+						<input type="radio" id="displayOnSiteRadio-on" name="status" value="1"/>
+						<input type="radio" id="displayOnSiteRadio-off" name="status" value="0"/>
 					</fieldset>
 					<fieldset class="hide">
 						<input type="submit" value="Submit">
