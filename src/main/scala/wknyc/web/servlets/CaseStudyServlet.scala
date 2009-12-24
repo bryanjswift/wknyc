@@ -12,13 +12,9 @@ class CaseStudyServlet extends HttpServlet with WkServlet {
 	override def doGet(request:Request, response:Response) {
 		val http = HttpHelper(request,response)
 		val study =
-			if (http.parameter("id") == "") {
-				None
-			} else {
-				CaseStudyManager.get(http.parameter("id"),http.user) match {
-					case Success(caseStudy,message) => Some(caseStudy)
-					case Failure(_,_) => None
-				}
+			CaseStudyManager.get(http.parameter("id"),http.user) match {
+				case Success(caseStudy,message) => Some(caseStudy)
+				case Failure(_,_) => None
 			}
 		val view = new VelocityView(http.view)
 		view.render(Map("uuid" -> None,"caseStudy" -> study,"get" -> true),request,response)
