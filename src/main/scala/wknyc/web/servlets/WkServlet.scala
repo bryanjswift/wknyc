@@ -64,7 +64,7 @@ trait WkServlet {
 			}
 		}
 		private def trim(str:String) =
-			if (str.last == '/') {
+			if (str.length > 0 && str.last == '/') {
 				str.substring(0,str.length - 1)
 			} else {
 				str
