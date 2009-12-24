@@ -4,7 +4,7 @@ import javax.servlet.Servlet
 import javax.servlet.http.{HttpSession, HttpServletRequest => Request, HttpServletResponse => Response}
 import org.apache.commons.logging.LogFactory
 import scala.util.matching.Regex
-import wknyc.web.WknycSession
+import wknyc.web.WkSession
 
 trait WkServlet {
 	self: Servlet =>
@@ -27,18 +27,18 @@ trait WkServlet {
 		val path = viewData.path
 		val data = viewData.data
 		log.info(String.format("Creating HttpHelper for %s with {%s} in %s",path,data,format))
-		val session =
+		val wkSession:Option[WkSession] =
 			request.getSession(false) match {
 				case null => None
-				case session:HttpSession =>
-					session.getAttribute(WknycSession.Key) match {
+				case httpSession:HttpSession =>
+					httpSession.getAttribute(WkSession.Key) match {
 						case null => None
-						case session:WknycSession => Some(session)
+						case session:WkSession => Some(session)
 					}
 			}
-		val user = session match {
+		val user = wkSession match {
 			case None => None
-			case Some(s) => Some(s.user)
+			case Some(session) => Some(session.user)
 		}
 		val localHtml = if (format == "html") { viewData.view } else { None }
 		val localJson = if (format == "json") { viewData.view } else { None }

@@ -4,7 +4,7 @@ import javax.servlet.http.{HttpServlet,HttpServletRequest => Request, HttpServle
 import velocity.VelocityView
 import wknyc.business.UserManager
 import wknyc.model.User._
-import wknyc.web.WknycSession
+import wknyc.web.WkSession
 
 class LoginServlet extends HttpServlet with WkServlet {
 	override lazy val html = "login.vm"
@@ -20,7 +20,7 @@ class LoginServlet extends HttpServlet with WkServlet {
 			case Some(user) =>
 				val session = request.getSession(true)
 				val opt = Some(user)
-				session.setAttribute(WknycSession.Key,WknycSession(user))
+				session.setAttribute(WkSession.Key,WkSession(user))
 				(Map("user" -> opt,"errors" -> Nil),opt)
 			case None =>
 				(Map("user" -> None,"errors" -> List("bad login")),None)

@@ -2,8 +2,8 @@ package wknyc.web
 
 import wknyc.model.User
 
-case class WknycSession(user:User)
+case class WkSession(user:User)
 
-object WknycSession {
+object WkSession {
 	val Key = "WknycSession"
 }
