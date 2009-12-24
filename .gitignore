@@ -9,9 +9,7 @@ project
 src/main/resources/wknyc.properties
 tags
 target
-webapp/assets
-webapp/WEB-INF/classes
-webapp/WEB-INF/lib
+webapp/
 wknyc.iml
 wknyc.ipr
 wknyc.iws
