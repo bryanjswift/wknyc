@@ -16,7 +16,7 @@ object ClientManager extends Manager {
 	 * @param loggedIn - user which is currently logged in to the application
 	 * @returns Response[Client] with the errors or the updated Client
 	 */
-	def save(client:Client,loggedIn:User):Response[Client] = {
+	private def save(client:Client,loggedIn:User):Response[Client] = {
 		val c =
 			if (client.contentInfo == ContentInfo.Empty) {
 				client.cp(ContentInfo(loggedIn))

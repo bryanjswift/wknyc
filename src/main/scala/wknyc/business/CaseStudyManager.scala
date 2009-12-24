@@ -17,7 +17,7 @@ object CaseStudyManager extends Manager {
 			}
 		)
 	def list = using(new CaseStudyDao(Config.Admin)) { _.list }
-	def save[T <: CaseStudy](caseStudy:T,loggedIn:User):Response[CaseStudy] = {
+	private def save[T <: CaseStudy](caseStudy:T,loggedIn:User):Response[CaseStudy] = {
 		val study =
 			if (caseStudy.contentInfo == ContentInfo.Empty)
 				caseStudy.cp(ContentInfo(loggedIn))
