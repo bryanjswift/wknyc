@@ -13,7 +13,7 @@
 		<servlet-class>wknyc.web.servlets.RepositoryStartupServlet</servlet-class>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
-<!-- Jersey Webservice Servlet -->
+<!-- Jersey Webservice Servlet
 	<servlet>
 		<servlet-name>Jersey Servlet</servlet-name>
 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
@@ -22,12 +22,12 @@
 			<param-value>wknyc.web.resources;wknyc.web.providers</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
-	</servlet>
-<!-- Define v1 of Jersey REST API -->
+	</servlet> -->
+<!-- Define v1 of Jersey REST API
 	<servlet-mapping>
 		<servlet-name>Jersey Servlet</servlet-name>
 		<url-pattern>/wk/v1/*</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> -->
 <!-- Define wknyc Login Servlet -->
 	<servlet>
 		<servlet-name>login</servlet-name>
@@ -53,7 +53,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>CaseStudy List</servlet-name>
-		<url-pattern>/casestudy/list*</url-pattern>
+		<url-pattern>/casestudy/list/*</url-pattern>
 	</servlet-mapping>
 <!-- Define wknyc Case Study Creation Servlet -->
 	<servlet>
