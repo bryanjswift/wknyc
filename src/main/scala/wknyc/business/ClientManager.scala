@@ -30,7 +30,7 @@ object ClientManager extends Manager {
 					try {
 						Success(dao.save(c))
 					} catch {
-						case e:Exception => Failure(List(Error(e)),"Unable to create/update CaseStudy " + client.name)
+						case e:Exception => Failure(List(Error(e)),"Unable to create/update Client " + client.name)
 					}
 				)
 			case _ =>
@@ -42,6 +42,6 @@ object ClientManager extends Manager {
 			case Some(user) =>
 				save(client,user)
 			case None =>
-				Failure(List(ValidationError("user","Must be logged in to save a Case Study")))
+				Failure(List(ValidationError("user","Must be logged in to save a Client")))
 		}
 }
