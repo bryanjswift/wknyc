@@ -8,7 +8,6 @@ object Props {
 	protected val logger = Logger.getLogger(getClass.getName)
 	private[this] val properties = new Properties()
 	private[this] val ClassLoader = getClass.getClassLoader
-	load("defaults/wknyc.local.properties") // load local properties
 	load("wknyc.properties") // if non-local properties exist load them to overwrite local properties
 	def apply(property:String) = properties.getProperty(property)
 	def objectForProperty[T](property:String) =
