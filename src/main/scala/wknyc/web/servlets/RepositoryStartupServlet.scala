@@ -13,7 +13,7 @@ class RepositoryStartupServlet extends GenericServlet {
 	}
 	override def service(request:Request,response:Response) = { }
 	override def destroy() = {
-		log.info("Closing Repository session")
+		log.info("Closing repository session")
 		session.logout
 	}
 }
