@@ -44,8 +44,10 @@ class ImageServlet extends HttpServlet with FileServlet with WkServlet with Mana
 	}
 	private def imageFromFileItemStream(stream:FileItemStream,savePath:String) = {
 		val path = savePath + File.separator + stream.getName
+		val file = new File(path)
+		if (!file.exists) file.createNewFile
 		val in = stream.openStream
-		val out = new FileOutputStream(new File(path))
+		val out = new FileOutputStream(file)
 		try {
 			writeFile(in,out,new Array[Byte](1024))
 			Image(path,"","",ImageSize(stream.getFieldName))
