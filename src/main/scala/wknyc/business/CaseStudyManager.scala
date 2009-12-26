@@ -2,7 +2,7 @@ package wknyc.business
 
 import wknyc.Config
 import wknyc.WkPredef._
-import wknyc.model.{CaseStudy,ContentInfo,User}
+import wknyc.model.{CaseStudy,CaseStudyStatus => Status,ContentInfo,User}
 import wknyc.persistence.CaseStudyDao
 import wknyc.business.validators.{CaseStudyValidator,Error,ValidationError,ValidationResult}
 
@@ -17,6 +17,8 @@ object CaseStudyManager extends Manager {
 			}
 		)
 	def list = using(new CaseStudyDao(Config.Admin)) { _.list }
+	def listNeedsArt = list.filter(cs => cs.status == Status.New || cs.status == Status.CopyComplete)
+	def listNeedsCopy = list.filter(cs => cs.status == Status.New || cs.status == Status.ArtComplete)
 	private def save[T <: CaseStudy](caseStudy:T,loggedIn:User):Response[CaseStudy] = {
 		val study =
 			if (caseStudy.contentInfo == ContentInfo.Empty)
