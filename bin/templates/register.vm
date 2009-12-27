@@ -14,10 +14,10 @@
 				#end
 			</ul>
 		#end
-		#if ($creds != $None && $creds.get().uuid() != $None)
-			<p>User saved with id of $creds.get().uuid().get()</p>
+		#if ($creds != $None && $creds.uuid() != $None)
+			<p>User saved with id of $creds.uuid().get()</p>
 		#end
-		<form method="POST" action="/credentials/register">
+		<form method="POST" action="/user/register">
 			<label for="username">Username</label>
 			<input type="text" id="username" name="username" value="" />
 			<label for="password">Password</label>

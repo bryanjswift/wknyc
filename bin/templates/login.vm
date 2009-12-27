@@ -17,7 +17,7 @@
 		#if ($user != $None)
 			<p>Successfully logged in as $user.get().username()</p>
 		#end
-		<form method="POST" action="/credentials/login">
+		<form method="POST" action="/user/login">
 			<label for="username">Username</label>
 			<input type="text" id="username" name="username" value="" />
 			<label for="password">Password</label>
