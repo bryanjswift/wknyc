@@ -3,6 +3,7 @@
 	#foreach ($study in $studies)
 		{
 			name: $study.name(),
+			headline: $study.headline(),
 			description: $study.description(),
 			id: $study.uuid().get()
 		}
