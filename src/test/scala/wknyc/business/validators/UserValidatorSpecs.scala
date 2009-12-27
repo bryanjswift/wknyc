@@ -19,7 +19,7 @@ object UserValidatorSpecs extends Specification {
 			val results = UserValidator.validate(validCreds)
 			results mustContain(ValidationSuccess(User.Username))
 			results mustContain(ValidationSuccess(User.Password))
-			results mustContain(ValidationSuccess(User.Department))
+			results mustContain(ValidationSuccess(User.Role))
 			results mustContain(ValidationSuccess(User.Title))
 		}
 		"have a ValidationError instance for each invalid value" >> {

@@ -4,13 +4,13 @@ import javax.jcr.Session
 import javax.jcr.nodetype.NodeType
 import org.apache.jackrabbit.api.JackrabbitNodeTypeManager
 import org.apache.jackrabbit.core.nodetype.NodeTypeManagerImpl
-import wknyc.model.WkCredentials
+import wknyc.model.{UserRole,WkCredentials}
 
 object Config {
 	lazy val Repository = new WkRepository()
 	lazy val CredentialsWorkspace = "security"
 	lazy val ContentWorkspace = "content"
-	lazy val Admin = WkCredentials("repositoryAdmin@wk.com","g0du5er","Admin","Admin",Some("Config.Admin.UUID"))
+	lazy val Admin = WkCredentials("repositoryAdmin@wk.com","g0du5er",UserRole.Curator,"Admin",Some("Config.Admin.UUID"))
 	lazy val ClassLoader = getClass.getClassLoader
 	private val systemProps = List("org.apache.jackrabbit.repository.home","org.apache.jackrabbit.repository.conf")
 	systemProps.foreach(key => System.setProperty(key,Props(key)))

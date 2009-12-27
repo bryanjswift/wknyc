@@ -1,6 +1,6 @@
 package wknyc.business.validators
 
-import wknyc.model.{Employee,PersonalInfo,User,WkCredentials}
+import wknyc.model.{Employee,PersonalInfo,User,UserRole,WkCredentials}
 import wknyc.model.Employee._
 import wknyc.model.User._
 
@@ -16,7 +16,7 @@ object UserValidator extends Validator {
 	private def validateCredentials(creds:WkCredentials) = ( // this is one statement
 		validateUsername(creds.username)
 		:: validatePassword(creds.password)
-		:: validateDepartment(creds.department)
+		:: validateRole(creds.role)
 		:: validateTitle(creds.title)
 		:: Nil
 	)
@@ -30,7 +30,7 @@ object UserValidator extends Validator {
 	// Credentials Field Validation
 	private def validateUsername(username:String) = required(username,Username)
 	private def validatePassword(password:String) = required(password,Password)
-	private def validateDepartment(department:String) = notValidated(Department)
+	private def validateRole(role:UserRole) = notValidated(Role)
 	private def validateTitle(title:String) = notValidated(Title)
 	// PersonalInfo Field Validation
 	private def validateFirstName(firstName:String) = notValidated(FirstName)

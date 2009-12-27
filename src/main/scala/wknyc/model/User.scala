@@ -9,14 +9,14 @@ trait User extends Credentials {
 	val uuid:Option[String]
 	val username:String = credentials.username
 	val password:String = credentials.password
-	val department:String = credentials.department
+	val role:UserRole = credentials.role
 	val title:String = credentials.title
 }
 object User {
 	val NodeType = "wk:credentials"
 	val Username = "username"
 	val Password = "password"
-	val Department = "department"
+	val Role = "role"
 	val Title = "title"
 }
 /** Represents interface to personal information for a user */
@@ -30,13 +30,17 @@ case class PersonalInfo(firstName:String, lastName:String, socialNetworks:List[S
 case class WkCredentials(
 	override val username:String,
 	override val password:String,
-	override val department:String,
+	override val role:UserRole,
 	override val title:String,
 	uuid:Option[String]
 ) extends User {
 	def credentials = this
 	// TODO: In Scala 2.8.0 Delete this method
-	def cp(uuid:String) = WkCredentials(username,password,department,title,Some(uuid))
+	def cp(uuid:String) = WkCredentials(username,password,role,title,Some(uuid))
+}
+object WkCredentials {
+	def apply(username:String,password:String,role:String,title:String,uuid:Option[String]):WkCredentials =
+		WkCredentials(username,password,UserRole(role),title,uuid)
 }
 /** Represent an Employee as a User */
 class Employee(

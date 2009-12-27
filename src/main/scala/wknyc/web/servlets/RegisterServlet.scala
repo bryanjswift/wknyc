@@ -6,17 +6,17 @@ import wknyc.Config
 import wknyc.WkPredef._
 import wknyc.business.UserManager
 import wknyc.model.User._
-import wknyc.model.WkCredentials
+import wknyc.model.{UserRole,WkCredentials}
 
 class RegisterServlet extends HttpServlet with WkServlet {
 	override def doGet(request:Request, response:Response) = {
 		val view = new VelocityView(RegisterServlet.ViewName)
-		view.render(Map("errors" -> Nil),request,response)
+			view.render(Map("errors" -> Nil, "roles" -> UserRole.list),request,response)
 	}
 	override def doPost(request:Request, response:Response) = {
 		val http = HttpHelper(request,response)
 		val param = http.parameter(_)
-		val creds = WkCredentials(param(Username),param(Password),param(Department),param(Title),None)
+		val creds = WkCredentials(param(Username),param(Password),UserRole(param(Role)),param(Title),None)
 		val result = UserManager.register(creds,Config.Admin)
 		val map = result match {
 			case Success(creds,message) =>

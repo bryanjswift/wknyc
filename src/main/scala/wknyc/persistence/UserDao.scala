@@ -2,7 +2,7 @@ package wknyc.persistence
 
 import javax.jcr.{Node,Session}
 import wknyc.Config
-import wknyc.model.{Content,ContentInfo,Employee,PersonalInfo,SocialNetwork,User,WkCredentials}
+import wknyc.model.{Content,ContentInfo,Employee,PersonalInfo,SocialNetwork,User,UserRole,WkCredentials}
 
 /** UserDao is created to save and retrieve User type objects from the repository
 	* @param session is used to access the repository but is not modified (logged out)
@@ -35,7 +35,7 @@ class UserDao(loggedInUser:User) extends Dao(loggedInUser) {
 		WkCredentials(
 			credentials.username,
 			credentials.password,
-			credentials.department,
+			credentials.role,
 			credentials.title,
 			Some(n.getUUID)
 		)
@@ -64,7 +64,7 @@ class UserDao(loggedInUser:User) extends Dao(loggedInUser) {
 	private def writeProperties(n:Node,user:User) {
 		n.setProperty(User.Username,user.username)
 		n.setProperty(User.Password,user.password)
-		n.setProperty(User.Department,user.department)
+		n.setProperty(User.Role,user.role.id)
 		n.setProperty(User.Title,user.title)
 	}
 	/** Write employee information to provided node
@@ -137,7 +137,7 @@ class UserDao(loggedInUser:User) extends Dao(loggedInUser) {
 		WkCredentials(
 			node.getProperty(User.Username).getString,
 			node.getProperty(User.Password).getString,
-			node.getProperty(User.Department).getString,
+			UserRole(node.getProperty(User.Role).getLong),
 			node.getProperty(User.Title).getString,
 			Some(node.getUUID)
 		)

@@ -5,7 +5,7 @@ import javax.ws.rs.{POST,Produces,Path,FormParam}
 import javax.ws.rs.core.{MediaType,Response}
 import wknyc.Config
 import wknyc.business.{Failure,Success,UserManager}
-import wknyc.model.{ContentInfo,Employee,PersonalInfo,SocialNetwork,WkCredentials}
+import wknyc.model.{ContentInfo,Employee,PersonalInfo,SocialNetwork,UserRole,WkCredentials}
 import wknyc.persistence.UserDao
 
 @Singleton
@@ -17,10 +17,10 @@ class RegisterResource {
 	def registerUser(
 		@FormParam("username") username:String,
 		@FormParam("password") password:String,
-		@FormParam("department") department:String,
+		@FormParam("role") role:Long,
 		@FormParam("title") title:String
 	) = {
-		val user = UserManager.register(WkCredentials(username,password,department,title,None),Config.Admin)
+		val user = UserManager.register(WkCredentials(username,password,UserRole(role),title,None),Config.Admin)
 		val xml =
 			user match {
 				case Success(creds,message) =>
@@ -29,7 +29,7 @@ class RegisterResource {
 						<Credentials>
 							<UUID>{creds.uuid.get}</UUID>
 							<Username>{creds.username}</Username>
-							<Department>{creds.department}</Department>
+							<Department>{creds.role.display}</Department>
 							<Title>{creds.title}</Title>
 						</Credentials>
 					</Response>
@@ -46,14 +46,14 @@ class RegisterResource {
   def registerEmployee(
 		@FormParam("username") username:String,
 		@FormParam("password") password:String,
-		@FormParam("department") department:String,
+		@FormParam("role") role:Long,
 		@FormParam("title") title:String,
 		@FormParam("firstName") firstName:String,
 		@FormParam("lastName") lastName:String
   ) = {
 		val user = UserManager.register(Employee(
 			ContentInfo(Config.Admin),
-			WkCredentials(username,password,department,title,None),
+			WkCredentials(username,password,UserRole(role),title,None),
 			PersonalInfo(firstName,lastName,List[SocialNetwork]())
 		),Config.Admin)
 		val xml =
@@ -64,7 +64,7 @@ class RegisterResource {
 						<Credentials>
 							<UUID>{employee.uuid.get}</UUID>
 							<Username>{employee.username}</Username>
-							<Department>{employee.department}</Department>
+							<Role>{employee.role.display}</Role>
 							<Title>{employee.title}</Title>
 							<FirstName>{employee.firstName}</FirstName>
 							<LastName>{employee.lastName}</LastName>

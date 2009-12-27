@@ -9,7 +9,7 @@ mixin
 [wk:credentials] > nt:base, mix:referenceable, mix:versionable
 -username='' primary mandatory
 -password='' mandatory
--department=''
+-role=0
 -title=''
 
 [wk:employee] > wk:credentials, wk:content
