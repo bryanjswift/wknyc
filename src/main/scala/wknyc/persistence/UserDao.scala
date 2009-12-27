@@ -11,7 +11,7 @@ import wknyc.model.{Content,ContentInfo,Employee,PersonalInfo,SocialNetwork,User
 class UserDao(loggedInUser:User) extends Dao(loggedInUser) {
 	protected val session = Config.Repository.login(loggedInUser,Config.CredentialsWorkspace)
 	// Only retrieve root once
-	override protected lazy val root = super.root
+	override protected lazy val root = getNode(super.root,"Users")
 	// Make userDao refer to this
 	override protected lazy val userDao = this
 	/** Save an object which is at least of type User
@@ -96,7 +96,7 @@ class UserDao(loggedInUser:User) extends Dao(loggedInUser) {
 	/** Retrieve list of all saved User instances
 		* @returns Iterable[User] containing all saved Users
 		*/
-	def list = root.getNodes.filter(_.getPrimaryNodeType.getName.startsWith("wk:")).map(getByNode(_))
+	def list = root.getNodes.map(getByNode)
 	/** Fetch an Employee or User based on a given UUID or username
 		* @param s - username or UUID by which a node will be fetched
 		* @returns Employee or User built from node retrieved
