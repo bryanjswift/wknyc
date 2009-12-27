@@ -11,6 +11,7 @@ mixin
 -password='' mandatory
 -role=0
 -title=''
+-active=true
 
 [wk:employee] > wk:credentials, wk:content
 -firstName=''

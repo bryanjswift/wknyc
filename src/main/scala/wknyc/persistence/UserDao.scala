@@ -37,6 +37,7 @@ class UserDao(loggedInUser:User) extends Dao(loggedInUser) {
 			credentials.password,
 			credentials.role,
 			credentials.title,
+			credentials.active,
 			Some(n.getUUID)
 		)
 	}
@@ -66,6 +67,7 @@ class UserDao(loggedInUser:User) extends Dao(loggedInUser) {
 		n.setProperty(User.Password,user.password)
 		n.setProperty(User.Role,user.role.id)
 		n.setProperty(User.Title,user.title)
+		n.setProperty(User.Active,user.active)
 	}
 	/** Write employee information to provided node
 		* @param n - node to write data to
@@ -139,6 +141,7 @@ class UserDao(loggedInUser:User) extends Dao(loggedInUser) {
 			node.getProperty(User.Password).getString,
 			UserRole(node.getProperty(User.Role).getLong),
 			node.getProperty(User.Title).getString,
+			node.getProperty(User.Active).getBoolean,
 			Some(node.getUUID)
 		)
 	// Release resources

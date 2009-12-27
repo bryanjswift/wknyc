@@ -26,6 +26,6 @@ object UserManager extends Manager {
 	def authenticate(username:String,password:String):Option[User] =
 		using(new UserDao(Config.Admin))((dao) => {
 			val user = dao.get(username)
-			if (user.password == password) Some(user) else None
+			if (user.password == password && user.active) Some(user) else None
 		})
 }

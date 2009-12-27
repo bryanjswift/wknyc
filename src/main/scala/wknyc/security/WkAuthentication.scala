@@ -20,7 +20,8 @@ class WkAuthentication(private val systemSession:Session) extends Authentication
 						val credsNode = systemSession.getNodeByUUID(uuid)
 						val password = credsNode.getProperty("password").getString
 						val username = credsNode.getProperty("username").getString
-						username == creds.username && password == creds.password
+						val active = credsNode.getProperty("active").getBoolean
+						username == creds.username && password == creds.password && active
 					} catch {
 						case e:Exception =>
 							// user doesn't exist yet

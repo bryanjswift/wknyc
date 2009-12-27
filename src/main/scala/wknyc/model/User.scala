@@ -11,6 +11,7 @@ trait User extends Credentials {
 	val password:String = credentials.password
 	val role:UserRole = credentials.role
 	val title:String = credentials.title
+	val active:Boolean = credentials.active
 }
 object User {
 	val NodeType = "wk:credentials"
@@ -18,6 +19,7 @@ object User {
 	val Password = "password"
 	val Role = "role"
 	val Title = "title"
+	val Active = "active"
 }
 /** Represents interface to personal information for a user */
 trait Person {
@@ -32,15 +34,18 @@ case class WkCredentials(
 	override val password:String,
 	override val role:UserRole,
 	override val title:String,
+	override val active:Boolean,
 	uuid:Option[String]
 ) extends User {
 	def credentials = this
 	// TODO: In Scala 2.8.0 Delete this method
-	def cp(uuid:String) = WkCredentials(username,password,role,title,Some(uuid))
+	def cp(uuid:String) = WkCredentials(username,password,role,title,active,Some(uuid))
 }
 object WkCredentials {
 	def apply(username:String,password:String,role:String,title:String,uuid:Option[String]):WkCredentials =
-		WkCredentials(username,password,UserRole(role),title,uuid)
+		WkCredentials(username,password,UserRole(role),title,true,uuid)
+	def apply(username:String,password:String,role:UserRole,title:String,uuid:Option[String]):WkCredentials =
+		WkCredentials(username,password,role,title,true,uuid)
 }
 /** Represent an Employee as a User */
 class Employee(
