@@ -12,7 +12,7 @@ object UserManager extends Manager {
 		val errors = UserValidator.errors(user)
 		errors match {
 			case Nil =>
-				using(new UserDao(loggedIn))((dao) =>
+				using(new UserDao(loggedIn))(dao =>
 					try {
 						Success(dao.save(user))
 					} catch {
@@ -23,6 +23,7 @@ object UserManager extends Manager {
 				Failure(errors)
 		}
 	}
+	def list = using(new UserDao(Config.Admin)) { _.list }
 	def authenticate(username:String,password:String):Option[User] =
 		using(new UserDao(Config.Admin))((dao) => {
 			val user = dao.get(username)
