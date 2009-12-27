@@ -19,9 +19,17 @@ object UserRole {
 			case HumanResources.id => HumanResources
 			case _ => Visitor
 		}
-	def apply(id:String):UserRole =
+	def apply(display:String):UserRole =
 		try {
-			apply(id.toLong)
+			display match {
+				case Curator.display => Curator
+				case CuratorAssistant.display => CuratorAssistant
+				case Art.display => Art
+				case Copy.display => Copy
+				case HumanResources.display => HumanResources
+				case Visitor.display => HumanResources
+				case _ => apply(display.toLong)
+			}
 		} catch {
 			case _ => Visitor
 		}
