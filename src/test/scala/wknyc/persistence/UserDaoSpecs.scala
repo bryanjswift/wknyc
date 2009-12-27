@@ -57,5 +57,16 @@ object UserDaoSpecs extends Specification {
 			val retrieved = dao.get(emp.username)
 			emp must_== retrieved
 		}
+		"list all saved Users" >> {
+			val users = dao.list
+			// depends on tests above it
+			users.toList.size must_== 6
+			users.exists(_.username == "root@wk.com")
+			users.exists(_.username == "bs@wk.com")
+			users.exists(_.username == "bs1@wk.com")
+			users.exists(_.username == "bryan.swift@wk.com")
+			users.exists(_.username == "bryan.swift1@wk.com")
+			users.exists(_.username == "bryan.swift2@wk.com")
+		}
 	}
 }

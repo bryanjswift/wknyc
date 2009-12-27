@@ -93,6 +93,10 @@ class UserDao(loggedInUser:User) extends Dao(loggedInUser) {
 		* @returns true if username is taken, false otherwise
 		*/
 	def exists(username:String):Boolean = root.hasNode(username)
+	/** Retrieve list of all saved User instances
+		* @returns Iterable[User] containing all saved Users
+		*/
+	def list = root.getNodes.filter(_.getPrimaryNodeType.getName.startsWith("wk:")).map(getByNode(_))
 	/** Fetch an Employee or User based on a given UUID or username
 		* @param s - username or UUID by which a node will be fetched
 		* @returns Employee or User built from node retrieved
