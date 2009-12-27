@@ -1,0 +1,13 @@
+{
+	users: [
+	#foreach ($user in $users)
+		{
+			name: $user.username(),
+			role: $user.role().display(),
+			title: $user.title(),
+			id: $user.uuid().get()
+		}
+		#if ($users.size() != $velocityCount) , #end
+	#end
+	]
+}

@@ -28,7 +28,8 @@
 		<servlet-name>Jersey Servlet</servlet-name>
 		<url-pattern>/wk/v1/*</url-pattern>
 	</servlet-mapping> -->
-<!-- Define wknyc Login Servlet -->
+<!-- ** User Servlets ** -->
+<!-- Define Login Servlet -->
 	<servlet>
 		<servlet-name>login</servlet-name>
 		<servlet-class>wknyc.web.servlets.LoginServlet</servlet-class>
@@ -37,7 +38,7 @@
 		<servlet-name>login</servlet-name>
 		<url-pattern>/credentials/login/*</url-pattern>
 	</servlet-mapping>
-<!-- Define wknyc Register Servlet -->
+<!-- Define Register Servlet -->
 	<servlet>
 		<servlet-name>registerUser</servlet-name>
 		<servlet-class>wknyc.web.servlets.RegisterServlet</servlet-class>
@@ -46,7 +47,17 @@
 		<servlet-name>registerUser</servlet-name>
 		<url-pattern>/credentials/register/*</url-pattern>
 	</servlet-mapping>
-<!-- Define wknyc Case Study Listing Servlet -->
+<!-- Define User Listing Servlet -->
+	<servlet>
+		<servlet-name>User List</servlet-name>
+		<servlet-class>wknyc.web.servlets.UserListServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>User List</servlet-name>
+		<url-pattern>/user/list/*</url-pattern>
+	</servlet-mapping>
+<!-- ** Case Study Servlets ** -->
+<!-- Define Case Study Listing Servlet -->
 	<servlet>
 		<servlet-name>CaseStudy List</servlet-name>
 		<servlet-class>wknyc.web.servlets.CaseStudyListServlet</servlet-class>
@@ -55,7 +66,7 @@
 		<servlet-name>CaseStudy List</servlet-name>
 		<url-pattern>/casestudy/list/*</url-pattern>
 	</servlet-mapping>
-<!-- Define wknyc Case Study Creation Servlet -->
+<!-- Define Case Study Creation Servlet -->
 	<servlet>
 		<servlet-name>CaseStudy Basic</servlet-name>
 		<servlet-class>wknyc.web.servlets.CaseStudyServlet</servlet-class>
@@ -64,7 +75,8 @@
 		<servlet-name>CaseStudy Basic</servlet-name>
 		<url-pattern>/casestudy/*</url-pattern>
 	</servlet-mapping>
-<!-- Define wknyc Client Creation Servlet -->
+<!-- ** Client Servlets ** -->
+<!-- Define Client Creation Servlet -->
 	<servlet>
 		<servlet-name>Client Basic</servlet-name>
 		<servlet-class>wknyc.web.servlets.ClientServlet</servlet-class>
@@ -81,7 +93,8 @@
 		<servlet-name>Client Basic</servlet-name>
 		<url-pattern>/client/*</url-pattern>
 	</servlet-mapping>
-<!-- Define wknyc Image Upload Servlet -->
+<!-- ** Other Servlets ** -->
+<!-- Define Image Upload Servlet -->
 	<servlet>
 		<servlet-name>imageUpload</servlet-name>
 		<servlet-class>wknyc.web.servlets.ImageServlet</servlet-class>
