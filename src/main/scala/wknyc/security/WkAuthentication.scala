@@ -21,6 +21,7 @@ class WkAuthentication(private val systemSession:Session) extends Authentication
 						val password = credsNode.getProperty("password").getString
 						val username = credsNode.getProperty("username").getString
 						val active = credsNode.getProperty("active").getBoolean
+						// Don't use encryption here because credentials already has encrypted password
 						username == creds.username && password == creds.password && active
 					} catch {
 						case e:Exception =>
