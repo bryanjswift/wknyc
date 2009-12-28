@@ -7,18 +7,12 @@ import wknyc.persistence.UserDao
 import wknyc.{Config, WkPredef}
 
 object UserManager extends Manager {
-	/** Store new User in repository
-		* @param user to be saved
-		* @param loggedIn - User who is creating the new user
-		* @returns Success[User] if user was successfully persisted Failure otherwise
-		*/
-	def register[T <: User](user:T,loggedIn:User) = save(user,loggedIn)
 	/** Perform user saving to repository
 		* @param user to be saved
 		* @param loggedIn - User who is creating the new user
 		* @returns Success[User] if user was successfully persisted Failure otherwise
 		*/
-	private def save[T <: User](user:T,loggedIn:User):Response[_ <: T] = {
+	def save[T <: User](user:T,loggedIn:User):Response[_ <: T] = {
 		val errors = UserValidator.errors(user)
 		errors match {
 			case Nil =>

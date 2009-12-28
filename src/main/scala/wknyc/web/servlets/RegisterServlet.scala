@@ -17,7 +17,7 @@ class RegisterServlet extends HttpServlet with WkServlet {
 		val http = HttpHelper(request,response)
 		val param = http.parameter(_)
 		val creds = WkCredentials(param(Username),param(Password),UserRole(param(Role)),param(Title),None)
-		val result = UserManager.register(creds,Config.Admin)
+		val result = UserManager.save(creds,Config.Admin)
 		val map = result match {
 			case Success(creds,message) =>
 				Map("errors" -> result.errors,"creds" -> result.payload)
