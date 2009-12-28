@@ -29,7 +29,7 @@ class AssetDao(loggedInUser:User) extends Dao(loggedInUser) {
 		val node = writeProperties(asset,None,asset.title)
 		session.save
 		node.checkin
-		asset.cp(node.getUUID).asInstanceOf[T]
+		asset.cp(Some(node.getUUID)).asInstanceOf[T]
 	}
 	private[persistence] def writeProperties[T <: Asset](asset:T,root:Option[Node],name:String):Node =
 		asset match {

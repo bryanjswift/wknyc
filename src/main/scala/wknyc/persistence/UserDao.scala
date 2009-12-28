@@ -32,7 +32,8 @@ class UserDao(loggedInUser:User) extends Dao(loggedInUser) {
 		writeProperties(n,credentials)
 		session.save
 		n.checkin
-		credentials.cp(n.getUUID)
+		// TODO: In Scala 2.8.0 change this to use copy(uuid = Some(n.getUUID))
+		credentials.cp(Some(n.getUUID))
 	}
 	/** Save an Employee to the repository
 		* @param employee to be saved
@@ -44,12 +45,8 @@ class UserDao(loggedInUser:User) extends Dao(loggedInUser) {
 		writeProperties(n,employee,ci)
 		session.save
 		n.checkin
-		Employee(
-			ci.cp(n.getUUID),
-			// TODO: In Scala 2.8.0 change this to use copy(uuid = Some(n.getUUID))
-			employee.credentials.cp(n.getUUID),
-			employee.personalInfo
-		)
+		// TODO: In Scala 2.8.0 change this to use copy(uuid = Some(n.getUUID))
+		employee.cp(Some(n.getUUID))
 	}
 	/** Write general user properties to provided node
 		* @param n - node to write data to

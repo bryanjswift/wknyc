@@ -39,7 +39,7 @@ case class WkCredentials(
 ) extends User {
 	def credentials = this
 	// TODO: In Scala 2.8.0 Delete this method
-	def cp(uuid:String) = WkCredentials(username,password,role,title,active,Some(uuid))
+	def cp(uuid:Option[String]) = WkCredentials(username,password,role,title,active,uuid)
 }
 object WkCredentials {
 	def apply(username:String,password:String,role:String,title:String,uuid:Option[String]):WkCredentials =
@@ -52,6 +52,8 @@ class Employee(
 	val contentInfo:ContentInfo, val credentials:WkCredentials, val personalInfo:PersonalInfo
 ) extends User with Person with Content {
 	private def canEqual(a:Any) = a.isInstanceOf[Employee]
+	// TODO: In Scala 2.8.0 Delete this method
+	def cp(uuid:Option[String]) = Employee(contentInfo.cp(uuid),credentials.cp(uuid),personalInfo)
 	def equals(e:Employee) =
 		contentInfo == e.contentInfo && credentials == e.credentials && personalInfo == e.personalInfo
 	override def equals(q:Any) =

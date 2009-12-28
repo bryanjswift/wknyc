@@ -5,7 +5,7 @@ import wknyc.Config
 
 /** Class to hold universal content information */
 class ContentInfo(val created:Calendar, val modified:Calendar, val modifiedBy:User, val uuid:Option[String]) {
-	def cp(uuid:String) = ContentInfo(created, modified, modifiedBy, Some(uuid))
+	def cp(uuid:Option[String]) = ContentInfo(created, modified, modifiedBy, uuid)
 	def modifiedBy(user:User) = ContentInfo(created, Calendar.getInstance, user, uuid)
 	/** ContentInfo refers to the same Content if created and uuid are the same */
 	def equals(ci:ContentInfo) = created == ci.created && uuid == ci.uuid

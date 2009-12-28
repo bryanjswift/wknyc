@@ -57,7 +57,7 @@ class CaseStudyDao(loggedInUser:User) extends Dao(loggedInUser) {
 		writeCaseStudy(node,caseStudy)
 		session.save
 		node.checkin
-		caseStudy.cp(node.getUUID)
+		caseStudy.cp(Some(node.getUUID))
 	}
 	def list =
 		CaseStudyRoot.getNodes.map(n => get(n))

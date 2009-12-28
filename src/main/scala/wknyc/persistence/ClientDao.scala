@@ -35,7 +35,7 @@ class ClientDao(loggedInUser:User) extends Dao(loggedInUser) {
 		saveContentInfo(node,client.contentInfo.modifiedBy(loggedInUser))
 		node.setProperty(Client.Name,client.name)
 		session.save
-		val updatedClient = client.cp(node.getUUID) 
+		val updatedClient = client.cp(Some(node.getUUID)) 
 		client.caseStudies.foreach(study => {
 			caseStudyDao.save(study.cp(updatedClient))
 		})

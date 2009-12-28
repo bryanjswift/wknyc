@@ -15,7 +15,7 @@ sealed trait CaseStudy extends Content with Ordered {
 	def images:Iterable[ImageAsset]
 	def press:Iterable[PressAsset]
 	// TODO: Remove these when upgraded to Scala 2.8
-	def cp(uuid:String):CaseStudy = cp(contentInfo.cp(uuid))
+	def cp(uuid:Option[String]):CaseStudy = cp(contentInfo.cp(uuid))
 	def cp(info:ContentInfo):CaseStudy = 
 		AssetCaseStudy(
 			BasicCaseStudy(BaseCaseStudy(info,client,name,launch),headline,description,downloads,status,position),

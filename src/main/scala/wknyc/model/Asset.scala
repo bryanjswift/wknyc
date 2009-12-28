@@ -5,7 +5,7 @@ import scala.xml.NodeSeq
 /** Trait representing the basic fields of a site asset */
 sealed trait Asset extends Content {
 	val title:String
-	def cp(uuid:String):Asset
+	def cp(uuid:Option[String]):Asset
 }
 object Asset {
 	val Title = "title"
@@ -49,14 +49,14 @@ object ImageSet {
 }
 // Image related asset classes
 case class ImageAsset(contentInfo:ContentInfo, title:String, images:ImageSet) extends Asset {
-	def cp(uuid:String) = ImageAsset(contentInfo.cp(uuid), title, images)
+	def cp(uuid:Option[String]) = ImageAsset(contentInfo.cp(uuid), title, images)
 }
 object ImageAsset {
 	val NodeType = "wk:imageAsset"
 }
 // Copy related asset classes
 case class CopyAsset(contentInfo:ContentInfo, title:String, body:NodeSeq) extends Asset {
-	def cp(uuid:String) = CopyAsset(contentInfo.cp(uuid), title, body)
+	def cp(uuid:Option[String]) = CopyAsset(contentInfo.cp(uuid), title, body)
 }
 object CopyAsset {
 	val NodeType = "wk:copyAsset"
@@ -64,18 +64,18 @@ object CopyAsset {
 }
 // Download related asset classes (video, audio, archive, document)
 case class DownloadableAsset(contentInfo:ContentInfo, title:String, path:String, url:String) extends Asset with FileInfo {
-	def cp(uuid:String) = DownloadableAsset(contentInfo.cp(uuid), title, path, url)
+	def cp(uuid:Option[String]) = DownloadableAsset(contentInfo.cp(uuid), title, path, url)
 }
 object DownloadableAsset {
 	val NodeType = "wk:downloadAsset"
 }
 // Empty File representation
 case object EmptyFile extends DownloadableAsset(ContentInfo(Config.Admin),"","","") {
-	override def cp(uuid:String) = EmptyFile
+	override def cp(uuid:Option[String]) = EmptyFile
 }
 // Press (link to press) asset
 case class PressAsset(contentInfo:ContentInfo, title:String, author:String, source:String, sourceName:String) extends Asset {
-	def cp(uuid:String) = PressAsset(contentInfo.cp(uuid), title, author, source, sourceName)
+	def cp(uuid:Option[String]) = PressAsset(contentInfo.cp(uuid), title, author, source, sourceName)
 }
 object PressAsset {
 	val NodeType = "wk:pressAsset"
@@ -85,7 +85,7 @@ object PressAsset {
 }
 // Award (Info about awards) asset
 case class AwardAsset(contentInfo:ContentInfo, title:String, source:String, description:CopyAsset, image:ImageAsset) extends Asset {
-	def cp(uuid:String) = AwardAsset(contentInfo.cp(uuid), title, source, description, image)
+	def cp(uuid:Option[String]) = AwardAsset(contentInfo.cp(uuid), title, source, description, image)
 }
 object AwardAsset {
 	val NodeType = "wk:awardAsset"
