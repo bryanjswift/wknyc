@@ -18,6 +18,7 @@ class UserDao(loggedInUser:User) extends Dao(loggedInUser) {
 		* @param user to be saved delegates to saveCredentials or saveEmployee depending on type
 		* @returns T with uuid populated and lastModified/modifiedBy fields updated (if applicable)
 		*/
+	// What exceptions can be thrown?
 	def save[T <: User](user:T):T =
 		user match {
 			case employee:Employee => saveEmployee(employee).asInstanceOf[T]
