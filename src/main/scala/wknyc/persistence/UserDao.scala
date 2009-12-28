@@ -32,14 +32,7 @@ class UserDao(loggedInUser:User) extends Dao(loggedInUser) {
 		writeProperties(n,credentials)
 		session.save
 		n.checkin
-		WkCredentials(
-			credentials.username,
-			credentials.password,
-			credentials.role,
-			credentials.title,
-			credentials.active,
-			Some(n.getUUID)
-		)
+		credentials.cp(n.getUUID)
 	}
 	/** Save an Employee to the repository
 		* @param employee to be saved
