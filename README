@@ -1,0 +1,79 @@
+Terms
+=====
+
+* UUID - Unique Universal IDentifier
+
+
+Services for Users
+==================
+
+Register
+--------
+
+To register a basic user (essentially just credentials, no other information)
+go to /user/register and fill out the form.
+
+Template is bin/templates/register.vm
+
+Login
+-----
+
+To login go to /user/login and fill out the form with a registered user.
+
+Template is bin/templates/login.vm
+
+*NOTE:* Remember if you're using jetty-run registered users are reset every
+time the application is reloaded.
+
+List Users
+----------
+
+/user/list/json Lists basic user information.
+
+Template is bin/templates/user/list.json.vm
+
+
+Services for Clients
+====================
+
+These are all from the application root. For example if the wknyc application
+is running under the wknyc context (http://example.com/wknyc) then the full
+URL of a reference to /example/list would be http://example.com/wknyc/example/list
+
+List Clients
+------------
+
+This service is currently only implemented in HTML format. The path is
+/clients/list/html and the template is bin/templates/client/client-list.vm
+
+Add Client
+----------
+
+Implemented as a basic HTML form. A form POSTed to /client/ with a name parameter
+will create a new Client with the given value.
+
+Template is bin/templates/client/client.vm
+
+*NOTE:* User must be logged in to use this service.
+
+Edit Client
+-----------
+
+Implemented as a basic HTML form. To get data for a Client performa GET request
+on /client/edit/{uuid} where {uuid} is replaced with the Client's UUID. This
+will show the basic Add Client form with pre-populated data. To edit the client
+send a POST request to /client with a "uuid" parameter being the same as the
+uuid used to fetch data and it will update the Client represented by that id.
+
+*NOTE:* User must be logged in to use this service.
+
+Delete Client
+-------------
+
+*Not Implemented* Does it need to be?
+
+
+Services for Case Study
+=======================
+
+
