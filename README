@@ -4,6 +4,17 @@ Terms
 * UUID - Unique Universal IDentifier
 
 
+Services in General
+===================
+
+These are all from the application root. For example if the wknyc application
+is running under the wknyc context (http://example.com/wknyc) then the full
+URL of a reference to /example/list would be http://example.com/wknyc/example/list
+
+Template locations are not finalized but service locations should be. In either
+case I'll do my best to keep this document up to date.
+
+
 Services for Users
 ==================
 
@@ -36,10 +47,6 @@ Template is bin/templates/user/list.json.vm
 Services for Clients
 ====================
 
-These are all from the application root. For example if the wknyc application
-is running under the wknyc context (http://example.com/wknyc) then the full
-URL of a reference to /example/list would be http://example.com/wknyc/example/list
-
 List Clients
 ------------
 
@@ -60,10 +67,10 @@ Edit Client
 -----------
 
 Implemented as a basic HTML form. To get data for a Client performa GET request
-on /client/edit/{uuid} where {uuid} is replaced with the Client's UUID. This
-will show the basic Add Client form with pre-populated data. To edit the client
-send a POST request to /client with a "uuid" parameter being the same as the
-uuid used to fetch data and it will update the Client represented by that id.
+on /client/edit/{uuid} where {uuid} is replaced with a Client's UUID. This will
+show the basic Add Client form with pre-populated data. To edit the Client send
+a POST request to /client with a "uuid" parameter being the same as the uuid
+used to fetch data and it will update the Client represented by that id.
 
 *NOTE:* User must be logged in to use this service.
 
@@ -76,4 +83,32 @@ Delete Client
 Services for Case Study
 =======================
 
+List Case Studies
+-----------------
 
+GET request for /casestudy/list/json provides a JSON list of saved Case Study
+instances.
+
+Template is bin/templates/casestudy/list.json.vm
+
+Add Basic Case Study
+--------------------
+
+GET request for /casestudy shows a basic HTML form to add a simple Case Study.
+Clients for this are listed from the CMS. At least one Client must exist for
+this to work. Must be logged in to create a Case Study.
+
+Template is bin/templates/client/caseStudy-basic.vm
+
+Edit Case Study
+---------------
+
+/casestudy/{uuid} where {uuid} is replaced with a Case Study's UUID. Shows the
+Add Case Study form with pre-populated data. To edit the Case Study send POST
+with uuid parameter containing valid uuid, other data in form will overwrite
+existing data.
+
+Template is bin/templates/client/caseStudy-basic.vm
+
+*NOTE:* Still working on editing Case Study based on role and uploading assets
+associated with a Case Study.
