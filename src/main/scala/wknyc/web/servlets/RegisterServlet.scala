@@ -6,7 +6,7 @@ import wknyc.Config
 import wknyc.WkPredef._
 import wknyc.business.UserManager
 import wknyc.model.User._
-import wknyc.model.{UserRole,WkCredentials}
+import wknyc.model.{ContentInfo,Employee,PersonalInfo,UserRole,WkCredentials}
 
 class RegisterServlet extends HttpServlet with WkServlet {
 	override def doGet(request:Request, response:Response) = {
@@ -15,8 +15,7 @@ class RegisterServlet extends HttpServlet with WkServlet {
 	}
 	override def doPost(request:Request, response:Response) = {
 		val http = HttpHelper(request,response)
-		val param = http.parameter(_)
-		val creds = WkCredentials(param(Username),param(Password),UserRole(param(Role)),param(Title),None)
+		val creds = getCredentials(http)
 		val result = UserManager.save(creds,Config.Admin)
 		val map = result match {
 			case Success(creds,message) =>
@@ -27,6 +26,12 @@ class RegisterServlet extends HttpServlet with WkServlet {
 		val view = new VelocityView(RegisterServlet.ViewName)
 		view.render(map,request,response)
 	}
+	private def getCredentials(http:HttpHelper) =
+		WkCredentials(http.parameter(Username),http.parameter(Password),UserRole(http.parameter(Role)),http.parameter(Title),None)
+	private def getPersonalInfo(http:HttpHelper) =
+		PersonalInfo(http.parameter(Employee.FirstName),http.parameter(Employee.LastName),Nil)
+	private def getEmployee(http:HttpHelper) =
+		Employee(ContentInfo.Empty,getCredentials(http),getPersonalInfo(http))
 }
 
 object RegisterServlet {
