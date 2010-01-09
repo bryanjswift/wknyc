@@ -18,14 +18,24 @@
 			<p>User saved with id of $creds.uuid().get()</p>
 		#end
 		<form method="POST" action="/user/register">
-			<label for="username">Username</label>
-			<input type="text" id="username" name="username" value="" />
-			<label for="password">Password</label>
-			<input type="password" id="password" name="password" value="" />
-			<label for="department">Role</label>
-			<input type="text" id="role" name="role" value="" />
-			<label for="title">Title</label>
-			<input type="text" id="title" name="title" value="" />
+			<fieldset>
+				<legend>Credentials</legend>
+				<label for="username">Username</label>
+				<input type="text" id="username" name="username" value="" />
+				<label for="password">Password</label>
+				<input type="password" id="password" name="password" value="" />
+				<label for="department">Role</label>
+				<input type="text" id="role" name="role" value="" />
+				<label for="title">Title</label>
+				<input type="text" id="title" name="title" value="" />
+			</fieldset>
+			<fieldset>
+				<legend>Personal Information</legend>
+				<label for="firstName">First Name</label>
+				<input type="text" id="firstName" name="firstName" value="" />
+				<label for="lastName">Title</label>
+				<input type="text" id="lastName" name="lastName" value="" />
+			</fieldset>
 			<button type="submit">Register</button>
 		</form>
 		<script type="text/javascript" src="js/main.js"></script>
