@@ -11,11 +11,11 @@ import wknyc.model.{ContentInfo,Employee,PersonalInfo,UserRole,WkCredentials}
 class RegisterServlet extends HttpServlet with WkServlet {
 	override def doGet(request:Request, response:Response) = {
 		val view = new VelocityView(RegisterServlet.ViewName)
-			view.render(Map("errors" -> Nil, "roles" -> UserRole.list),request,response)
+		view.render(Map("errors" -> Nil, "roles" -> UserRole.list),request,response)
 	}
 	override def doPost(request:Request, response:Response) = {
 		val http = HttpHelper(request,response)
-		val creds = getCredentials(http)
+		val creds = getUser(http)
 		val result = UserManager.save(creds,Config.Admin)
 		val map = result match {
 			case Success(creds,message) =>
@@ -32,6 +32,9 @@ class RegisterServlet extends HttpServlet with WkServlet {
 		PersonalInfo(http.parameter(Employee.FirstName),http.parameter(Employee.LastName),Nil)
 	private def getEmployee(http:HttpHelper) =
 		Employee(ContentInfo.Empty,getCredentials(http),getPersonalInfo(http))
+	private def getUser(http:HttpHelper) =
+		if (http.hasParameter(Employee.FirstName)) getEmployee(http)
+		else getCredentials(http)
 }
 
 object RegisterServlet {
