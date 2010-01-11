@@ -85,6 +85,10 @@
 			<param-value>client/client-list.vm</param-value>
 		</init-param>
 		<init-param>
+			<param-name>/client/list/json</param-name>
+			<param-value>client/client-list.json.vm</param-value>
+		</init-param>
+		<init-param>
 			<param-name>/client/edit/html</param-name>
 			<param-value>client/client.vm</param-value>
 		</init-param>
