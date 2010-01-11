@@ -51,7 +51,7 @@ List Clients
 ------------
 
 This service is currently only implemented in HTML format. The path is
-/clients/list/html and the template is bin/templates/client/client-list.vm
+/client/list/html and the template is bin/templates/client/client-list.vm
 
 Add Client
 ----------
