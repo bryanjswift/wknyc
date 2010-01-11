@@ -50,8 +50,11 @@ Services for Clients
 List Clients
 ------------
 
-This service is currently only implemented in HTML format. The path is
+This service is currently implemented in HTML format. The path is
 /client/list/html and the template is bin/templates/client/client-list.vm
+
+For JSON format the path is /client/list/json and the template is
+bin/templates/client/client-list.json.vm
 
 Add Client
 ----------
