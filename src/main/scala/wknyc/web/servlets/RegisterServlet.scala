@@ -32,9 +32,7 @@ class RegisterServlet extends HttpServlet with WkServlet {
 		PersonalInfo(http.parameter(Employee.FirstName),http.parameter(Employee.LastName),Nil)
 	private def getEmployee(http:HttpHelper) =
 		Employee(ContentInfo.Empty,getCredentials(http),getPersonalInfo(http))
-	private def getUser(http:HttpHelper) =
-		if (http.hasParameter(Employee.FirstName)) getEmployee(http)
-		else getCredentials(http)
+	private def getUser(http:HttpHelper) = getEmployee(http)
 }
 
 object RegisterServlet {
