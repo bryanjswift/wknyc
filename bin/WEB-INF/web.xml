@@ -47,6 +47,15 @@
 		<servlet-name>registerUser</servlet-name>
 		<url-pattern>/user/register/*</url-pattern>
 	</servlet-mapping>
+<!-- Define Register Servlet -->
+	<servlet>
+		<servlet-name>editUser</servlet-name>
+		<servlet-class>wknyc.web.servlets.EditUserServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>editUser</servlet-name>
+		<url-pattern>/user/edit/*</url-pattern>
+	</servlet-mapping>
 <!-- Define User Listing Servlet -->
 	<servlet>
 		<servlet-name>User List</servlet-name>
