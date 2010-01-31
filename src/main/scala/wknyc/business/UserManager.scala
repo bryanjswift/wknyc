@@ -27,6 +27,17 @@ object UserManager extends Manager {
 				Failure(errors)
 		}
 	}
+	/** Retrieve an existing User
+		* @param uuid of User to retrieve
+		* @param loggedIn - User who is creating the new user
+		* @returns User with the given uuid if one exists
+		*/
+	def get(uuid:String) = using(new UserDao(Config.Admin)) { _.get(uuid) }
+	/** If the user id is empty then encrypt the password and return a copy of
+		* the user
+		* @param user whose password needs encrypting
+		* @returns User with an encrypted password
+		*/
 	private def encryptPassword[T <: User](user:T):T =
 		(if (user.uuid.isEmpty) {
 			user match {
