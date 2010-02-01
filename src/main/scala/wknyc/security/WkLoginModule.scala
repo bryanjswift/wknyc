@@ -7,7 +7,7 @@ import javax.security.auth.callback.{Callback,CallbackHandler}
 import javax.security.auth.login.LoginException
 import org.apache.jackrabbit.core.security.authentication.{AbstractLoginModule,Authentication,CredentialsCallback}
 import org.slf4j.{Logger,LoggerFactory}
-import wknyc.model.WkCredentials
+import wknyc.model.User
 
 class WkLoginModule extends AbstractLoginModule {
 	private val log = LoggerFactory.getLogger(classOf[WkLoginModule])
@@ -47,10 +47,9 @@ class WkLoginModule extends AbstractLoginModule {
 	}
 
 	override protected def getUserID(credentials:Credentials):String =
-		if (credentials.isInstanceOf[WkCredentials]) {
-			credentials.asInstanceOf[WkCredentials].username
-		} else {
-			super.getUserID(credentials)
+		credentials match {
+			case user:User => user.username
+			case _ => super.getUserID(credentials)
 		}
 }
 

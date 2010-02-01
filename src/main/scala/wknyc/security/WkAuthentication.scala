@@ -3,16 +3,16 @@ package wknyc.security
 import javax.jcr.{Credentials,Node,RepositoryException,Session,SimpleCredentials}
 import org.apache.jackrabbit.core.security.authentication.Authentication
 import wknyc.Config
-import wknyc.model.WkCredentials
+import wknyc.model.User
 
 class WkAuthentication(private val systemSession:Session) extends Authentication {
 	def canHandle(credentials:Credentials):Boolean =
-		credentials.isInstanceOf[WkCredentials]
+		credentials.isInstanceOf[User]
 
 	@throws(classOf[RepositoryException])
 	def authenticate(credentials:Credentials):Boolean = {
 		if (canHandle(credentials)) {
-			val creds = credentials.asInstanceOf[WkCredentials]
+			val creds = credentials.asInstanceOf[User]
 			creds.uuid match {
 				case Config.Admin.uuid => creds.eq(Config.Admin)
 				case Some(uuid) =>
@@ -36,13 +36,3 @@ class WkAuthentication(private val systemSession:Session) extends Authentication
 	}
 }
 
-object WkAuthentication {
-	def nodeToCreds(n:Node) =
-		WkCredentials(
-			n.getProperty("username").getString,
-			n.getProperty("password").getString,
-			n.getProperty("department").getString,
-			n.getProperty("title").getString,
-			Some(n.getUUID)
-		)
-}
