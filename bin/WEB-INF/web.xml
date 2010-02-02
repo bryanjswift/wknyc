@@ -51,6 +51,10 @@
 	<servlet>
 		<servlet-name>editUser</servlet-name>
 		<servlet-class>wknyc.web.servlets.EditUserServlet</servlet-class>
+		<init-param>
+			<param-name>/user/edit/html</param-name>
+			<param-value>user/edit.html.vm</param-value>
+		</init-param>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>editUser</servlet-name>
