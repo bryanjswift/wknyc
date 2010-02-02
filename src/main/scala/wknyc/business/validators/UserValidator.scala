@@ -32,7 +32,7 @@ object UserValidator extends Validator {
 	private def validateUsername(username:String) = required(username,Username)
 	private def validatePassword(password:String) = //required(password,Password)
 		requiredAnd(password,Password)((v,f) => {
-			if (v == SHA("")) { ValidationError(f,String.format("%s can not be empty",f)) }
+			if (v == SHA("")) { ValidationError(f,String.format("%s can not be empty.",f)) }
 			else { ValidationSuccess(f) }
 		})
 	private def validateRole(role:UserRole) = notValidated(Role)

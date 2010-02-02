@@ -1,6 +1,7 @@
 package wknyc.business.validators
 
 import org.specs.Specification
+import wknyc.SHA
 import wknyc.model.{SocialNetwork,User,WkCredentials}
 
 object UserValidatorSpecs extends Specification {
@@ -22,10 +23,20 @@ object UserValidatorSpecs extends Specification {
 			results mustContain(ValidationSuccess(User.Role))
 			results mustContain(ValidationSuccess(User.Title))
 		}
-		"have a ValidationError instance for each invalid value" >> {
+		"have a ValidationError instance for invalid username" >> {
 			val creds = WkCredentials("","bs","T","SE",None)
 			val results = UserValidator.validate(creds)
 			results mustContain(ValidationError(User.Username,String.format("%s can not be empty.",User.Username)))
+		}
+		"have a ValidationError instance for empty password" >> {
+			val creds = WkCredentials("bs","","T","SE",None)
+			val results = UserValidator.validate(creds)
+			results mustContain(ValidationError(User.Password,String.format("%s can not be empty.",User.Password)))
+		}
+		"have a ValidationError instance for empty encrypted password" >> {
+			val creds = WkCredentials("bs",SHA(""),"T","SE",None)
+			val results = UserValidator.validate(creds)
+			results mustContain(ValidationError(User.Password,String.format("%s can not be empty.",User.Password)))
 		}
 	}
 	// TODO: Add validation specs for Employee
