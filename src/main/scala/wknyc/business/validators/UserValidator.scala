@@ -1,5 +1,6 @@
 package wknyc.business.validators
 
+import wknyc.SHA
 import wknyc.model.{Employee,PersonalInfo,User,UserRole,WkCredentials}
 import wknyc.model.Employee._
 import wknyc.model.User._
@@ -29,7 +30,11 @@ object UserValidator extends Validator {
 	)
 	// Credentials Field Validation
 	private def validateUsername(username:String) = required(username,Username)
-	private def validatePassword(password:String) = required(password,Password)
+	private def validatePassword(password:String) = //required(password,Password)
+		requiredAnd(password,Password)((v,f) => {
+			if (v == SHA("")) { ValidationError(f,String.format("%s can not be empty",f)) }
+			else { ValidationSuccess(f) }
+		})
 	private def validateRole(role:UserRole) = notValidated(Role)
 	private def validateTitle(title:String) = notValidated(Title)
 	// PersonalInfo Field Validation
