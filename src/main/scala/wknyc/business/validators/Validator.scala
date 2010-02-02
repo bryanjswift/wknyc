@@ -9,11 +9,13 @@ trait Validator {
 	// General Regular Expressions
 	// Generic Helpers
 	protected def notValidated(field:String) = ValidationSuccess(field)
-	protected def required(value:String,field:String) =
+	protected def required(value:String,field:String):ValidationResult =
+		requiredAnd(value,field)((v,f) => ValidationSuccess(f))
+	protected def requiredAnd(value:String,field:String)(otherwise:(String,String) => ValidationResult):ValidationResult =
 		value match {
 			case null => ValidationError(field,String.format("%s can not be null.",field))
 			case "" => ValidationError(field,String.format("%s can not be empty.",field))
-			case _ => ValidationSuccess(field)
+			case _ => otherwise(value,field)
 		}
 	// Worker methods
 	def validate(a:AnyRef):List[ValidationResult]
