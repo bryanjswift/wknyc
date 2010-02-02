@@ -5,10 +5,11 @@ import wknyc.Config
 import wknyc.model.{WkCredentials,User}
 
 object UserManagerSpecs extends Specification with Sessioned {
+	private def save(user:User) = UserManager.save(UserManager.encryptPassword(user),Config.Admin)
 	"UserManager.register" should {
 		"return Success(user) when saving a valid user" >> {
 			val user = WkCredentials("bs@wk.com","password","0","SE",None)
-			val saved = UserManager.save(user,Config.Admin)
+			val saved = save(user)
 			saved must beSuccess[WkCredentials]
 			saved.payload.uuid must beSome[String]
 		}
@@ -17,7 +18,7 @@ object UserManagerSpecs extends Specification with Sessioned {
 		"return Some(user) when authenticating a valid user" >> {
 			sessioned {
 				val user = WkCredentials("bs@wk.com","password","3","SE",None)
-				UserManager.save(user,Config.Admin)
+				save(user)
 				val auth = UserManager.authenticate("bs@wk.com","password")
 				auth must beSome[User]
 			}
@@ -25,7 +26,7 @@ object UserManagerSpecs extends Specification with Sessioned {
 		"return None when authenticating an invalid user" >> {
 			sessioned {
 				val user = WkCredentials("bs@wk.com","password","2","SE",None)
-				UserManager.save(user,Config.Admin)
+				save(user)
 				val auth = UserManager.authenticate("bs@wk.com","wrong")
 				auth must beNone
 			}
@@ -36,13 +37,12 @@ object UserManagerSpecs extends Specification with Sessioned {
 			UserManager.list.toList.size must_== 0
 		}
 		"return an Iterable[User] with all saved users" >> {
-			val admin = Config.Admin
 			sessioned {
 				UserManager.list.toList.size must_== 0
-				val user = UserManager.save(WkCredentials("bs@wk.com","password","2","SE",None),admin).payload
+				val user = save(WkCredentials("bs@wk.com","password","2","SE",None)).payload
 				UserManager.list.toList.size must_== 1
 				UserManager.list.exists(_.username == user.username)
-				val user2 = UserManager.save(WkCredentials("bs2@wk.com","password","3","SE",None),admin).payload
+				val user2 = save(WkCredentials("bs2@wk.com","password","3","SE",None)).payload
 				UserManager.list.toList.size must_== 2
 				UserManager.list.exists(_.username == user.username)
 				UserManager.list.exists(_.username == user2.username)

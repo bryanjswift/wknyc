@@ -18,7 +18,7 @@ object UserManager extends Manager {
 			case Nil =>
 				using(new UserDao(loggedIn))(dao =>
 					try {
-						Success(dao.save(encryptPassword(user)))
+						Success(dao.save(user))
 					} catch {
 						case e:Exception => Failure(List(Error(e)),"Unable to create account for " + user.username)
 					}
@@ -38,15 +38,11 @@ object UserManager extends Manager {
 		* @param user whose password needs encrypting
 		* @returns User with an encrypted password
 		*/
-	private def encryptPassword[T <: User](user:T):T =
-		(if (user.uuid.isEmpty) {
-			user match {
-				case creds:WkCredentials => creds.cp(SHA(creds.password))
-				case emp:Employee => emp.cp(SHA(emp.password))
-				case _ => user
-			}
-		} else {
-			user
+	def encryptPassword[T <: User](user:T):T =
+		(user match {
+			case creds:WkCredentials => creds.cp(SHA(creds.password))
+			case emp:Employee => emp.cp(SHA(emp.password))
+			case _ => user
 		}).asInstanceOf[T]
 	/** Provide Iterable[User] containing all saved Users
 		* @returns Iterable[User]

@@ -20,7 +20,8 @@ class RegisterResource {
 		@FormParam("role") role:Long,
 		@FormParam("title") title:String
 	) = {
-		val user = UserManager.save(WkCredentials(username,password,UserRole(role),title,None),Config.Admin)
+		val user =
+			UserManager.save(UserManager.encryptPassword(WkCredentials(username,password,UserRole(role),title,None)),Config.Admin)
 		val xml =
 			user match {
 				case Success(creds,message) =>

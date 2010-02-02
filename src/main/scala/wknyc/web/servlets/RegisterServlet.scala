@@ -15,7 +15,8 @@ class RegisterServlet extends HttpServlet with UserServlet {
 	override def doPost(request:Request, response:Response) = {
 		val http = HttpHelper(request,response)
 		val creds = getUser(http)
-		val result = UserManager.save(creds,Config.Admin)
+		// Always a new user so encrypt the password
+		val result = UserManager.save(UserManager.encryptPassword(creds),Config.Admin)
 		val map = result match {
 			case Success(creds,message) =>
 				Map("errors" -> result.errors,"creds" -> result.payload)
