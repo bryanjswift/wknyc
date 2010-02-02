@@ -6,9 +6,8 @@ import wknyc.Config
 import wknyc.WkPredef._
 import wknyc.business.UserManager
 import wknyc.model.User._
-import wknyc.model.{ContentInfo,Employee,PersonalInfo,UserRole,WkCredentials}
 
-class EditUserServlet extends HttpServlet with WkServlet {
+class EditUserServlet extends HttpServlet with UserServlet {
 	override lazy val html = "user/edit.html.vm"
 	override def doGet(request:Request, response:Response) {
 		val http = HttpHelper(request,response)
@@ -18,5 +17,14 @@ class EditUserServlet extends HttpServlet with WkServlet {
 		velocity.render(context,request,response)
 	}
 	override def doPost(request:Request,response:Response) {
+		val http = HttpHelper(request,response)
+		// retrieve based on uuid
+		val uuid = http.parameter("uuid")
+		val user = UserManager.get(uuid)
+		val employee = getUser(http)
+		// copy fields, only copy password if it's set in form
+		// save new User instance
+		// post success message
+		true
 	}
 }

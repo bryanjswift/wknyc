@@ -1,14 +1,13 @@
 package wknyc.web.servlets
 
 import javax.servlet.http.{HttpServlet,HttpServletRequest => Request, HttpServletResponse => Response}
-import velocity.{VelocityHelper,VelocityView}
+import velocity.VelocityView
 import wknyc.Config
 import wknyc.WkPredef._
 import wknyc.business.UserManager
-import wknyc.model.User._
-import wknyc.model.{ContentInfo,Employee,PersonalInfo,UserRole,WkCredentials}
+import wknyc.model.UserRole
 
-class RegisterServlet extends HttpServlet with WkServlet {
+class RegisterServlet extends HttpServlet with UserServlet {
 	override def doGet(request:Request, response:Response) = {
 		val view = new VelocityView(RegisterServlet.ViewName)
 		view.render(Map("errors" -> Nil, "roles" -> UserRole.list),request,response)
@@ -26,13 +25,6 @@ class RegisterServlet extends HttpServlet with WkServlet {
 		val view = new VelocityView(RegisterServlet.ViewName)
 		view.render(map,request,response)
 	}
-	private def getCredentials(http:HttpHelper) =
-		WkCredentials(http.parameter(Username),http.parameter(Password),UserRole(http.parameter(Role)),http.parameter(Title),None)
-	private def getPersonalInfo(http:HttpHelper) =
-		PersonalInfo(http.parameter(Employee.FirstName),http.parameter(Employee.LastName),Nil)
-	private def getEmployee(http:HttpHelper) =
-		Employee(ContentInfo.Empty,getCredentials(http),getPersonalInfo(http))
-	private def getUser(http:HttpHelper) = getEmployee(http)
 }
 
 object RegisterServlet {
