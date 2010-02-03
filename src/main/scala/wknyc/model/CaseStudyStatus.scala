@@ -15,7 +15,8 @@ object CaseStudyStatus {
 			case ArtComplete.id => ArtComplete
 			case Complete.id => Complete
 			case Published.id => Published
+			case _ => New
 		}
-	def list = List(New,CopyComplete,ArtComplete,Complete,Published)
+	val list = List(New,CopyComplete,ArtComplete,Complete,Published)
 }
 
