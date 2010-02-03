@@ -6,13 +6,14 @@
 	</head>
 	<body>
 		<h1>Case Study</h1>
-		#if (!$get && $caseStudy.isDefined())
-			#set($caseStudy = $caseStudy.get())
-			<p>Successfully saved CaseStudy with uuid: $caseStudy.uuid().get()</p>
+		#if (!$get && $caseStudy.isDefined() && ${caseStudy.get().uuid().isDefined()})
+			#set($study = $caseStudy.get())
+			<p>Successfully saved CaseStudy with uuid: $!{study.uuid().get()}</p>
 		#end
 		#if ($get && $caseStudy.isDefined())
-			<p>UUID: $caseStudy.uuid().get()</p>
-			<p>Name: $caseStudy.name()</p>
+			#set($study = $caseStudy.get())
+			<p>UUID: $study.uuid().get()</p>
+			<p>Name: $study.name()</p>
 		#else
 			<div id="basic_info">
 				<form method="POST" action="/casestudy">
