@@ -27,7 +27,7 @@ trait WkServlet {
 		val path = viewData.path
 		val data = viewData.data
 		log.info(String.format("Creating HttpHelper for %s with {%s} in %s",path,data,format))
-		val wkSession:Option[WkSession] =
+		val session:Option[WkSession] =
 			request.getSession(false) match {
 				case null => None
 				case httpSession:HttpSession =>
@@ -36,13 +36,13 @@ trait WkServlet {
 						case session:WkSession => Some(session)
 					}
 			}
-		val user = wkSession match {
+		val user = session match {
 			case None => None
-			case Some(session) => Some(session.user)
+			case Some(wkSession) => Some(wkSession.user)
 		}
-		val localHtml = if (format == "html") { viewData.view } else { None }
-		val localJson = if (format == "json") { viewData.view } else { None }
-		val localXml = if (format == "xml") { viewData.view } else { None }
+		private val localHtml = if (format == "html") { viewData.view } else { None }
+		private val localJson = if (format == "json") { viewData.view } else { None }
+		private val localXml = if (format == "xml") { viewData.view } else { None }
 		lazy val view = format match {
 			case "xml" => localXml.getOrElse(xml)
 			case "json" => localJson.getOrElse(json)
