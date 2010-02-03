@@ -18,7 +18,7 @@ class CaseStudyServlet extends HttpServlet with WkServlet {
 			}
 		val view = new VelocityView(http.view)
 		val clients = ClientManager.list
-		view.render(Map("uuid" -> None,"caseStudy" -> study,"get" -> true,"clients" -> clients),request,response)
+		view.render(Map("uuid" -> None,"caseStudy" -> study,"get" -> true,"clients" -> clients,"status"->CaseStudyStatus.list),request,response)
 	}
 	override def doPost(request:Request, response:Response) {
 		val http = HttpHelper(request,response)
