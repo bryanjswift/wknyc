@@ -9,7 +9,11 @@ class CaseStudyListServlet extends HttpServlet with WkServlet {
 	override lazy val json = "casestudy/list.json.vm"
 	override def doGet(request:Request,response:Response) {
 		val http = HttpHelper(request,response)
-		val list = CaseStudyManager.list
+		val list = http.data match {
+			case "art" => CaseStudyManager.listNeedsArt
+			case "copy" => CaseStudyManager.listNeedsCopy
+			case _ => CaseStudyManager.list
+		}
 		val view = new VelocityView(http.view)
 		view.render(Map("studies" -> list),request,response)
 	}

@@ -74,6 +74,10 @@
 	<servlet>
 		<servlet-name>CaseStudy List</servlet-name>
 		<servlet-class>wknyc.web.servlets.CaseStudyListServlet</servlet-class>
+		<init-param>
+			<param-name>/casestudy/list/json</param-name>
+			<param-value>casestudy/list.json.vm</param-value>
+		</init-param>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>CaseStudy List</servlet-name>
