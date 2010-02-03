@@ -35,7 +35,7 @@
 				<legend>Personal Information</legend>
 				<label for="firstName">First Name</label>
 				<input type="text" id="firstName" name="firstName" value="" />
-				<label for="lastName">Title</label>
+				<label for="lastName">Last Name</label>
 				<input type="text" id="lastName" name="lastName" value="" />
 			</fieldset>
 			<button type="submit">Register</button>
