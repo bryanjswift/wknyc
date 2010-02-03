@@ -42,6 +42,7 @@ object ClientManagerSpecs extends Specification with Sessioned {
 				val retrieved = ClientManager.get(saved.uuid.get)
 				saved.name must_== retrieved.name
 				saved.uuid must_== retrieved.uuid
+				// testing this way because the collections are different types
 				saved.caseStudies must haveTheSameElementsAs(retrieved.caseStudies)
 			}
 		}
