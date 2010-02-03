@@ -2,8 +2,8 @@
 	clients: [
 		#foreach ($client in $clients)
 			{
-				'name': $client.name(),
-				'id': $client.uuid().get()
+				'name': '$client.name()',
+				'id': '$client.uuid().get()'
 			}
 			#if ($clients.size() != $velocityCount) , #end
 		#end
