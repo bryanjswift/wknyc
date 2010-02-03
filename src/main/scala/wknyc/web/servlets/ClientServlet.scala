@@ -11,7 +11,6 @@ class ClientServlet extends HttpServlet with WkServlet {
 	override def doGet(request:Request, response:Response) {
 		val http = HttpHelper(request,response)
 		val context = http.path match {
-			case "/client/list" => Map("clients" -> ClientManager.list)
 			case "/client/edit" => Map("client" -> ClientManager.get(http.data))
 			case _ => Map("uuid" -> None)
 		}
