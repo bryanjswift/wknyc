@@ -1,7 +1,7 @@
 package wknyc.business
 
 import org.specs.Specification
-import wknyc.Config
+import wknyc.{Config,Sessioned}
 import wknyc.model.{CaseStudy,Client,ContentInfo}
 
 object CaseStudyManagerSpecs extends Specification with Sessioned {
@@ -31,6 +31,13 @@ object CaseStudyManagerSpecs extends Specification with Sessioned {
 	"CaseStudyManager.list" should {
 		"list nothing before any CaseStudys are saved" >> {
 			CaseStudyManager.list.toList.size must_== 0
+		}
+		"list all saved CaseStudy instances" >> {
+			sessioned {
+				val client = ClientManager.save(validClient,Some(Config.Admin)).payload
+				val cs1 = CaseStudyManager.save(validCaseStudy(client),Some(Config.Admin)).payload
+				CaseStudyManager.list.toList.size mustBe 1
+			}
 		}
 	}
 }
