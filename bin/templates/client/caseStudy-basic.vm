@@ -48,9 +48,20 @@
 						</div>
 					</fieldset>
 					<fieldset class="displayOnSite">
-						<label>Display on site?</label>
+						<label>Status</label>
+## if user is copywriter second radio should be copy complete
+## if user is art director second radio should be art complete
+## if user is curator assistant second radio should be complete (art and copy)
+## if user is master curator second radio should be publish
+						<!--
 						<input type="radio" id="displayOnSiteRadio-on" name="status" value="1"/>
 						<input type="radio" id="displayOnSiteRadio-off" name="status" value="0"/>
+						-->
+						<select id="statusSelect" class="required" name="status" title="Min et veliquate tat, quis aliqui eu facincin volor ipis dolore ea commodit augiametuer ipisci et, veliquat augue velit vel ullaoree- tum dolorer aesectet, vendre del ut num">
+							#foreach ($s in $status)
+								<option value="$s.id()">$s.display()</option>
+							#end
+						</select>
 					</fieldset>
 					<fieldset class="hide">
 						<input type="submit" value="Submit">
