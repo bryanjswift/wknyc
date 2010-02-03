@@ -24,12 +24,13 @@ class CaseStudyServlet extends HttpServlet with WkServlet {
 		val http = HttpHelper(request,response)
 		val study = getCaseStudy(http)
 		val result = CaseStudyManager.save(study,http.user)
-		val ctx = result match {
+		var ctx:Map[String,Any] = result match { // need type declaration because otherwise it calls it Map[String,Product]
 			case Success(caseStudy,message) =>
-				Map("errors" -> result.errors,"caseStudy" -> Some(caseStudy),"get" -> false)
+				Map("errors" -> result.errors,"caseStudy" -> Some(caseStudy))
 			case Failure(errors,message) =>
-				Map("errors" -> errors,"caseStudy" -> Some(study),"get" -> false)
+				Map("errors" -> errors,"caseStudy" -> Some(study))
 		}
+		ctx = ctx ++ Map("get" -> false,"clients" -> ClientManager.list,"status" -> CaseStudyStatus.list)
 		val view = new VelocityView(http.view)
 		view.render(ctx,request,response)
 	}
