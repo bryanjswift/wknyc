@@ -2,10 +2,10 @@
 	studies: [
 	#foreach ($study in $studies)
 		{
-			name: $study.name(),
-			headline: $study.headline(),
-			description: $study.description(),
-			id: $study.uuid().get()
+			'name': '$study.name()',
+			'headline': '$study.headline()',
+			'description': '$study.description()',
+			'id': '$study.uuid().get()'
 		}
 		#if ($studies.size() != $velocityCount) , #end
 	#end
