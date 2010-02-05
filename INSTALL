@@ -1,51 +1,58 @@
-With the project files cloned it's time to make sure Scala, Java and
+With the project files checked out it's time to make sure Scala, Java and
 simple-build-tool (SBT) are set up correctly. If your Mac is up to date you
 should have Java installed. I'm using Java 6 because it has a number of
 performance improvements over Java 5. In order to set your machine to use Java
 6 by default you'll need to modify some environment variables but you should
 download Scala first. Go to http://www.scala-lang.org/downloads and download
-for "Unix, Mac OS X, Cygwin" (http://www.scala-lang.org/downloads/distrib/files/scala-2.7.6.final.tgz).
+for "Unix, Mac OS X, Cygwin" (http://www.scala-lang.org/downloads/distrib/files/scala-2.7.7.final.tgz).
 Once it finishes unzip the file and place the directory somewhere you'll remember
 where it is (mine is under a specific directory structure in Documents). Note
 where you put it, we'll need it later. You also need to download the sbt-launcher
 jar file from http://code.google.com/p/simple-build-tool/
-(http://simple-build-tool.googlecode.com/files/sbt-launcher-0.5.4.jar). I
+(http://simple-build-tool.googlecode.com/files/sbt-launcher-0.5.6.jar). I
 recommend putting the launcher jar around the same place you put the Scala
 directory but this isn't strictly necessary. Note the location of the launcher,
 you'll need it as well.
 
-Now we need to edit the environment terminal starts up with. To do this open
-.bash_login inside your home directory. You'll need to add three things..
+Now we need to edit the environment terminal starts up with. On a Mac do this 
+by opening .bash_login inside your home directory. You'll need to add two things..
 
 export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Home
 export SCALA_HOME=/path/to/scala-2.7.6.final
-alias sbt='java -XX:+CMSClassUnloadingEnabled -Xmx256m -Dsbt.log.noformat=true -jar /path/to/sbt-launcher.jar'
 
-export JAVA_HOME sets Java 6 as the default, export SCALA_HOME sets up
-information SBT needs and alias sbt makes it a lot easier to start up SBT.
-Obviously you'll need to replace /path/to in both cases with the path to wherever
-you put things. If they're somewhere under your home directory you can start
-with the home directory by using $HOME. After making those changes save and
-close .bash_login. In order for the changes to take effect in the current window
-you need to do `source ~/.bash_login` or you can close the terminal you have
-open and open a new one.
+export JAVA_HOME sets Java 6 as the default and export SCALA_HOME sets up
+information SBT needs. Obviously you'll need to replace /path/to in both cases
+with the path to wherever you put things. If they're somewhere under your home
+directory you can start with the home directory by using $HOME. After making those
+changes save and close .bash_login. In order for the changes to take effect in
+the current window you need to do `source ~/.bash_login` or you can close the
+terminal you have open and open a new one.
 
-With SBT ready to go, navigate to where you cloned the source files and run `sbt`.
-This should start up the interactive sbt console. For development purposes it's
+Now we need to set up SBT. The unix script to launch SBT has been added to the
+repository under project/build/sbt. Copy this file into an executable directory
+like /usr/local/bin. The script will need to be edited to correct the path to
+the sbt-launcher.jar downloaded earlier as well as to give it execute permissions
+(if it doesn't already have them). After editing the path give it permissions to run
+by doing `chmod 755 /usr/local/bin/sbt`.
+
+With SBT ready to go, navigate to where you checked out the source files and run `sbt`.
+This should start up the interactive sbt console. If this doesn't start up an
+interactive console then it's likely sbt doesn't have execute permission or the
+location of the sbt script isn't on your path. For development purposes it's
 probably easiest to run jetty rather than tomcat because you can do it from
 within sbt. To get started execute `update` in the sbt console which will fetch
 all the dependencies I've set up in the project definition. Once that finishes
-you should be able to fire it up by executing `jetty-run`. The first time this
-is run it will compile the source files and put together the web application and
-then run jetty. Jetty will bind to port 8080 by default and sbt will monitor
-changes to webapp resources (css, js, images, jsps, etc) and redeploy the
-application as needed. This means there may be a slight (couple seconds at most)
-delay between changing a file and seeing the change reflected when you reload
-the page but my quick tests didn't encounter any problems. To stop or restart
-the server go back to the terminal window running sbt and type jetty-restart or
-jetty-stop.
-
-You need to create the file src/main/resources/wknyc.properties in order for
+the file src/main/resources/wknyc.properties needs to be created in order for
 the application to work properly. There are a number of example files under
 src/main/resources/defaults/. If you're on a machine doing local with development
 with sbt wknyc.local.properties should be exactly what you need.
+
+The application can be started by executing `jetty-run`. The first time this
+is run it will compile the source files and put together the web application and
+then run jetty. Jetty will bind to port 8080 by default. After Jetty starts up
+SBT can monitor webapp resources and redeploy as needed if you run
+`~ prepare-webapp` with Jetty running. There may be a slight (couple seconds at most)
+delay between changing a file and seeing the change reflected when you reload
+the page but my quick tests didn't encounter any problems. To stop or restart
+the server go back to the terminal window running sbt and type jetty-stop or
+jetty-restart.

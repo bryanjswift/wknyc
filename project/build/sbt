@@ -1,0 +1,16 @@
+#!/bin/sh
+# Option to allow remote debugging
+# -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5000
+# Option to allow the max heap size to go higher than the default
+# -Xmx512m
+# Option to allow size of PermGen space to go higher than the default
+# -XX:MaxPermSize=128m
+# Option allow garbage collection of PermGen space
+# -XX:+CMSPermGenSweepingEnabled
+# or
+# -XX:+CMSClassUnloadingEnabled
+# Verbose garbage collection
+# -verbose:gc -XX:+PrintGCDetails
+# Garbage collection loggin
+# -Xloggc:/path/to/sbt-gc.log
+java -XX:+CMSClassUnloadingEnabled -Xmx256m -Dsbt.log.noformat=true -jar /path/to/sbt-launcher.jar "$@"
