@@ -1,7 +1,7 @@
 package wknyc.business
 
 import WkPredef._
-import wknyc.business.validators.{Error,UserValidator,ValidationResult}
+import wknyc.business.validators.{Error,UserValidator,ValidationError,ValidationResult}
 import wknyc.model.{Employee,User,WkCredentials}
 import wknyc.persistence.UserDao
 import wknyc.{Config,SHA,WkPredef}
@@ -27,12 +27,26 @@ object UserManager extends Manager {
 				Failure(errors)
 		}
 	}
+	def save[T <: User](user:T,u:Option[User]):Response[T] =
+		u match {
+			case Some(loggedIn) =>
+				save(user,loggedIn)
+			case None =>
+				Failure(List(ValidationError("user","Must be logged in to save a User")))
+		}
 	/** Retrieve an existing User
 		* @param uuid of User to retrieve
 		* @param loggedIn - User who is creating the new user
 		* @returns User with the given uuid if one exists
 		*/
-	def get(uuid:String) = using(new UserDao(Config.Admin)) { _.get(uuid) }
+	def get(uuid:String) =
+		using(new UserDao(Config.Admin))(dao =>
+			try {
+				Success(dao.get(uuid))
+			} catch {
+				case e:Exception => Failure(List(Error(e)),"Unable to retrieve User " + uuid)
+			}
+		)
 	/** If the user id is empty then encrypt the password and return a copy of
 		* the user
 		* @param user whose password needs encrypting
