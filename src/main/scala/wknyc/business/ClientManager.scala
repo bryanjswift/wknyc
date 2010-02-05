@@ -7,7 +7,10 @@ import wknyc.persistence.ClientDao
 import wknyc.business.validators.{ClientValidator,Error,ValidationError,ValidationResult}
 
 object ClientManager extends Manager {
-	//def get(uuid:String) = using(new ClientDao(Config.Admin)) { _.get(uuid) }
+	/** Retrieve Client with given UUID
+	 * @param uuid of Client to fetch
+	 * @returns Response[Client] with the errors generated when fetching client
+	 */
 	def get(uuid:String) =
 		using(new ClientDao(Config.Admin))(dao =>
 			try {
@@ -16,7 +19,14 @@ object ClientManager extends Manager {
 				case e:Exception => Failure(List(Error(e)),"Unable to retrieve Client " + uuid)
 			}
 		)
+	/** Find Client by a given name
+	 * @param name of Client to find
+	 * @returns Option[Client] containing found Client if any
+	 */
 	def getByName(name:String) = list.find(_.name == name)
+	/** List all Clients
+	 * @returns List[Client] containing all persisted Clients
+	 */
 	def list = using(new ClientDao(Config.Admin)) { _.list }
 	/** Save the Client instance
 	 * If instance has Empty ContentInfo then populate it before saving
