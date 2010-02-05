@@ -23,9 +23,15 @@ trait WkServlet {
 			case null => "html"
 			case s:String => s
 		}
-		private val viewData = pathAndData(uri,format)
-		val path = viewData.path
-		val data = viewData.data
+		private val servletPath = request.getServletPath
+		private val pathData =
+			if (servletPath == uri) {
+				PathAndData(uri,"")
+			} else {
+				PathAndData(servletPath,uri.replace(servletPath + "/",""))
+			}
+		val path = pathData.path
+		val data = pathData.data
 		log.info(String.format("Creating HttpHelper for %s with {%s} in %s",path,data,format))
 		val session:Option[WkSession] =
 			request.getSession(false) match {
@@ -40,28 +46,10 @@ trait WkServlet {
 			case None => None
 			case Some(wkSession) => Some(wkSession.user)
 		}
-		private val localHtml = if (format == "html") { viewData.view } else { None }
-		private val localJson = if (format == "json") { viewData.view } else { None }
-		private val localXml = if (format == "xml") { viewData.view } else { None }
 		lazy val view = format match {
-			case "xml" => localXml.getOrElse(xml)
-			case "json" => localJson.getOrElse(json)
-			case _ => localHtml.getOrElse(html)
-		}
-		private def pathAndData(uri:String,format:String) = {
-			val config = getServletConfig
-			config.getInitParameter(uri + "/" + format) match {
-				case s:String => ViewData(uri,"",Some(s))
-				case null => {
-					val pathData = dataRE.findFirstMatchIn(uri).get
-					val path = trim(pathData.group("path"))
-					val data = pathData.group("data")
-					config.getInitParameter(path + "/" + format) match {
-						case s:String => ViewData(path,data,Some(s))
-						case null => ViewData(uri,"",None)
-					}
-				}
-			}
+			case "xml" => xml
+			case "json" => json
+			case _ => html
 		}
 		private def trim(str:String) =
 			if (str.length > 0 && str.last == '/') {
@@ -79,4 +67,4 @@ trait WkServlet {
 	}
 }
 
-case class ViewData(path:String, data:String, view:Option[String])
+case class PathAndData(path:String, data:String)
