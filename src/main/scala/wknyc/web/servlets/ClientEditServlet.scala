@@ -33,12 +33,12 @@ class ClientEditServlet extends HttpServlet with WkServlet {
 	private def save(client:Client,http:HttpHelper) = {
 		val result = ClientManager.save(client,http.user)
 		result match {
-			case Failure(errors,message) =>
-				log.info(String.format("Client failed to save. errors: %s",errors.toString))
-				Map("errors" -> errors,"client" -> Some(client),"uuid" -> Some(http.parameter("uuid")))
 			case Success(payload,message) =>
 				log.info(String.format("Client saved. UUID: %s",payload.uuid))
 				Map("errors" -> result.errors,"client" -> Some(payload),"uuid" -> payload.uuid)
+			case Failure(errors,message) =>
+				log.info(String.format("Client failed to save. errors: %s",errors.toString))
+				Map("errors" -> errors,"client" -> Some(client),"uuid" -> Some(http.parameter("uuid")))
 		}
 	}
 }
