@@ -2,18 +2,18 @@
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-		<title>Client</title>
+		<title>Edit Client</title>
 	</head>
 	<body>
-		<h1>Client</h1>
+		<h1>Edit Client</h1>
 		#if ($client.isDefined())
 			#set($client = $client.get())
 		#end
-		<form action="/client" method="post">
+		<form action="/client/edit" method="post">
 			<input type="hidden" name="uuid" id="uuid" value="$!{client.uuid().get()}" />
 			<label for="name">Name</label>
 			<input type="text" name="name" id="name" value="$!{client.name()}" />
-			<button type="submit">Add Client</button>
+			<button type="submit">Update Client</button>
 		</form>
 	</body>
 </html>

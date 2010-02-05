@@ -49,7 +49,7 @@ class CaseStudyServlet extends HttpServlet with WkServlet {
 		val position = 0
 		CaseStudy(
 			ContentInfo.Empty,
-			ClientManager.get(client),
+			ClientManager.get(client).payload,
 			name,
 			launch,
 			headline,

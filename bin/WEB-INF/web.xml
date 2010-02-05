@@ -103,8 +103,13 @@
 		<servlet-name>Client Basic</servlet-name>
 		<url-pattern>/client/*</url-pattern>
 	</servlet-mapping>
+<!-- Define Client Edit Servlet -->
+	<servlet>
+		<servlet-name>Client Edit</servlet-name>
+		<servlet-class>wknyc.web.servlets.ClientEditServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
-		<servlet-name>Client Basic</servlet-name>
+		<servlet-name>Client Edit</servlet-name>
 		<url-pattern>/client/edit/*</url-pattern>
 	</servlet-mapping>
 <!-- ** Other Servlets ** -->

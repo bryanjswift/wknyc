@@ -10,16 +10,12 @@ class ClientServlet extends HttpServlet with WkServlet {
 	override lazy val html = "client/client.vm"
 	override def doGet(request:Request, response:Response) {
 		val http = HttpHelper(request,response)
-		val context = http.path match {
-			case "/client/edit" => Map("client" -> ClientManager.get(http.data))
-			case _ => Map("uuid" -> None)
-		}
 		val velocity = new VelocityView(http.view)
-		velocity.render(context,request,response)
+		velocity.render(Map("uuid" -> None),request,response)
 	}
 	override def doPost(request:Request, response:Response) {
 		val http = HttpHelper(request,response)
-		val client = getClient(http)
+		val client = Client(ContentInfo.Empty,http.parameter("name"),Nil)
 		val result = ClientManager.save(client,http.user)
 		val ctx = result match {
 			case Success(payload,message) =>
@@ -32,19 +28,4 @@ class ClientServlet extends HttpServlet with WkServlet {
 		val view = new VelocityView(http.view)
 		view.render(ctx,request,response)
 	}
-	private def getClient(http:HttpHelper) =
-		if (http.parameter("uuid") != "") {
-			val c = ClientManager.get(http.parameter("uuid"))
-			Client(
-				c.contentInfo.modifiedBy(http.user.get),
-				http.parameter("name"),
-				c.caseStudies
-			)
-		} else {
-			Client(
-				ContentInfo.Empty,
-				http.parameter("name"),
-				Nil
-			)
-		}
 }

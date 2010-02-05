@@ -7,8 +7,7 @@ import wknyc.persistence.ClientDao
 import wknyc.business.validators.{ClientValidator,Error,ValidationError,ValidationResult}
 
 object ClientManager extends Manager {
-	def get(uuid:String) = using(new ClientDao(Config.Admin)) { _.get(uuid) }
-	/*
+	//def get(uuid:String) = using(new ClientDao(Config.Admin)) { _.get(uuid) }
 	def get(uuid:String) =
 		using(new ClientDao(Config.Admin))(dao =>
 			try {
@@ -17,7 +16,6 @@ object ClientManager extends Manager {
 				case e:Exception => Failure(List(Error(e)),"Unable to retrieve Client " + uuid)
 			}
 		)
-	*/
 	def getByName(name:String) = list.find(_.name == name)
 	def list = using(new ClientDao(Config.Admin)) { _.list }
 	/** Save the Client instance
