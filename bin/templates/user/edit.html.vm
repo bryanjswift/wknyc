@@ -7,7 +7,10 @@
 	<body>
 		<h1>User</h1>
 		<p>$uuid</p>
-		<form method="POST" action="/user/register">
+		#if ($user.isDefined())
+			#set($user = $user.get())
+		#end
+		<form method="POST" action="/user/edit">
 			<input type="hidden" name="uuid" id="uuid" value="$!{user.uuid().get()}" />
 			<fieldset>
 				<legend>Credentials</legend>
