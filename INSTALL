@@ -56,3 +56,10 @@ delay between changing a file and seeing the change reflected when you reload
 the page but my quick tests didn't encounter any problems. To stop or restart
 the server go back to the terminal window running sbt and type jetty-stop or
 jetty-restart.
+
+*NOTE:* A disadvantage to running it using wknyc.local.properties is saved data
+is lost every time the application reloads because it is stored in memory. It
+is possible to run the application using mysql from MAMP with the properties in
+src/main/resources/defaults/wknyc.mamp.properties. At the project root a data
+folder should be created with assets as a subfolder. The assets folder should
+contain folders named 'downloads', 'files', 'images', 'temp'.

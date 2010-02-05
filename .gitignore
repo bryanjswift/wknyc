@@ -6,6 +6,7 @@
 .settings
 ant
 bin/site
+data
 derby.log
 nb-configuration.xml
 nbactions.xml
