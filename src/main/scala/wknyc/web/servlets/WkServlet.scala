@@ -57,7 +57,7 @@ trait WkServlet {
 			} else {
 				str
 			}
-		def hasParameter(param:String) = request.getParameter(param) != null
+		def hasParameter(param:String) = parameter(param)("") != ""
 		def parameter(param:String)(implicit default:String) = {
 			val value = request.getParameter(param)
 			log.info(String.format("get parameter %s ... found %s",param,value))
