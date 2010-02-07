@@ -12,7 +12,7 @@ object UserManager extends Manager {
 		* @param loggedIn - User who is creating the new user
 		* @returns Success[User] if user was successfully persisted Failure otherwise
 		*/
-	def save[T <: User](user:T,loggedIn:User):Response[T] = {
+	def save(user:Employee,loggedIn:User):Response[Employee] = {
 		val errors = UserValidator.errors(user)
 		errors match {
 			case Nil =>
@@ -27,7 +27,7 @@ object UserManager extends Manager {
 				Failure(errors)
 		}
 	}
-	def save[T <: User](user:T,u:Option[User]):Response[T] =
+	def save(user:Employee,u:Option[User]):Response[Employee] =
 		u match {
 			case Some(loggedIn) =>
 				save(user,loggedIn)

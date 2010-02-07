@@ -2,10 +2,12 @@ package wknyc.business
 
 import org.specs.Specification
 import wknyc.Config
-import wknyc.model.{WkCredentials,User}
+import wknyc.model.{Employee,WkCredentials,User}
 
 object UserManagerSpecs extends Specification with Sessioned {
-	private def save(user:User) = UserManager.save(UserManager.encryptPassword(user),Config.Admin)
+	private def save(user:Employee) = UserManager.save(UserManager.encryptPassword(user),Config.Admin)
+	private def save(user:WkCredentials) =
+		UserManager.save(Employee(UserManager.encryptPassword(user)),Config.Admin)
 	"UserManager.register" should {
 		"return Success(user) when saving a valid user" >> {
 			val user = WkCredentials("bs@wk.com","password","0","SE",None)
