@@ -21,7 +21,7 @@ export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Home
 export SCALA_HOME=/path/to/scala-2.7.6.final
 
 export JAVA_HOME sets Java 6 as the default and export SCALA_HOME sets up
-information SBT needs. Obviously you'll need to replace /path/to in both cases
+information SBT needs. Obviously you'll need to replace /path/to
 with the path to wherever you put things. If they're somewhere under your home
 directory you can start with the home directory by using $HOME. After making those
 changes save and close .bash_login. In order for the changes to take effect in
@@ -63,3 +63,12 @@ is possible to run the application using mysql from MAMP with the properties in
 src/main/resources/defaults/wknyc.mamp.properties. At the project root a data
 folder should be created with assets as a subfolder. The assets folder should
 contain folders named 'downloads', 'files', 'images', 'temp'.
+
+Install MAMP (incomplete)
+============
+
+Download MAMP from http://www.mamp.info/en/downloads/index.html Recommend
+downloading just MAMP not MAMP Pro.
+
+After downloading MAMP start the servers and note the port MySQL is running on,
+it should be 8889.
