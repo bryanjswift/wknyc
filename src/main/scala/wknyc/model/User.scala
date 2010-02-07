@@ -29,6 +29,9 @@ trait Person {
 	lazy val socialNetworks = personalInfo.socialNetworks
 }
 case class PersonalInfo(firstName:String, lastName:String, socialNetworks:List[SocialNetwork])
+object PersonalInfo {
+	case object Empty extends PersonalInfo("","",Nil)
+}
 case class WkCredentials(
 	override val username:String,
 	override val password:String,
@@ -69,6 +72,7 @@ class Employee(
 }
 object Employee {
 	def apply(ci:ContentInfo,credentials:WkCredentials,pi:PersonalInfo) = new Employee(ci,credentials,pi)
+	def apply(credentials:WkCredentials) = new Employee(ContentInfo.Empty,credentials,PersonalInfo.Empty)
 	val NodeType = "wk:employee"
 	val FirstName = "firstName"
 	val LastName = "lastName"
