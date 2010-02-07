@@ -4,8 +4,10 @@ import java.util.Calendar
 import wknyc.Config
 
 /** Class to hold universal content information */
-class ContentInfo(val created:Calendar, val modified:Calendar, val modifiedBy:User, val uuid:Option[String]) {
-	def cp(uuid:Option[String]) = ContentInfo(created, modified, modifiedBy, uuid)
+class ContentInfo(val created:Calendar, val modified:Calendar, val modifierId:Option[String], val uuid:Option[String]) {
+	def this(created:Calendar,modified:Calendar,modifier:User,uuid:Option[String]) =
+		this(created,modified,modifier.uuid,uuid)
+	def cp(uuid:Option[String]) = ContentInfo(created, modified, modifierId, uuid)
 	def modifiedBy(user:User) = ContentInfo(created, Calendar.getInstance, user, uuid)
 	/** ContentInfo refers to the same Content if created and uuid are the same */
 	def equals(ci:ContentInfo) = created == ci.created && uuid == ci.uuid
@@ -17,11 +19,13 @@ class ContentInfo(val created:Calendar, val modified:Calendar, val modifiedBy:Us
 	override val hashCode =
 		41 * (41 + created.hashCode) + uuid.hashCode
 	override val toString =
-		List(created.getTimeInMillis,modifiedBy.username,uuid.toString).mkString("ContentInfo(",", ",")")
+		List(created.getTimeInMillis,uuid.toString).mkString("ContentInfo(",", ",")")
 }
 // Companion object for ContentInfo, nothing interesting to say
 object ContentInfo {
 	def apply(user:User) = create(user)
+	def apply(created:Calendar, modified:Calendar, modifierId:Option[String], uuid:Option[String]) =
+		new ContentInfo(created, modified, modifierId, uuid)
 	def apply(created:Calendar, modified:Calendar, modifiedBy:User, uuid:Option[String]) =
 		new ContentInfo(created, modified, modifiedBy, uuid)
 	def create(user:User) = {
@@ -37,7 +41,7 @@ trait Content {
 	def contentInfo:ContentInfo
 	lazy val created:Calendar = contentInfo.created
 	lazy val modified:Calendar = contentInfo.modified
-	lazy val modifiedBy:User = contentInfo.modifiedBy
+	lazy val modifierId:Option[String] = contentInfo.modifierId
 	lazy val uuid:Option[String] = contentInfo.uuid
 }
 object Content {

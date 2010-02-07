@@ -76,13 +76,7 @@ abstract class Dao(private val loggedInUser:User) {
 		ContentInfo(
 			node.getProperty(Content.Created).getDate,
 			node.getProperty(Content.Modified).getDate,
-			try {
-				userDao.get(node.getProperty(Content.ModifiedBy).getString)
-			} catch {
-				// if message contains Config.Admin.uuid then created by Config.Admin so assign the user correctly
-				case e:Exception if (e.getMessage.indexOf(Config.Admin.uuid.get) != -1) => Config.Admin
-				case e:Exception => throw e
-			},
+			Some(node.getProperty(Content.ModifiedBy).getString),
 			Some(node.getUUID)
 		)
 	protected def saveContentInfo(node:Node,content:ContentInfo) = {
