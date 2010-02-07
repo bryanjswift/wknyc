@@ -19,13 +19,13 @@ object UserDaoSpecs extends Specification {
 			val creds = dao.save(WkCredentials("bs@wk.com","bs","T","SE",None))
 			creds.uuid must beSome[String]
 			val retrieved = dao.get(creds.uuid.get)
-			creds must_== retrieved
+			creds must_== retrieved.credentials
 		}
 		"get a WkCredentials by username" >> {
 			val creds = dao.save(WkCredentials("bs1@wk.com","bs","T","SE",None))
 			creds.uuid must beSome[String]
 			val retrieved = dao.get(creds.username)
-			creds must_== retrieved
+			creds must_== retrieved.credentials
 		}
 		"save an Employee" >> {
 			val emp = Employee(

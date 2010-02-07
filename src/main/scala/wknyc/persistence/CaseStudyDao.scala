@@ -10,8 +10,6 @@ class CaseStudyDao(loggedInUser:User) extends Dao(loggedInUser) {
 	override protected lazy val root = super.root
 	// Root for CaseStudys
 	private lazy val CaseStudyRoot = getNode("CaseStudys")
-	// Need a way to (read only) access user data
-	protected override lazy val userDao = new UserDao(loggedInUser)
 	// Need a way to read/write access asset data
 	private lazy val assetDao = new AssetDao(loggedInUser)
 	def get(uuid:String):CaseStudy = get(session.getNodeByUUID(uuid))
@@ -84,6 +82,5 @@ class CaseStudyDao(loggedInUser:User) extends Dao(loggedInUser) {
 	def close {
 		assetDao.close
 		session.logout
-		userDao.close
 	}
 }

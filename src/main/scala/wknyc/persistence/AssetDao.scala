@@ -7,8 +7,6 @@ import wknyc.model.{Asset,AwardAsset,Content,ContentInfo,CopyAsset,DownloadableA
 
 class AssetDao(loggedInUser:User) extends Dao(loggedInUser) {
 	protected val session = Config.Repository.login(loggedInUser,Config.ContentWorkspace)
-	// Need a way to (read only) access user data
-	protected override lazy val userDao = new UserDao(loggedInUser)
 	// Make the root for Asset saving a node called Assets
 	override protected lazy val root = getNode(super.root,"Assets")
 	// Make the root for ImageAsset saving a node called ImageAssets
@@ -187,6 +185,5 @@ class AssetDao(loggedInUser:User) extends Dao(loggedInUser) {
 	// Release resources
 	override def close = {
 		session.logout
-		userDao.close
 	}
 }

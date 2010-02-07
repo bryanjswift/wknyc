@@ -8,8 +8,6 @@ abstract class Dao(private val loggedInUser:User) {
 	protected def session:Session
 	// Root node for this Dao
 	protected def root = session.getRootNode
-	// Dao with access to user data
-	protected def userDao:UserDao
 	/** Release resources associated with the Dao
 		*/
 	def close

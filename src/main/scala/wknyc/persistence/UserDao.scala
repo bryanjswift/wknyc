@@ -11,8 +11,6 @@ class UserDao(loggedInUser:User) extends Dao(loggedInUser) {
 	protected val session = Config.Repository.login(loggedInUser,Config.CredentialsWorkspace)
 	// Only retrieve root once
 	override protected lazy val root = getNode(super.root,"Users")
-	// Make userDao refer to this
-	override protected lazy val userDao = this
 	/** Save an object which is at least of type User
 		* @param user to be saved delegates to saveCredentials or saveEmployee depending on type
 		* @returns T with uuid populated and lastModified/modifiedBy fields updated (if applicable)
@@ -91,7 +89,7 @@ class UserDao(loggedInUser:User) extends Dao(loggedInUser) {
 		* @param s - username or UUID by which a node will be fetched
 		* @returns Employee or User built from node retrieved
 		*/
-	def get(s:String):User = {
+	def get(s:String):Employee = {
 		val node =
 			if (root.hasNode(s)) {
 				root.getNode(s)
@@ -107,7 +105,7 @@ class UserDao(loggedInUser:User) extends Dao(loggedInUser) {
 	private def getByNode(node:Node) =
 		node.getPrimaryNodeType.getName match {
 			case Employee.NodeType => getEmployee(node)
-			case User.NodeType => getCredentials(node)
+			case User.NodeType => Employee(ContentInfo.Empty,getCredentials(node),PersonalInfo.Empty)
 		}
 	/** Fetch employee from a given Node
 		* @param node to build from

@@ -39,7 +39,7 @@ object ClientManagerSpecs extends Specification with Sessioned {
 		"retrieve a Client by uuid if uuid exists" >> {
 			sessioned {
 				val saved = ClientManager.save(validClient,Some(Config.Admin)).payload
-				val retrieved = ClientManager.get(saved.uuid.get)
+				val retrieved = ClientManager.get(saved.uuid.get).payload
 				saved.name must_== retrieved.name
 				saved.uuid must_== retrieved.uuid
 				// testing this way because the collections are different types
