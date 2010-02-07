@@ -11,36 +11,6 @@ import wknyc.persistence.UserDao
 @Singleton
 @Path("/users")
 class RegisterResource {
-	@POST
-	@Path("/registerCredentials")
-	@Produces(Array(MediaType.APPLICATION_XML))
-	def registerUser(
-		@FormParam("username") username:String,
-		@FormParam("password") password:String,
-		@FormParam("role") role:Long,
-		@FormParam("title") title:String
-	) = {
-		val user =
-			UserManager.save(UserManager.encryptPassword(WkCredentials(username,password,UserRole(role),title,None)),Config.Admin)
-		val xml =
-			user match {
-				case Success(creds,message) =>
-					<Response>
-						<Message>Credentials successfully created for {creds.username}</Message>
-						<Credentials>
-							<UUID>{creds.uuid.get}</UUID>
-							<Username>{creds.username}</Username>
-							<Department>{creds.role.display}</Department>
-							<Title>{creds.title}</Title>
-						</Credentials>
-					</Response>
-				case Failure(errors,message) =>
-					<Response>
-						<Message>Failed to save {username}</Message>
-					</Response>
-			}
-		Response.status(Response.Status.OK).entity(xml).build
-	}
   @POST
   @Path("/registerEmployee")
 	@Produces(Array(MediaType.APPLICATION_XML))
