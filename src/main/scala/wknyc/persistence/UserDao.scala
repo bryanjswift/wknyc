@@ -5,7 +5,6 @@ import wknyc.Config
 import wknyc.model.{Content,ContentInfo,Employee,PersonalInfo,SocialNetwork,User,UserRole,WkCredentials}
 
 /** UserDao is created to save and retrieve User type objects from the repository
-	* @param session is used to access the repository but is not modified (logged out)
 	* @param loggedInUser is used to set lastModifiedUser of content being saved
 	*/
 class UserDao(loggedInUser:User) extends Dao(loggedInUser) {
