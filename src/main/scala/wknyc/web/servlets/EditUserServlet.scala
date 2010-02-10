@@ -23,9 +23,8 @@ class EditUserServlet extends HttpServlet with UserServlet {
 		val velocity = new VelocityView(http.view)
 		velocity.render(context,request,response)
 	}
-	private def retrieve(user:Employee,http:HttpHelper) = {
+	private def retrieve(user:Employee,http:HttpHelper) =
 		Map("errors" -> Nil,"user" -> Some(user), "uuid"-> Some(http.data))
-	}
 	private def save(user:Employee,http:HttpHelper) = {
 		val employee = getUser(http)
 		val toSave =
