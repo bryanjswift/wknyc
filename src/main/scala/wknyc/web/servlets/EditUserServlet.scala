@@ -12,8 +12,16 @@ class EditUserServlet extends HttpServlet with UserServlet {
 	override lazy val html = "user/edit.html.vm"
 	override def doGet(request:Request, response:Response) {
 		val http = HttpHelper(request,response)
-		val employee = UserManager.get(http.data).payload
-		val context = Map("errors" -> Nil,"user" -> Some(employee),"uuid" -> Some(http.data))
+		val result = UserManager.get(http.data)
+		val context =
+			result match {
+				case Failure(errors,message) =>
+					log.info(String.format("Unable to retrieve User for UUID: %s",http.data))
+					Map("errors" -> errors,"user" -> None,"uuid" -> Some(http.data))
+				case Success(user,message) =>
+					log.info(String.format("Retrieved User for UUID: %s",http.data))
+					Map("errors" -> result.errors,"user" -> Some(user), "uuid"-> Some(http.data))
+			}
 		val velocity = new VelocityView(http.view)
 		velocity.render(context,request,response)
 	}
