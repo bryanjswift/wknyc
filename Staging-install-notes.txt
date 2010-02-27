@@ -1,0 +1,28 @@
+NOTE: All server command executed as root
+
+
+If wget isn't installed on the server, install it.
+Create directories on the server for where repository data will go, defined in wknyc.properties.
+Edit wknyc.properties locally with created paths (e.g. /opt/wknyc/assets and /opt/wknyc/repository)
+Execute the `package` command from within the sbt console locally
+Copy repository.mysql.xml to the server
+Copy the created war file (target/wknyc-1.0.war) to the server
+On the server move repository.mysql.xml to the location specified in wknyc.properties
+Execute `wget http://download.filehat.com/apache/tomcat/tomcat-6/v6.0.24/bin/apache-tomcat-6.0.24.tar.gz` on the server
+Execute `mv apache-tomcat-6.0.24.tar.gz /path/to/server/desired/location`
+Change directory to location of tomcat tar.gz file
+Execute `tar xfz apache-tomcat-6.0.24.tar.gz`
+Change directory to newly created apache-tomcat-6.0.24 folder
+Create old-webapps directory
+Change directory to webapps
+Execute `mv docs/ examples/ host-manager/ manager/ ROOT ../old-webapps/`
+Copy war file from wherever you put it to current (webapps) directory
+Rename war file to ROOT.war
+Enter mysql as a user with administrator priveleges
+Execute `CREATE DATABASE wknyc;`
+Execute `GRANT ALL ON wknyc.* TO 'wknyc'@'localhost' IDENTIFIED BY 'wknyc';`
+Make sure java is installed (executing java -version should provide some version output not an error)
+If it's not installed then install openjdk
+Change directory to apache-tomcat-6.0.24
+Execute `rm bin/*.bat`
+Execute `./bin/startup.sh`

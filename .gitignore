@@ -6,6 +6,10 @@
 .settings
 ant
 bin/site
+bin/contact
+bin/jobs
+bin/postings
+bin/work
 data
 derby.log
 nb-configuration.xml
