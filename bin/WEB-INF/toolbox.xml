@@ -5,8 +5,8 @@
 		<scope>application</scope>
 		<class>scala.None$</class>
 	</tool>
-  <data type="string">
-    <key>bar</key>
-    <value>this is bar.</value>
-  </data>
+	<data type="string">
+		<key>bar</key>
+		<value>this is bar.</value>
+	</data>
 </toolbox>
